@@ -1,0 +1,98 @@
+div .landing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  background: #ffffff; /* White background */
+  color: #000000; /* Black text color */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+div .landing-header .logo .rentIt {
+  display: flex;
+  color: #000;
+}
+div .landing-header .nav-links .nav {
+  color: #000;
+}
+div .landing-header .nav-links .nav:hover {
+  color: #7065f0;
+  /* background: #000; */
+}
+
+.nav {
+  color: #000000; /* Black text for nav links */
+}
+
+.logo a {
+  color: #000000;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: transform 0.3s ease;
+  margin-left: 10rem;
+}
+
+.logo a:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem; /* Space between nav links */
+}
+
+.nav-links a {
+  color: #000000; /* Black text for links */
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.nav-links .login {
+  background: #ffffff; /* White background for login */
+  color: #7065f0; /* Black text */
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  border: 1px solid #7065f0; /* Black border */
+  margin-left: 10rem;
+}
+.nav-links .login:hover {
+  background: #7065f0;
+  color: #ffffff; /* White text */
+  border: 1px solid #7065f0; /* Black border */
+}
+
+.nav-links .signUp {
+  background: #7065f0; /* Purple background for sign-up */
+  color: #ffffff; /* White text */
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  margin-right: 10rem;
+}
+
+.nav-links .signUp:hover {
+  background: #ffffff; /* Black background on hover */
+  color: #7065f0; /* White text */
+  border: 1px solid #7065f0; /* Purple border */
+}
+
+.nav-links a:hover {
+  /* background: #000000; Black background on hover */
+  color: #7065f0; /* White text */
+}
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+.logo-rentIt {
+  height: 1px;
+  width: 1px;
+}

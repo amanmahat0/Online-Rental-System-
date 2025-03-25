@@ -1,0 +1,16 @@
+-------------------------------Server Folder Structure -----------------------------------------
+
+db_conn (folder):
+Manages database connections. This is an essential folder for database connectivity. (IMPORTANT FOLDER)
+
+routes (folder):
+Holds all route handlers that define how the server processes requests.
+
+model (folder):
+Stores database schema and table creation scripts.
+
+server.js:
+The core of the backend. This file initializes the server, sets up middleware, connects to the database, and handles incoming requests.
+
+DB.txt:
+Stores the database username and password.

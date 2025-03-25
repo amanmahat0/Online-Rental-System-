@@ -1,0 +1,8 @@
+-----------------------IMPORTANT NOTE-----------------------------
+----------DON'T CHANGE THE USERNAME AND PASSWORD VALUES-----------
+
+
+MongosDB username and password
+
+USERNAME= amanshrestha903
+PASSWORD= cWQNhScdMGlv8TXY

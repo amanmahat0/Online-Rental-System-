@@ -1,0 +1,158 @@
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  width: 100%;
+}
+
+.register-card {
+  background: #fffffffb;
+  padding: 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 520px;
+  min-width: 400px;
+}
+
+.register-card form .form-group label {
+  font-size: 14px;
+}
+.register-card form .form-group .radio-group label {
+  font-size: 16px;
+}
+
+h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.register-card form .form-group {
+  margin-bottom: 5px;
+}
+
+label {
+  display: block;
+  color: #34495e;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  height: 45px;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.register-card form .form-group input:focus {
+  outline: none;
+  border-width: 2px;
+  border-color: #3498db;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c0392b;
+  padding: 0.75rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.register-container .submit-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #2980b9;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #7f8c8d;
+}
+
+.login-link a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Optional: Add specific styles for fullname and contact fields if needed */
+#name,
+#contact {
+  font-family: "Arial", sans-serif;
+}
+
+.radio-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 1rem; /* Space below the group */
+  height: 3rem;
+}
+/* Styling for each radio option container */
+.radio-group div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 0.5rem; /* Space between the radio button and label */
+}
+
+/* Styling for the radio buttons */
+.radio-group input[type="radio"] {
+  cursor: pointer;
+  display: none;
+}
+.radio-group input[type="radio"]:checked + label {
+  color: #3498db;
+}
+
+.selected-radio-line {
+  width: 40%;
+  height: 2px;
+  position: relative;
+  top: -18px;
+  background-color: #3498db;
+  transition: all 0.5s ease;
+}
+.agent-selected {
+  transform: translateX(240px);
+}
+.user-selected {
+  transform: translateX(20px);
+}
+/* Styling for the labels */
+.radio-group label {
+  font-size: 1rem;
+  color: #333333;
+  cursor: pointer; /* Makes the label clickable */
+}
