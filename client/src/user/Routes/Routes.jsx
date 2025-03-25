@@ -7,7 +7,7 @@ import AdminLogin from "../../admin/pages/AdminLogin";
 
 // import VerifyEmail from "./VerifyEmail";
 // import TopListings from "./TopListings";
-// import AboutUs from "./AboutUs"
+import AboutUs from "../page/AboutUs/AboutUs";
 
 const AppRoutes = () => {
 
@@ -22,7 +22,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
       {/* <Route path="/TopListings" element={<TopListings />} /> */}
-      {/* <Route path="/AboutUs" element={<AboutUs />} /> */}
+      <Route path="/AboutUs" element={<AboutUs />} />
     </Routes>
   );
 };
