@@ -49,4 +49,13 @@ app.post("/admin/login", async (req, res) => {
   }
 });
 
+app.get("/admin", async (req, res) => {
+  try {
+    const admins = await Admin.find({});
+    res.status(200).json({ status: true, data: admins });
+  } catch (error) {
+    res.status(500).json({ status: false, message: error.message });
+  }
+});
+
 module.exports = app;
