@@ -22,7 +22,6 @@ app.post("/admin/signup", async (req, res) => {
 
 //login admin
 app.post("/admin/login", async (req, res) => {
-  console.log(req.body);
   try {
     // find admin by email and password
     const admin = await Admin.findOne({

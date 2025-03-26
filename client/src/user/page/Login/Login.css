@@ -99,6 +99,7 @@ option {
 }
 /* Styling for the radio-group container */
 .radio-group {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-evenly;
@@ -111,8 +112,16 @@ option {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
   width: 100%;
+  cursor: pointer;
+  margin: 0 5px;
   gap: 0.5rem; /* Space between the radio button and label */
+}
+
+.radio-group div:hover label {
+  color: #3498dbae;
+  text-shadow: 0 0 9px #0e4569c4, 0 0 2px #3498db82;
 }
 
 /* Styling for the radio buttons */
@@ -125,7 +134,7 @@ option {
 }
 
 .selected-radio-line {
-  width: 40%;
+  width: calc(100% / 3);
   height: 2px;
   position: relative;
   top: -18px;
@@ -133,14 +142,38 @@ option {
   transition: all 0.5s ease;
 }
 .agent-selected {
-  transform: translateX(240px);
+  transform: translateX(100%);
 }
 .user-selected {
-  transform: translateX(20px);
+  transform: translateX(0px);
+}
+.owner-selected {
+  transform: translate(200%);
 }
 /* Styling for the labels */
 .radio-group label {
   font-size: 1rem;
   color: #333333;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
   cursor: pointer; /* Makes the label clickable */
+  transition: all 0.2s ease-in;
+}
+
+.forgot-password {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.forgot-password a {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
 }

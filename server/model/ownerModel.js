@@ -1,4 +1,9 @@
+//-----------Importing mongoose----------------
+//-----------Creating Table Schema for Agent Collection--------
+
 const mongoose = require("mongoose");
+
+// change the schema properties as needed
 const OwnerSchema = mongoose.Schema(
   {
     name: {
@@ -10,6 +15,7 @@ const OwnerSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
       min: 6,
       max: 255,
       // match email regex pattern for email validation change if not needed
@@ -34,8 +40,9 @@ const OwnerSchema = mongoose.Schema(
       max: 255,
     },
   },
+  // add timestamps to the schema gives createdAt and updatedAt time
   { timestamps: true }
 );
 
 const Owner = mongoose.model("Owner", OwnerSchema);
-model.exports = Owner;
+module.exports = Owner;
