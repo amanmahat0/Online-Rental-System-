@@ -32,6 +32,9 @@ div .landing-header .nav-links .nav:hover {
   transition: transform 0.3s ease;
   margin-left: 10rem;
 }
+.rentIt-text{
+  margin-top: 6px;
+}
 
 .logo a:hover {
   transform: scale(1.05); /* Slight zoom on hover */
@@ -56,7 +59,7 @@ div .landing-header .nav-links .nav:hover {
   background: #ffffff; /* White background for login */
   color: #7065f0; /* Black text */
   padding: 0.5rem 1rem;
-  border-radius: 25px;
+  border-radius: 5px;
   transition: all 0.3s ease;
   border: 1px solid #7065f0; /* Black border */
   margin-left: 10rem;
@@ -71,7 +74,7 @@ div .landing-header .nav-links .nav:hover {
   background: #7065f0; /* Purple background for sign-up */
   color: #ffffff; /* White text */
   padding: 0.5rem 1rem;
-  border-radius: 25px;
+  border-radius: 5px;
   transition: all 0.3s ease;
   margin-right: 10rem;
 }

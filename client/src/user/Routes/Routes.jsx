@@ -8,6 +8,7 @@ import AdminLogin from "../../admin/pages/AdminLogin";
 // import VerifyEmail from "./VerifyEmail";
 // import TopListings from "./TopListings";
 import AboutUs from "../page/AboutUs/AboutUs";
+import UserDashBoard from "../page/UserDashBoard/UserDashBoard";
 
 const AppRoutes = () => {
 
@@ -23,6 +24,7 @@ const AppRoutes = () => {
       {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
       {/* <Route path="/TopListings" element={<TopListings />} /> */}
       <Route path="/AboutUs" element={<AboutUs />} />
+      <Route path="/UserDashBoard" element={<UserDashBoard />} />
     </Routes>
   );
 };
