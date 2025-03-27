@@ -7,6 +7,7 @@ import AppRoutes from "./user/Routes/Routes";
 import AdminRoutes from "./admin/routes/AdminRoutes"; // Ensure this is imported
 import Sidebar from "./admin/components/layout/Sidebar"; // Ensure Sidebar is imported
 import { UserProvider } from "./user/Context/UserContext";
+import { AdminDataProvider } from "./admin/adminContext/AdminContext";
 
 const AppWithLocation = () => {
   const location = useLocation(); // Get the current route
@@ -19,7 +20,8 @@ const AppWithLocation = () => {
 
   return isAdminRoute ? (
     <div className="App">
-      {!isAdminLoginPage && <Sidebar />} {/* Render Sidebar only if not on Admin Login */}
+      {!isAdminLoginPage && <Sidebar />}{" "}
+      {/* Render Sidebar only if not on Admin Login */}
       <div className={`main-content ${isAdminLoginPage ? "full-width" : ""}`}>
         <AdminRoutes /> {/* Admin-specific routes */}
       </div>
@@ -37,11 +39,13 @@ const AppWithLocation = () => {
 
 const App = () => {
   return (
-    <UserProvider>
-      <Router>
-        <AppWithLocation />
-      </Router>
-    </UserProvider>
+    <AdminDataProvider>
+      <UserProvider>
+        <Router>
+          <AppWithLocation />
+        </Router>
+      </UserProvider>
+    </AdminDataProvider>
   );
 };
 
