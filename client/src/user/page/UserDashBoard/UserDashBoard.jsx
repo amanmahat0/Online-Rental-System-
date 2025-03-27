@@ -1,7 +1,7 @@
 import { useState } from "react";
-import './UserDashBoard.css';
+import './UserDashboard.css';
 
-const UserDashBoard = () => {
+const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState("profile");
   const [showPasswordSection, setShowPasswordSection] = useState(false);
   const [profile, setProfile] = useState({
@@ -12,6 +12,11 @@ const UserDashBoard = () => {
   const [savedProperties, setSavedProperties] = useState([
     { id: 1, name: "Luxury Apartment", location: "Downtown", price: "$1200/month" },
     { id: 2, name: "Cozy Studio", location: "Suburb", price: "$800/month" },
+    { id: 3, name: "Cozy Studio", location: "Suburb", price: "$800/month" },
+    { id: 4, name: "Cozy Studio", location: "Suburb", price: "$800/month" },
+    { id: 5, name: "Cozy Studio", location: "Suburb", price: "$800/month" },
+    { id: 6, name: "Cozy Studio", location: "Suburb", price: "$800/month" },
+    { id: 7, name: "Cozy Studio", location: "Suburb", price: "$800/month" },
   ]);
   const [passwordData, setPasswordData] = useState({
     currentPass: "",
@@ -68,13 +73,13 @@ const UserDashBoard = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="sidebar">
+    <div className="user-dashboard-container">
+      <div className="user-sidebar">
         <h2>Welcome User</h2>
-        <button onClick={() => setActiveSection("profile")}><img src="/profile.png" alt="profile" height={20} width={20}/><p className="sidebar-items">My Profile</p></button>
-        <button onClick={() => setActiveSection("saved")}><img src="/booked.png" alt="bookmark" height={20} width={20}/><p className="sidebar-items">Saved Properties</p></button>
-        <button onClick={() => setActiveSection("booking")}><img src="/profile.png" alt="booking" height={20} width={20}/><p className="sidebar-items">Booking</p></button>
-        <button onClick={logout}><img src="/logOut.png" alt="logout" height={20} width={20}/><p className="sidebar-items">Logout</p></button>
+        <button onClick={() => setActiveSection("profile")}><img src="/profile-icon.png" alt="profile" height={30} width={30}/><p className="sidebar-items">My Profile</p></button>
+        <button onClick={() => setActiveSection("saved")}><img src="/bookmark.png" alt="bookmark" height={30} width={30}/><p className="sidebar-items">Saved Properties</p></button>
+        <button onClick={() => setActiveSection("booking")}><img src="/booking.png" alt="booking" height={30} width={30}/><p className="sidebar-items">Booking</p></button>
+        <button onClick={logout}><img src="/logout-logo.png" alt="logout" height={30} width={30}/><p className="sidebar-items">Logout</p></button>
       </div>
 
       <div className="main-content">
@@ -130,4 +135,4 @@ const UserDashBoard = () => {
   );
 };
 
-export default UserDashBoard;
+export default UserDashboard;
