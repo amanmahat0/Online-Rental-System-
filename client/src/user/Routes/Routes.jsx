@@ -10,6 +10,7 @@ import TopListings from "../page/TopListings/TopListings";
 // import TopListings from "./TopListings";
 import AboutUs from "../page/AboutUs/AboutUs";
 import UserDashboard from "../page/UserDashBoard/UserDashBoard";
+import Agent from "../../agent/Agent";
 
 const AppRoutes = () => {
 
@@ -26,6 +27,7 @@ const AppRoutes = () => {
       <Route path="/TopListings" element={<TopListings />} />
       <Route path="/AboutUs" element={<AboutUs />} />
       <Route path="/userdashboard" element={<UserDashboard />} />
+      <Route path="/Agent" element={<Agent />} />
     </Routes>
   );
 };
