@@ -9,7 +9,7 @@ const Header = () => {
         <div className="logo">
           <Link to="/" className="rentIt">
             <img src="/Frame.png" width={40} height={40} alt="map" />
-            Rent IT
+            <p className="rentIt-text">Rent IT</p>
           </Link>
         </div>
         <div className="navigations">

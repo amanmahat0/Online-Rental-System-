@@ -15,7 +15,7 @@ const Footer = () => {
           />
         </div>
         <div>
-          <h1>Rent IT</h1>
+          <h3 className="footer-rentIt">Rent IT</h3>
         </div>
       </div>
       <div className="footer-container">
