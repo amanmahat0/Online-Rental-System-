@@ -124,6 +124,11 @@ option {
   text-shadow: 0 0 9px #0e4569c4, 0 0 2px #3498db82;
 }
 
+.radio-group input[type="radio"]:checked + label {
+  text-shadow: none;
+  color: #3498db;
+}
+
 /* Styling for the radio buttons */
 .radio-group input[type="radio"] {
   cursor: pointer;
@@ -164,16 +169,13 @@ option {
 }
 
 .forgot-password {
-  text-align: left;
-  margin-bottom: 1rem;
-}
-
-.forgot-password a {
+  display: inline-block;
   color: #3498db;
   text-decoration: none;
   font-size: 0.9rem;
+  margin: 1rem 0;
 }
 
-.forgot-password a:hover {
+.forgot-password:hover {
   text-decoration: underline;
 }

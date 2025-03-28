@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
 
 const Login = () => {
@@ -11,6 +11,7 @@ const Login = () => {
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { setUser } = useContext(UserContext);
 
   const handleChange = (e) => {
@@ -19,6 +20,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    if (!formData.email.includes("@")) {
+      return setError("Please enter a valid email address.");
+    }
+    if (formData.password.length < 6) {
+      return setError("Password must be at least 6 characters long.");
+    }
     console.log("Form Data Before Sending: ", formData);
     const sendFormData = {
       email: formData.email,
@@ -41,11 +49,21 @@ const Login = () => {
       if (response.status === 200) {
         console.log("Data Received: ", data);
         setUser(data);
-        return navigate("/");
+        if (formData.role === "user") {
+          return navigate("/");
+        } else if (formData.role === "agent") {
+          return navigate("/agent/dashboard");
+        } else if (formData.role === "owner") {
+          return navigate("/admin/owner-profile");
+        }
+      } else {
+        setError("Invalid email or password");
       }
     } catch (err) {
       console.error("Error:", err);
-      setError("Invalid email or password");
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -123,14 +141,14 @@ const Login = () => {
               required
             />
           </div>
-          <p className="forgot-password">
-            <a href="/forgot-password">Forgot Password ?</a>
-          </p>
 
           <button type="submit" className="submit-btn">
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+        <NavLink to="/forgot-password" className="forgot-password">
+          <span>Forgot Password ?</span>
+        </NavLink>
 
         <p className="register-link">
           Don't have an account? <a href="/register">Register here</a>

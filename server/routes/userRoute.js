@@ -62,7 +62,7 @@ app.get("/user", async (req, res) => {
   }
 });
 
-app.post("/user/forgotPassword", async (req, res) => {
+app.post("/user/forgot-password", async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -84,7 +84,7 @@ app.post("/user/forgotPassword", async (req, res) => {
 
     // Call the forgotPassword function
     const forgotPasswordMessage = await forgotPassword(email, User);
-    res.status(200).json({ status: true, message: forgotPasswordMessage });
+    res.status(200).json({ message: forgotPasswordMessage });
   } catch (error) {
     console.error("Error in /user/forgotPassword:", error); // Log the error for debugging
     res.status(500).json({
@@ -97,6 +97,7 @@ app.post("/user/forgotPassword", async (req, res) => {
 app.post("/user/changePassword", async (req, res) => {
   try {
     const { email, resetToken, newPassword } = req.body;
+    console.log(email, resetToken, newPassword);
 
     // Validate input
     if (!email || !resetToken || !newPassword) {
@@ -114,14 +115,6 @@ app.post("/user/changePassword", async (req, res) => {
       return res.status(400).json({
         status: false,
         message: "Invalid email or reset token",
-      });
-    }
-
-    // Check if the reset token has expired
-    if (user.resetTokenExpiry < Date.now()) {
-      return res.status(400).json({
-        status: false,
-        message: "Reset token has expired",
       });
     }
 
