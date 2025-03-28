@@ -1,9 +1,74 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 import { FaUsers, FaUserTie, FaHome, FaCalendarAlt } from "react-icons/fa";
 import "./Dashboard.css";
+import {
+  UserDataContext,
+  AgentDataContext,
+} from "../../adminContext/AdminContext";
 
 const Dashboard = () => {
+  const { userData, setUserData } = useContext(UserDataContext);
+  const { agentData, setAgentData } = useContext(AgentDataContext);
+  const [userLoading, setUserLoading] = useState(true);
+  const [agentLoading, setAgentLoading] = useState(true);
+  // const [user, setUser] = useState(null);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/user", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch user data");
+      }
+      const data = await response.json();
+      setUserData(data);
+      // setUser(data);
+    } catch (error) {
+      console.log("Error fetching user data : ", error);
+    } finally {
+      setUserLoading(false);
+    }
+  };
+  const fetchAgentData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/agent", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status !== 200) {
+        throw new Error("Faild to fetch agent data");
+      }
+
+      const data = await response.json();
+      setAgentData(data);
+    } catch (error) {
+      console.log("Error fetching agent data : ", error);
+    } finally {
+      setAgentLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchUserData();
+    fetchAgentData();
+  }, []);
+
+  useEffect(() => {
+    if (userData) {
+      console.log("User data:", userData);
+    }
+    if (agentData) {
+      console.log("Agent data: ", agentData);
+    }
+  }, [userData, agentData]);
+
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -11,15 +76,30 @@ const Dashboard = () => {
   };
 
   const stats = [
-    { icon: <FaUsers />, title: "Total Users", count: "1,234", color: "#ffcc00" },
-    { icon: <FaUserTie />, title: "Active Agents", count: "85", color: "#ff6666" },
+    {
+      icon: <FaUsers />,
+      title: "Total Users",
+      count: userLoading ? "Loading..." : userData?.data?.length,
+      color: "#ffcc00",
+    },
+    {
+      icon: <FaUserTie />,
+      title: "Active Agents",
+      count: agentLoading ? "Loading..." : agentData?.data?.length,
+      color: "#ff6666",
+    },
     { icon: <FaHome />, title: "Properties", count: "456", color: "#66ccff" },
-    { icon: <FaCalendarAlt />, title: "Upcoming Events", count: "12", color: "#66ff99" },
+    {
+      icon: <FaCalendarAlt />,
+      title: "Upcoming Events",
+      count: "12",
+      color: "#66ff99",
+    },
   ];
 
   return (
     <div className="dashboard-container">
-      <motion.h1 
+      <motion.h1
         className="dashboard-title"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

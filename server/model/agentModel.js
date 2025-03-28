@@ -15,6 +15,7 @@ const AgentSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
       min: 6,
       max: 255,
       // match email regex pattern for email validation change if not needed
@@ -40,7 +41,6 @@ const AgentSchema = mongoose.Schema(
     },
     companyName: {
       type: String,
-      required: true,
       min: 6,
       max: 255,
     },

@@ -9,16 +9,12 @@ const Login = () => {
     password: "",
     role: "user", // Default role
   });
-  const [isUserSelected, setIsUserSelected] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (e.target.name === "role") {
-      setIsUserSelected(e.target.value === "user");
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -41,8 +37,8 @@ const Login = () => {
       );
       console.log("JSON Sent to Backend: " + JSON.stringify(sendFormData));
       console.log("response status: " + response.status);
+      const data = await response.json();
       if (response.status === 200) {
-        const data = await response.json();
         console.log("Data Received: ", data);
         setUser(data);
         return navigate("/");
@@ -86,11 +82,20 @@ const Login = () => {
                 />
                 <label htmlFor="role-agent">Agent</label>
               </div>
+              <div>
+                <input
+                  type="radio"
+                  id="role-owner"
+                  name="role"
+                  value="owner"
+                  checked={formData.role === "owner"}
+                  onChange={handleChange}
+                />
+                <label htmlFor="role-owner">Owner</label>
+              </div>
             </div>
             <div
-              className={`${
-                isUserSelected ? "user-selected" : "agent-selected"
-              } selected-radio-line`}
+              className={`${formData.role}-selected selected-radio-line`}
             ></div>
           </div>
           <div className="form-group">
@@ -118,6 +123,9 @@ const Login = () => {
               required
             />
           </div>
+          <p className="forgot-password">
+            <a href="/forgot-password">Forgot Password ?</a>
+          </p>
 
           <button type="submit" className="submit-btn">
             Login

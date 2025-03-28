@@ -4,6 +4,7 @@ const {
   comparePassword,
 } = require("../EncoderDecoder/passwordEncoderDecoder");
 const app = express();
+const { forgotPassword } = require("../auth/auth");
 
 // Importing User Schema
 const User = require("../model/userModel");
@@ -58,6 +59,94 @@ app.get("/user", async (req, res) => {
     res.status(200).json({ status: true, data: users });
   } catch (error) {
     res.status(500).json({ status: false, message: error.message });
+  }
+});
+
+app.post("/user/forgotPassword", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Validate input
+    if (!email) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Email is required" });
+    }
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "User with this email does not exist",
+      });
+    }
+
+    // Call the forgotPassword function
+    const forgotPasswordMessage = await forgotPassword(email, User);
+    res.status(200).json({ status: true, message: forgotPasswordMessage });
+  } catch (error) {
+    console.error("Error in /user/forgotPassword:", error); // Log the error for debugging
+    res.status(500).json({
+      status: false,
+      message: "An error occurred while processing the request",
+    });
+  }
+});
+
+app.post("/user/changePassword", async (req, res) => {
+  try {
+    const { email, resetToken, newPassword } = req.body;
+
+    // Validate input
+    if (!email || !resetToken || !newPassword) {
+      return res.status(400).json({
+        status: false,
+        message: "Email, reset token, and new password are required",
+      });
+    }
+
+    // Find the user by email and resetToken
+    const user = await User.findOne({ email, resetToken });
+
+    // If user not found or token is invalid
+    if (!user) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid email or reset token",
+      });
+    }
+
+    // Check if the reset token has expired
+    if (user.resetTokenExpiry < Date.now()) {
+      return res.status(400).json({
+        status: false,
+        message: "Reset token has expired",
+      });
+    }
+
+    // Hash the new password
+    const hashedPassword = await hashPassword(newPassword);
+
+    // Update the user's password and clear the reset token and expiry
+    user.password = hashedPassword;
+    user.resetToken = null;
+    user.resetTokenExpiry = null;
+
+    // Save the updated user
+    await user.save();
+
+    res.status(200).json({
+      status: true,
+      message: "Password has been changed successfully",
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error in /user/changePassword:", error); // Log the error for debugging
+    res.status(500).json({
+      status: false,
+      message: "An error occurred while processing the request",
+    });
   }
 });
 

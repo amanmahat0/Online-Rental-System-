@@ -22,7 +22,6 @@ app.post("/admin/signup", async (req, res) => {
 
 //login admin
 app.post("/admin/login", async (req, res) => {
-  console.log(req.body);
   try {
     // find admin by email and password
     const admin = await Admin.findOne({
@@ -44,6 +43,15 @@ app.post("/admin/login", async (req, res) => {
     }
     // if admin found and password match return admin data and status true
     res.status(200).json({ status: true, data: admin });
+  } catch (error) {
+    res.status(500).json({ status: false, message: error.message });
+  }
+});
+
+app.get("/admin", async (req, res) => {
+  try {
+    const admins = await Admin.find({});
+    res.status(200).json({ status: true, data: admins });
   } catch (error) {
     res.status(500).json({ status: false, message: error.message });
   }

@@ -12,17 +12,14 @@ const Register = () => {
     confirmPassword: "",
     userType: "user", // Default to 'user'
     companyName: "", // Only used if userType is 'agent'
+    address: "",
   });
-  const [isUserSelected, setIsUserSelected] = useState(true);
   const [error, setError] = useState("");
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (e.target.name === "userType") {
-      setIsUserSelected(e.target.value === "user");
-    }
   };
 
   // Form submission handler
@@ -42,37 +39,50 @@ const Register = () => {
               password: formData.password,
               contact: formData.contact,
             }
-          : {
+          : formData.userType === "agent"
+          ? {
               name: formData.name,
               email: formData.email,
               password: formData.password,
               contact: formData.contact,
               companyName: formData.companyName,
+            }
+          : {
+              name: formData.name,
+              email: formData.email,
+              password: formData.password,
+              address: formData.address,
+              contact: formData.contact,
             };
-      console.log(formBody);
-      // Send form data to backend
-      const response = await fetch(
-        `http://localhost:5000/api/${formData.userType}/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formBody),
-        }
-      );
-      const data = await response.json();
-      // Check if response is successful
-      if (response.status === 200) {
+      try {
+        console.log(formBody);
+        // Send form data to backend
+        const response = await fetch(
+          `http://localhost:5000/api/${formData.userType}/signup`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formBody),
+          }
+        );
+        const data = await response.json();
         console.log(data);
-        // Check if user is successfully registered
-        // If successful, set user context and redirect to home page
-        if (data.status === true) {
-          setUser(data);
-          navigate("/");
+        // Check if response is successful
+        if (response.status === 200) {
+          console.log(data);
+          // Check if user is successfully registered
+          // If successful, set user context and redirect to home page
+          if (data.status === true) {
+            setUser(data);
+            navigate("/");
+          }
+        } else {
+          setError("Invalid credentials. Please try again.");
         }
-      } else {
-        setError("Invalid credentials. Please try again.");
+      } catch (error) {
+        setError("An error occurred. Please try again later.");
       }
     }
   };
@@ -111,11 +121,20 @@ const Register = () => {
                 />
                 <label htmlFor="role-agent">Agent</label>
               </div>
+              <div>
+                <input
+                  type="radio"
+                  id="role-owner"
+                  name="userType"
+                  value="owner"
+                  checked={formData.userType === "owner"}
+                  onChange={handleChange}
+                />
+                <label htmlFor="role-owner">Owner</label>
+              </div>
             </div>
             <div
-              className={`${
-                isUserSelected ? "user-selected" : "agent-selected"
-              } selected-radio-line`}
+              className={`${formData.userType}-selected selected-radio-line`}
             ></div>
           </div>
 
@@ -125,7 +144,7 @@ const Register = () => {
               type="text"
               id="name"
               name="name"
-              value={formData.fullname}
+              value={formData.name}
               onChange={handleChange}
               placeholder="Enter your full name"
               required
@@ -159,16 +178,28 @@ const Register = () => {
           </div>
 
           {/* Conditional Company Name Field */}
-          {formData.userType === "agent" && (
+          {(formData.userType === "agent" || formData.userType === "owner") && (
             <div className="form-group">
-              <label htmlFor="companyName">Company Name(optional)</label>
+              <label htmlFor="companyName">
+                {formData.userType === "agent"
+                  ? "Company Name(optional)"
+                  : "Address"}
+              </label>
               <input
                 type="text"
                 id="companyName"
-                name="companyName"
-                value={formData.companyName}
+                name={formData.userType === "agent" ? "companyName" : "address"}
+                value={
+                  formData.userType === "agent"
+                    ? formData.companyName
+                    : formData.address
+                }
                 onChange={handleChange}
-                placeholder="Enter your company name"
+                placeholder={
+                  formData.userType === "agent"
+                    ? "Enter your company name"
+                    : "Enter your address"
+                }
               />
             </div>
           )}

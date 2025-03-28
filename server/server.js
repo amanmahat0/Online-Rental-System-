@@ -20,6 +20,7 @@ const database = require("./db_conn/db");
 const userRoute = require("./routes/userRoute");
 const agentRoute = require("./routes/agentRoute");
 const adminRoute = require("./routes/adminRoute");
+const ownerRoute = require("./routes/ownerRoute");
 
 // Middle ware to parse json
 app.use(express.json());
@@ -29,6 +30,7 @@ app.use(cors());
 app.use("/api", userRoute);
 app.use("/api", agentRoute);
 app.use("/api", adminRoute);
+app.use("/api", ownerRoute);
 
 app.get("/api", (req, res) => {
   res.json({ users: ["user1", "user2", "user3"] });
