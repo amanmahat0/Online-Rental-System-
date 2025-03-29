@@ -58,7 +58,7 @@ const Dashboard = () => {
   useEffect(() => {
     fetchUserData();
     fetchAgentData();
-  }, []);
+  });
 
   useEffect(() => {
     if (userData) {

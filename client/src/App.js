@@ -14,7 +14,9 @@ const AppWithLocation = () => {
 
   // Check if the current route is login or register
   const hideHeaderFooter =
-    location.pathname === "/login" || location.pathname === "/register";
+    location.pathname === "/login" ||
+    location.pathname === "/register" ||
+    location.pathname === "/forgot-password";
   const isAdminRoute = location.pathname.startsWith("/admin"); // Check if the current route is admin
   const isAdminLoginPage = location.pathname === "/admin"; // Check if the current route is admin login
 

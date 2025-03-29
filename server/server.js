@@ -27,14 +27,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use("/api", userRoute);
-app.use("/api", agentRoute);
-app.use("/api", adminRoute);
-app.use("/api", ownerRoute);
-
-app.get("/api", (req, res) => {
-  res.json({ users: ["user1", "user2", "user3"] });
-});
+app.use("/api/user", userRoute);
+app.use("/api/agent", agentRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/owner", ownerRoute);
 
 // start server
 app.listen(5000, () => {

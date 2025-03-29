@@ -4,6 +4,7 @@ import LandingPage from "../page/LandingPage/LandingPage";
 import Register from "../page/Register/Register";
 import Login from "../page/Login/Login";
 import AdminLogin from "../../admin/pages/AdminLogin";
+import ForgotPassword from "../../ForgotPassword/ForgotPassword";
 import TopListings from "../page/TopListings/TopListings";
 
 // import VerifyEmail from "./VerifyEmail";
@@ -13,16 +14,16 @@ import UserDashboard from "../page/UserDashBoard/UserDashBoard";
 import Agent from "../../agent/Agent";
 
 const AppRoutes = () => {
-
   const location = useLocation();
   if (location.pathname === "/admin") {
-   return <AdminLogin />;
+    return <AdminLogin />;
   }
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
       <Route path="/TopListings" element={<TopListings />} />
       <Route path="/AboutUs" element={<AboutUs />} />
