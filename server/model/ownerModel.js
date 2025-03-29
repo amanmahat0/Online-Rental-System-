@@ -39,6 +39,14 @@ const OwnerSchema = mongoose.Schema(
       min: 6,
       max: 255,
     },
+    resetToken: {
+      type: String,
+      default: null,
+    },
+    resetTokenExpiry: {
+      type: Date,
+      default: null,
+    },
   },
   // add timestamps to the schema gives createdAt and updatedAt time
   { timestamps: true }
