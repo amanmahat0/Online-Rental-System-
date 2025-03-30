@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './UserDashboard.css';
+import './UserDashBoard.css';
 
 const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState("profile");
@@ -82,7 +82,7 @@ const UserDashboard = () => {
         <button onClick={logout}><img src="/logout-logo.png" alt="logout" height={30} width={30}/><p className="sidebar-items">Logout</p></button>
       </div>
 
-      <div className="main-content">
+      <div className="user-main-content">
         {activeSection === "profile" && (
           <div className="section">
             <h2>My Profile</h2>

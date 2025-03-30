@@ -98,9 +98,9 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="dashboard-container">
+    <div className="admin-dashboard-container">
       <motion.h1
-        className="dashboard-title"
+        className="admin-dashboard-title"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
