@@ -12,6 +12,8 @@ import TopListings from "../page/TopListings/TopListings";
 import AboutUs from "../page/AboutUs/AboutUs";
 import UserDashboard from "../page/UserDashBoard/UserDashBoard";
 import Agent from "../../agent/Agent";
+import Owners from "../../owners/Owners";
+
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -29,6 +31,7 @@ const AppRoutes = () => {
       <Route path="/AboutUs" element={<AboutUs />} />
       <Route path="/userdashboard" element={<UserDashboard />} />
       <Route path="/Agent" element={<Agent />} />
+      <Route path="/Owner" element={<Owners />} />
     </Routes>
   );
 };
