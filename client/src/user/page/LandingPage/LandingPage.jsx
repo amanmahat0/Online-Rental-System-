@@ -25,7 +25,7 @@ const LandingPage = () => {
           <label className="label">Rent</label>
         </div>
 
-        <div className="search-bar">
+        <div className="home-search-bar">
           <div className="search-input-container">
             <input type="text" placeholder="Search" className="search-input" />
             <button className="search-btn">Browse Properties</button>

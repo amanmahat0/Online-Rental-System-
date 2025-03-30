@@ -361,6 +361,81 @@ const handleCancelEdit = () => {
 
       {/* Main Content Section */}
       <div className="main-content">
+      {activeSection === "Profile" && (
+          <div className="profile-section">
+            <img src="/profile-icon.png" height={50} width={50}/>
+            {/* <h2>My Profile</h2> */}
+            <hr />
+
+            <br />
+            {isEditing ? (
+              <>
+                <div>
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={editedUser.name}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <label>Role:</label>
+                  <input
+                    type="text"
+                    name="role"
+                    value={editedUser.role}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <label>Email:</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={editedUser.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <label>Phone:</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={editedUser.phone}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <button className="save-profile-btn" onClick={handleSaveChanges}>
+                  Save Changes
+                </button>
+                <button className="cancel-edit-btn" onClick={handleCancelEdit}>
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <>
+                <h3>{editedUser.name || "Aman Sharma"}</h3>
+                <p>
+                  <strong>Role:</strong> {editedUser.role || "Property Owner"}
+                </p>
+                <p>
+                  <strong>Email:</strong> {editedUser.email || "aman.sharma@example.com"}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {editedUser.phone || "+1 (555) 123-4567"}
+                </p>
+                <p>
+                  <strong>Registered Properties:</strong> {properties.length || 0}
+                </p>
+                <button className="edit-profile-btn" onClick={handleEditProfile}>
+                  Edit Profile
+                </button>
+              </>
+            )}
+          </div>
+        )}
+
       {activeSection === "Listings" && (
   <div className="section-container">
     <div className="listings-section">
@@ -546,80 +621,7 @@ const handleCancelEdit = () => {
             <button className="edit-profile-btn">Edit Profile</button>
           </div>
         )} */}
-        {activeSection === "Profile" && (
-          <div className="profile-section">
-            <img src="/profile-icon.png" height={50} width={50}/>
-            {/* <h2>My Profile</h2> */}
-            <hr />
-
-            <br />
-            {isEditing ? (
-              <>
-                <div>
-                  <label>Name:</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={editedUser.name}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div>
-                  <label>Role:</label>
-                  <input
-                    type="text"
-                    name="role"
-                    value={editedUser.role}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div>
-                  <label>Email:</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={editedUser.email}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div>
-                  <label>Phone:</label>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={editedUser.phone}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <button className="save-profile-btn" onClick={handleSaveChanges}>
-                  Save Changes
-                </button>
-                <button className="cancel-edit-btn" onClick={handleCancelEdit}>
-                  Cancel
-                </button>
-              </>
-            ) : (
-              <>
-                <h3>{editedUser.name || "Aman Sharma"}</h3>
-                <p>
-                  <strong>Role:</strong> {editedUser.role || "Property Owner"}
-                </p>
-                <p>
-                  <strong>Email:</strong> {editedUser.email || "aman.sharma@example.com"}
-                </p>
-                <p>
-                  <strong>Phone:</strong> {editedUser.phone || "+1 (555) 123-4567"}
-                </p>
-                <p>
-                  <strong>Registered Properties:</strong> {properties.length || 0}
-                </p>
-                <button className="edit-profile-btn" onClick={handleEditProfile}>
-                  Edit Profile
-                </button>
-              </>
-            )}
-          </div>
-        )}
+        
 
 
         {activeSection === "Messages" && (
