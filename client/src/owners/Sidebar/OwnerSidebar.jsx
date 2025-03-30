@@ -15,7 +15,7 @@ const OwnerSidebar = () => {
                         to="/profile" 
                         className={({ isActive }) => isActive ? "owner-active-link" : ""}
                     >
-                        <FaUser className="owner-icon" />
+                        <FaUser className="owner-sidebar-icon" />
                         <span>My Profile</span>
                     </NavLink>
                 </li>
@@ -24,7 +24,7 @@ const OwnerSidebar = () => {
                         to="/listing" 
                         className={({ isActive }) => isActive ? "owner-active-link" : ""}
                     >
-                        <FaHome className="owner-icon" />
+                        <FaHome className="owner-sidebar-icon" />
                         <span>My Listing</span>
                     </NavLink>
                 </li>
@@ -33,7 +33,7 @@ const OwnerSidebar = () => {
                         to="/messages" 
                         className={({ isActive }) => isActive ? "owner-active-link" : ""}
                     >
-                        <FaEnvelope className="owner-icon" />
+                        <FaEnvelope className="owner-sidebar-icon" />
                         <span>Messages</span>
                     </NavLink>
                 </li>
@@ -42,7 +42,7 @@ const OwnerSidebar = () => {
                         to="/settings" 
                         className={({ isActive }) => isActive ? "owner-active-link" : ""}
                     >
-                        <FaCog className="owner-icon" />
+                        <FaCog className="owner-sidebar-icon" />
                         <span>Settings</span>
                     </NavLink>
                 </li>
@@ -52,7 +52,7 @@ const OwnerSidebar = () => {
                     to="/logout"
                     className={({ isActive }) => isActive ? "owner-active-link" : ""}
                 >
-                    <FaSignOutAlt className="owner-icon" />
+                    <FaSignOutAlt className="owner-sidebar-icon" />
                     <span>Logout</span>
                 </NavLink>
             </div>

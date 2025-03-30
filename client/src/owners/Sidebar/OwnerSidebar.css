@@ -77,7 +77,7 @@
     z-index: 1;
 }
 
-.owner-icon {
+.owner-sidebar-icon {
     font-size: 1.2rem;
     margin-right: 10px;
     z-index: 1;
@@ -113,7 +113,7 @@
     color: #ff4d4d;
 }
 
-.owner-logout .owner-icon {
+.owner-logout .owner-sidebar-icon {
     font-size: 1.2rem;
     margin-right: 10px;
 }
