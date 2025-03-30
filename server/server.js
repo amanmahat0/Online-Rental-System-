@@ -9,30 +9,36 @@
 
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const app = express();
 
 // Importing database connection
 const database = require("./db_conn/db");
 
 // ---------------Import Routes-------------------
-// don't change the route path
-// add more routes below this line
 const userRoute = require("./routes/userRoute");
 const agentRoute = require("./routes/agentRoute");
 const adminRoute = require("./routes/adminRoute");
 const ownerRoute = require("./routes/ownerRoute");
+const propertyRoute = require("./routes/propertyRoute");
 
-// Middle ware to parse json
+// Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+// Enable CORS
 app.use(cors());
 
+// Routes
 app.use("/api/user", userRoute);
 app.use("/api/agent", agentRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/owner", ownerRoute);
+app.use("/api/properties", propertyRoute);
 
-// start server
+// Start server
 app.listen(5000, () => {
   console.log("server started on port 5000");
 });
