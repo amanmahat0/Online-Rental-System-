@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './UserDashboard.css';
+import './UserDashBoard.css';
 
 const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState("profile");
