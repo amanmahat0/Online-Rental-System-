@@ -10,7 +10,12 @@ const UserDashboard = () => {
     phone: "+1234567890",
   });
   const [savedProperties, setSavedProperties] = useState([
-    { id: 1, name: "Luxury Apartment", location: "Downtown", price: "$1200/month" },
+    {
+      id: 1,
+      name: "Luxury Apartment",
+      location: "Downtown",
+      price: "$1200/month",
+    },
     { id: 2, name: "Cozy Studio", location: "Suburb", price: "$800/month" },
     { id: 3, name: "Cozy Studio", location: "Suburb", price: "$800/month" },
     { id: 4, name: "Cozy Studio", location: "Suburb", price: "$800/month" },
@@ -63,7 +68,9 @@ const UserDashboard = () => {
 
   // Remove a saved property
   const removeProperty = (id) => {
-    setSavedProperties(savedProperties.filter((property) => property.id !== id));
+    setSavedProperties(
+      savedProperties.filter((property) => property.id !== id)
+    );
     alert("Property Removed from Saved List.");
   };
 
@@ -76,29 +83,72 @@ const UserDashboard = () => {
     <div className="user-dashboard-container">
       <div className="user-sidebar">
         <h2>Welcome User</h2>
-        <button onClick={() => setActiveSection("profile")}><img src="/profile-icon.png" alt="profile" height={30} width={30}/><p className="sidebar-items">My Profile</p></button>
-        <button onClick={() => setActiveSection("saved")}><img src="/bookmark.png" alt="bookmark" height={30} width={30}/><p className="sidebar-items">Saved Properties</p></button>
-        <button onClick={() => setActiveSection("booking")}><img src="/booking.png" alt="booking" height={30} width={30}/><p className="sidebar-items">Booking</p></button>
-        <button onClick={logout}><img src="/logout-logo.png" alt="logout" height={30} width={30}/><p className="sidebar-items">Logout</p></button>
+        <button onClick={() => setActiveSection("profile")}>
+          <img src="/profile-icon.png" alt="profile" height={30} width={30} />
+          <p className="sidebar-items">My Profile</p>
+        </button>
+        <button onClick={() => setActiveSection("saved")}>
+          <img src="/bookmark.png" alt="bookmark" height={30} width={30} />
+          <p className="sidebar-items">Saved Properties</p>
+        </button>
+        <button onClick={() => setActiveSection("booking")}>
+          <img src="/booking.png" alt="booking" height={30} width={30} />
+          <p className="sidebar-items">Booking</p>
+        </button>
+        <button onClick={logout}>
+          <img src="/logout-logo.png" alt="logout" height={30} width={30} />
+          <p className="sidebar-items">Logout</p>
+        </button>
       </div>
 
       <div className="user-main-content">
         {activeSection === "profile" && (
           <div className="section">
             <h2>My Profile</h2>
-            <input type="text" name="name" value={profile.name} onChange={handleProfileChange} />
-            <input type="email" name="email" value={profile.email} onChange={handleProfileChange} />
-            <input type="text" name="phone" value={profile.phone} onChange={handleProfileChange} />
+            <input
+              type="text"
+              name="name"
+              value={profile.name}
+              onChange={handleProfileChange}
+            />
+            <input
+              type="email"
+              name="email"
+              value={profile.email}
+              onChange={handleProfileChange}
+            />
+            <input
+              type="text"
+              name="phone"
+              value={profile.phone}
+              onChange={handleProfileChange}
+            />
             <button onClick={editProfile}>Save Changes</button>
-            <br /><br />
+            <br />
+            <br />
             <button onClick={togglePassword}>Change Password</button>
 
             {showPasswordSection && (
               <div id="password-section">
                 <h3>Change Password</h3>
-                <input type="password" name="currentPass" placeholder="Current Password" onChange={handlePasswordChange} />
-                <input type="password" name="newPass" placeholder="New Password" onChange={handlePasswordChange} />
-                <input type="password" name="confirmPass" placeholder="Confirm New Password" onChange={handlePasswordChange} />
+                <input
+                  type="password"
+                  name="currentPass"
+                  placeholder="Current Password"
+                  onChange={handlePasswordChange}
+                />
+                <input
+                  type="password"
+                  name="newPass"
+                  placeholder="New Password"
+                  onChange={handlePasswordChange}
+                />
+                <input
+                  type="password"
+                  name="confirmPass"
+                  placeholder="Confirm New Password"
+                  onChange={handlePasswordChange}
+                />
                 <button onClick={updatePassword}>Update Password</button>
               </div>
             )}
@@ -115,7 +165,9 @@ const UserDashboard = () => {
                   <p>Location: {property.location}</p>
                   <p>Price: {property.price}</p>
                   <button onClick={bookProperty}>Book Now</button>
-                  <button onClick={() => removeProperty(property.id)}>Remove</button>
+                  <button onClick={() => removeProperty(property.id)}>
+                    Remove
+                  </button>
                 </div>
               ))
             ) : (
