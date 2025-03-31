@@ -11,6 +11,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
+const path = require("path");
 
 // Importing database connection
 const database = require("./db_conn/db");
@@ -23,10 +24,11 @@ const ownerRoute = require("./routes/ownerRoute");
 const propertyRoute = require("./routes/propertyRoute");
 
 // Middleware to parse JSON and URL-encoded data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Enable CORS
 app.use(cors());

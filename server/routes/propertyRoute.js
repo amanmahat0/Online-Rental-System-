@@ -23,14 +23,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 16 * 1024 * 1024 }, // Limit file size to 16MB
-}).array("propertyImages", 5); // Allow up to 5 images
+  limits: { fileSize: 50 * 1024 * 1024 },
+});
 
 // Routes
-router.post("/", upload, createProperty); // Apply multer only to this route
+router.post("/", upload.single("propertyImage"), createProperty); // Apply multer only to this route
 router.get("/", getAllProperties);
 router.get("/:id", getPropertyById);
-router.put("/:id", upload, updateProperty); // Apply multer for updates if needed
+router.put("/:id", upload.single("propertyImage"), updateProperty); // Apply multer for updates if needed
 router.delete("/:id", deleteProperty);
 
 module.exports = router;

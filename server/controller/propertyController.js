@@ -15,42 +15,38 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 16 * 1024 * 1024 }, // Increase limit to 16MB
-}).array("propertyImages", 5); // Allow up to 5 images
+  limits: { fileSize: 50 * 1024 * 1024 },
+});
 
 // Create a new property with multiple image uploads
 const createProperty = async (req, res) => {
-  console.log("Headers:", req.headers);
-  console.log("Content-Type:", req.headers["content-type"]);
+  try {
+    // console.log("Request Body:", req.body);
+    // console.log("Uploaded File:", req.file);
 
-  upload(req, res, async (err) => {
-    if (err) {
-      console.error("Multer Error:", err);
-      return res.status(400).json({ status: false, message: err.message });
-    }
-
-    try {
-      console.log("Request Body:", req.body);
-      console.log("Uploaded Files:", req.files);
-
-      if (!req.files || req.files.length === 0) {
-        return res
-          .status(400)
-          .json({ status: false, message: "No images uploaded." });
-      }
-
-      const imageUrls = req.files.map((file) => `/uploads/${file.filename}`);
-      const propertyData = { ...req.body, images: imageUrls };
-
-      const property = await Property.create(propertyData);
-      return res.status(201).json({ status: true, data: property });
-    } catch (error) {
-      console.error("Error in Try Block:", error);
+    if (!req.file) {
       return res
-        .status(500)
-        .json({ status: false, message: "Failed to create property." });
+        .status(400)
+        .json({ status: false, message: "No image uploaded." });
     }
-  });
+
+    // Generate the URL for the uploaded file
+    const imageUrl = `/uploads/${req.file.filename}`;
+
+    // Create the property with the image URL
+    const propertyData = {
+      ...req.body,
+      images: imageUrl, // Store the file URL in the database
+    };
+
+    const property = await Property.create(propertyData);
+    return res.status(201).json({ status: true, data: property });
+  } catch (error) {
+    console.error("Error in Try Block:", error);
+    return res
+      .status(500)
+      .json({ status: false, message: "Failed to create property." });
+  }
 };
 
 // Get all properties
@@ -86,51 +82,43 @@ const getPropertyById = async (req, res) => {
 
 // Update a property by ID
 const updateProperty = async (req, res) => {
-  upload(req, res, async (err) => {
-    if (err) {
-      return res.status(400).json({ status: false, message: err.message });
+  try {
+    // console.log("Request Body:", req.body);
+    // console.log("Uploaded File:", req.file);
+
+    // Prepare the update data
+    const updateData = {
+      ...req.body,
+    };
+
+    // If a new image is uploaded, replace the existing image
+    if (req.file) {
+      const imageUrl = `/uploads/${req.file.filename}`;
+      updateData.images = imageUrl; // Update the image URL in the database
     }
 
-    try {
-      // Check if new images are uploaded
-      let imageUrls = [];
-      if (req.files && req.files.length > 0) {
-        // Generate URLs for the uploaded files
-        imageUrls = req.files.map(
-          (file) => `/uploads/${file.filename}` // Store relative URLs
-        );
+    // Update the property in the database
+    const property = await Property.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      {
+        new: true, // Return the updated document
       }
+    );
 
-      // Prepare the update data
-      const updateData = {
-        ...req.body,
-      };
-
-      // If new images are uploaded, replace the existing images
-      if (imageUrls.length > 0) {
-        updateData.images = imageUrls;
-      }
-
-      // Update the property in the database
-      const property = await Property.findByIdAndUpdate(
-        req.params.id,
-        updateData,
-        { new: true }
-      );
-      if (!property) {
-        return res
-          .status(404)
-          .json({ status: false, message: "Property not found." });
-      }
-
-      return res.status(200).json({ status: true, data: property });
-    } catch (error) {
-      console.error("Error updating property:", error);
+    if (!property) {
       return res
-        .status(500)
-        .json({ status: false, message: "Failed to update property." });
+        .status(404)
+        .json({ status: false, message: "Property not found." });
     }
-  });
+
+    return res.status(200).json({ status: true, data: property });
+  } catch (error) {
+    console.error("Error updating property:", error);
+    return res
+      .status(500)
+      .json({ status: false, message: "Failed to update property." });
+  }
 };
 
 // Delete a property by ID

@@ -43,7 +43,10 @@ const propertySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    images: String,
+    images: {
+      type: String,
+      require: true,
+    },
   },
   {
     timestamps: true, // Automatically add `createdAt` and `updatedAt` fields
