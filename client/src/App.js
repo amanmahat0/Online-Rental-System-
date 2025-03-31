@@ -24,7 +24,7 @@ const AppWithLocation = () => {
     <div className="App">
       {!isAdminLoginPage && <Sidebar />}{" "}
       {/* Render Sidebar only if not on Admin Login */}
-      <div className={`main-content ${isAdminLoginPage ? "full-width" : ""}`}>
+      <div className={`admin-main-content ${isAdminLoginPage ? "full-width" : ""}`}>
         <AdminRoutes /> {/* Admin-specific routes */}
       </div>
     </div>

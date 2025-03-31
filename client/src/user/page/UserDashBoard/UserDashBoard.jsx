@@ -101,7 +101,7 @@ const UserDashboard = () => {
         </button>
       </div>
 
-      <div className="main-content">
+      <div className="user-main-content">
         {activeSection === "profile" && (
           <div className="section">
             <h2>My Profile</h2>

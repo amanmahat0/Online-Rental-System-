@@ -23,7 +23,7 @@
   padding: 20px;
 }
 
-.property-card {
+.admin-property-card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border-radius: 20px;
@@ -33,7 +33,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.property-card:hover {
+.admin-property-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }

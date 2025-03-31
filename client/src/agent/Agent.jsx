@@ -360,7 +360,7 @@ const handleCancelEdit = () => {
       </div>
 
       {/* Main Content Section */}
-      <div className="main-content">
+      <div className="agent-main-content">
       {activeSection === "Listings" && (
   <div className="section-container">
     <div className="listings-section">
