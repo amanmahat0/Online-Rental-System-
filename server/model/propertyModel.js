@@ -2,11 +2,10 @@ const mongoose = require("mongoose");
 
 const propertySchema = new mongoose.Schema(
   {
-    // owner: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User", // Reference to the user who owns the property
-    //   //   required: true,
-    // },
+    owner: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
