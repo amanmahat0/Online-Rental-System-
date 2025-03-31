@@ -1,7 +1,7 @@
 /* Container and header */
 .top-listings-container {
     padding: 20px;
-    max-width: 1200px;
+    max-width: 1130px;
     margin: 0 auto;
     text-align: center;
     font-family: Arial, sans-serif;
@@ -82,10 +82,10 @@
 }
 
 .top-listing-details p {
-    font-size: 1.2rem;
     color: #7f8c8d;
     margin: 5px 0;
-    padding: 5px;
+    padding: 2px;
+
 }
 
 /* Pagination */
@@ -147,8 +147,14 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); */
+    height: 23px;
+    width: 20px;
 }
 
 .top-listing-save-button:hover {
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
+    background-color: #7065f0;
+}
+.top-lisitng-property-description{
+    font-size: 12px;
 }

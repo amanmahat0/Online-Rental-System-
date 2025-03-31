@@ -5,6 +5,7 @@ import Register from "../page/Register/Register";
 import Login from "../page/Login/Login";
 import AdminLogin from "../../admin/pages/AdminLogin";
 import TopListings from "../page/TopListings/TopListings";
+import PropertyDetails from "../page/TopListings/PropertyDetails";
 
 // import VerifyEmail from "./VerifyEmail";
 // import TopListings from "./TopListings";
@@ -25,6 +26,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
       <Route path="/TopListings" element={<TopListings />} />
+      <Route path="/TopListings/:id" element={<PropertyDetails />} />
       <Route path="/AboutUs" element={<AboutUs />} />
       <Route path="/userdashboard" element={<UserDashboard />} />
       <Route path="/Agent" element={<Agent />} />
