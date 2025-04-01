@@ -158,3 +158,25 @@
 .top-lisitng-property-description{
     font-size: 12px;
 }
+
+/* Updated Filter Styles */
+.top-listing-filters {
+    display: flex;
+    gap: 10px;
+}
+
+.top-listing-filters select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: white;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.top-listing-filters select:focus {
+    border-color: #7065f0;
+    box-shadow: 0 0 5px rgba(112, 101, 240, 0.5);
+    outline: none;
+}

@@ -152,4 +152,13 @@
     padding: 10px;
     color: #fff;
   }
+  .properties-details-description{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 69%;
+    padding: 10px;
+    height: 400px;
+    background-color: #ffffff;
+    border: #555 1px solid;
+
+  }
   

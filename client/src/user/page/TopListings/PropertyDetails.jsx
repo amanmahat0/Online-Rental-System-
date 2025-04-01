@@ -8,7 +8,7 @@ const PropertyDetails = () => {
   const location = useLocation();
   
   // Destructure the data passed via navigation
-  const { title, price, location: propertyLocation, imageUrl, description, propertyType, avaibility, contact, ownerName, agentName } = location.state || {};
+  const { title, price, location: propertyLocation, imageUrl, description, propertyType, status, contact,} = location.state || {};
 
   return (
     <div className="property-details-container">
@@ -50,9 +50,10 @@ const PropertyDetails = () => {
       <div>
       <h3>Property Details</h3>
       {title && <p>{title}</p>}
-      {avaibility && <p><strong>Status:</strong>{avaibility}</p>}
+      {status && <p><strong>Status:</strong>{status}</p>}
       
-      {description && <p><strong>Description:</strong> {description}</p>}
+      
+      
 
       </div>
       <div>
@@ -62,7 +63,10 @@ const PropertyDetails = () => {
       </div>
         
       </div>
+      
       </div>
+      <div className='properties-details-description'>{description && <p><strong>Description:</strong> {description}</p>}</div>
+
       
     </div>
   );

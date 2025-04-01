@@ -8,6 +8,8 @@ import AdminRoutes from "./admin/routes/AdminRoutes"; // Ensure this is imported
 import Sidebar from "./admin/components/layout/Sidebar"; // Ensure Sidebar is imported
 import { UserProvider } from "./user/Context/UserContext";
 import { AdminDataProvider } from "./admin/adminContext/AdminContext";
+import UserDashboard from "./user/page/UserDashBoard/Routes/UserDashboard";
+
 
 const AppWithLocation = () => {
   const location = useLocation(); // Get the current route
@@ -17,6 +19,7 @@ const AppWithLocation = () => {
     location.pathname === "/login" || location.pathname === "/register";
   const isAdminRoute = location.pathname.startsWith("/admin"); // Check if the current route is admin
   const isAdminLoginPage = location.pathname === "/admin"; // Check if the current route is admin login
+  const isUserRoute = location.pathname.startsWith("/user");
 
   return isAdminRoute ? (
     <div className="App">
@@ -26,7 +29,16 @@ const AppWithLocation = () => {
         <AdminRoutes /> {/* Admin-specific routes */}
       </div>
     </div>
-  ) : (
+  ) :isUserRoute ? (
+    <div className="app-container">
+      {!hideHeaderFooter && <Header />} {/* Conditionally render Header */}
+      <main className="app-main">
+        <UserDashboard /> {/* Owner-specific dashboard */}
+      </main>
+      {!hideHeaderFooter && <Footer />} {/* Conditionally render Footer */}
+    </div>
+  ): (
+
     <div className="app-container">
       {!hideHeaderFooter && <Header />} {/* Conditionally render Header */}
       <main className="app-main">
