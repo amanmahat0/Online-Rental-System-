@@ -33,11 +33,10 @@ const AppWithLocation = () => {
   ) : 
   isOwnerRoute ? (
     <div className="app-container">
-      {!hideHeaderFooter && <Header />} {/* Conditionally render Header */}
+
       <main className="app-main">
         <OwnerDashboard /> {/* Owner-specific dashboard */}
       </main>
-      {!hideHeaderFooter && <Footer />} {/* Conditionally render Footer */}
     </div>
   ) : (
     <div className="app-container">
