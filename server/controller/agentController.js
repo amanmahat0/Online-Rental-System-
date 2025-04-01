@@ -135,10 +135,85 @@ async function handelAgentChangePassword(req, res) {
     });
   }
 }
+
+const handelAgentById = async (req, res) => {
+  try {
+    const agentId = req.params.id;
+    const agent = await Agent.findById(agentId);
+    if (!agent) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Agent not found" });
+    }
+    return res.status(200).json({ status: true, data: agent });
+  } catch (error) {
+    console.log("Error in handelAgentId: ", error);
+    return res.status(500).json({ status: false, message: error.message });
+  }
+};
+
+const handelUpdateAgentById = async (req, res) => {
+  try {
+    const updateData = {
+      ...req.body,
+    };
+    if (req.file) {
+      const imageUrl = `/uploads/profileImage/${req.file.filename}`;
+      updateData.profileImage = imageUrl; // Update the image URL in the database
+    }
+    const agentId = req.params.id;
+    const updatedAgent = await Agent.findByIdAndUpdate(agentId, updateData, {
+      new: true,
+    });
+
+    if (!updatedAgent) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Agent not found" });
+    }
+    return res.status(200).json({ status: true, data: updatedAgent });
+  } catch (error) {
+    console.log("Error in handelUpdateAgentById: ", error);
+    return res.status(500).json({ status: false, message: error.message });
+  }
+};
+
+const handelDeleteAgentById = async (req, res) => {
+  try {
+    const agentId = req.params.id;
+
+    // Find the agent by ID and delete
+    const deletedAgent = await Agent.findByIdAndDelete(agentId);
+
+    // If agent not found, return an error
+    if (!deletedAgent) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Agent not found" });
+    }
+
+    // Return success response
+    return res.status(200).json({
+      status: true,
+      message: "Agent deleted successfully",
+      data: deletedAgent,
+    });
+  } catch (error) {
+    console.error("Error in handelDeleteAgentById:", error); // Log the error for debugging
+    return res.status(500).json({
+      status: false,
+      message: "An error occurred while processing the request",
+    });
+  }
+};
+
 module.exports = {
   handelAgentSignUp,
   handelAgentLogin,
   handelGetAllAgent,
   handelAgentForgotPassword,
   handelAgentChangePassword,
+  handelUpdateAgentById,
+  handelAgentById,
+  handelDeleteAgentById,
 };

@@ -5,13 +5,18 @@ import "./Dashboard.css";
 import {
   UserDataContext,
   AgentDataContext,
+  PropertiesDataContext,
 } from "../../adminContext/AdminContext";
 
 const Dashboard = () => {
   const { userData, setUserData } = useContext(UserDataContext);
   const { agentData, setAgentData } = useContext(AgentDataContext);
+  const { propertiesData, setPropertiesData } = useContext(
+    PropertiesDataContext
+  );
   const [userLoading, setUserLoading] = useState(true);
   const [agentLoading, setAgentLoading] = useState(true);
+  const [propertiesLoading, setPropertiesLoading] = useState(true);
   // const [user, setUser] = useState(null);
 
   const fetchUserData = async () => {
@@ -28,7 +33,6 @@ const Dashboard = () => {
       }
       const data = await response.json();
       setUserData(data);
-      // setUser(data);
     } catch (error) {
       console.log("Error fetching user data : ", error);
     } finally {
@@ -55,19 +59,29 @@ const Dashboard = () => {
       setAgentLoading(false);
     }
   };
+
+  const fetchPropertiesData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/properties", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      setPropertiesData(data);
+    } catch (error) {
+      console.log("Error fectching properties data : ", error);
+    } finally {
+      setPropertiesLoading(false);
+    }
+  };
   useEffect(() => {
     fetchUserData();
     fetchAgentData();
-  });
-
-  useEffect(() => {
-    if (userData) {
-      console.log("User data:", userData);
-    }
-    if (agentData) {
-      console.log("Agent data: ", agentData);
-    }
-  }, [userData, agentData]);
+    fetchPropertiesData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -88,7 +102,12 @@ const Dashboard = () => {
       count: agentLoading ? "Loading..." : agentData?.data?.length,
       color: "#ff6666",
     },
-    { icon: <FaHome />, title: "Properties", count: "456", color: "#66ccff" },
+    {
+      icon: <FaHome />,
+      title: "Properties",
+      count: propertiesLoading ? "Loading..." : propertiesData?.data?.length,
+      color: "#66ccff",
+    },
     {
       icon: <FaCalendarAlt />,
       title: "Upcoming Events",
