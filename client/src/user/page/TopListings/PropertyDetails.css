@@ -158,7 +158,8 @@
     padding: 10px;
     height: 400px;
     background-color: #ffffff;
-    border: #555 1px solid;
+    border: #cacaca 1px solid;
+    border-radius: 15px;
 
   }
   

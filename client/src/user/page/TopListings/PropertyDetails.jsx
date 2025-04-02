@@ -35,7 +35,7 @@ const PropertyDetails = () => {
       </div>
       <div className='property-details-1'>
         <div className='property-detail-agent-info'>
-        <strong>Agent Info</strong>
+        <strong>Contact Info</strong>
         </div>
       
       {contact && <p><strong>Contact:</strong>{contact}</p>}

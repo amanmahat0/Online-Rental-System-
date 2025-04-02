@@ -4,7 +4,7 @@
   flex-direction: column;
   background: url("../../../../public/map.png") no-repeat;
   color: #333;
-  background-position: right;
+  background-position: top right;
   width: 100%;
   /* margin-left: 5rem; */
 }
@@ -140,4 +140,8 @@
 }
 .label-container .label {
   color: #7065f0;
+}
+
+.landing-page-feature-listing{
+  margin-top: 1000px;
 }

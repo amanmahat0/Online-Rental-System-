@@ -1,0 +1,110 @@
+/* My Booking - Header */
+.userdashboard-my-booking-header {
+    height: 50px;
+    /* background-color: #f8f9fa; */
+    padding: 10px;
+}
+
+.userdashboard-my-booking-header h2 {
+    text-align: left;
+    /* color: #333; */
+    font-size: 28px;
+}
+
+/* Property Card */
+.userdashboard-my-booking-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 0px;
+    column-gap: 0px;
+}
+
+.userdashboard-mybooking-property-card {
+    width: 370px;
+    /* height: 500px; */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.userdashboard-mybooking-property-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.userdashboard-mybooking-property-details {
+    padding: 15px;
+    text-align: left;
+    color: black;
+}
+
+.userdashboard-mybooking-property-title {
+    color: black;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.userdashboard-mybooking-property-details p {
+    margin: 5px 0;
+}
+
+.userdashboard-mybooking-property-actions {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+
+}
+
+/* Buttons */
+.userdashboard-mybooking-cancel-btn, .userdashboard-mybooking-view-btn {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.userdashboard-mybooking-cancel-btn:hover {
+    background-color: #d43f3f;
+}
+
+.userdashboard-mybooking-view-btn {
+    background-color: #4caf50;
+}
+
+.userdashboard-mybooking-view-btn:hover {
+    background-color: #45a049;
+}
+
+/* Icons */
+.userdashboard-mybooking-property-details .userdashboard-mybooking-saved-properties-icon {
+    min-width: 20px;
+    margin-right: 10px;
+    color: #7065f0;
+    margin-top: 3px;
+}
+
+.userdashboard-mybooking-property-actions button .userdashboard-mybooking-saved-properties-icon {
+    margin-right: 8px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .userdashboard-my-booking-list {
+        grid-template-columns: 1fr;
+    }
+
+    .userdashboard-mybooking-property-card {
+        width: 100%;
+        height: auto;
+    }
+}

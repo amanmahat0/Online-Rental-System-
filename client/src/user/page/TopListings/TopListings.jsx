@@ -232,7 +232,7 @@ const TopListings = () => {
   const [filterStatus, setFilterStatus] = useState("All");
   const [sortOrder, setSortOrder] = useState("None");
   const [currentPage, setCurrentPage] = useState(1);
-  const listingsPerPage = 9;
+  const listingsPerPage = 6;
 
   let listings = [...agentListings, ...ownerListings];
 
@@ -262,6 +262,8 @@ const TopListings = () => {
     <div className="top-listings-container">
       <div className="top-header-section">
         <h1>Properties</h1>
+        <div className='top-listing-search-btn-section'><input type="text" className='top-listing-search-input' placeholder='search...'/><button className='top-listing-search-btn'>Search</button></div>
+        
         <div className="top-listing-filters">
           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
             <option value="All">All</option>

@@ -21,7 +21,7 @@ const UserSidebar = () => {
                 </li>
                 <li className="user-menu-item">
                     <NavLink 
-                        to="/user/booking" 
+                        to="/user/mybooking" 
                         className={({ isActive }) => isActive ? "user-active-link" : ""}
                     >
                         <FaCalendarCheck className="user-sidebar-icon" />
@@ -30,7 +30,7 @@ const UserSidebar = () => {
                 </li>
                 <li className="user-menu-item">
                     <NavLink 
-                        to="user/bookmark" 
+                        to="user/saved" 
                         className={({ isActive }) => isActive ? "user-active-link" : ""}
                     >
                         <FaBookmark className="user-sidebar-icon" />
