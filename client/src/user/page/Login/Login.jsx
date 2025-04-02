@@ -52,9 +52,9 @@ const Login = () => {
         if (formData.role === "user") {
           return navigate("/");
         } else if (formData.role === "agent") {
-          return navigate("/agent/dashboard");
+          return navigate("/agent/profile");
         } else if (formData.role === "owner") {
-          return navigate("/admin/owner-profile");
+          return navigate("/owner/profile");
         }
       } else {
         setError("Invalid email or password");

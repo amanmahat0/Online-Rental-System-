@@ -12,7 +12,7 @@ const OwnerSidebar = () => {
             <ul className="owner-menu">
                 <li className="owner-menu-item">
                     <NavLink 
-                        to="/profile" 
+                        to="/owner/profile" 
                         className={({ isActive }) => isActive ? "owner-active-link" : ""}
                     >
                         <FaUser className="owner-sidebar-icon" />
@@ -21,7 +21,7 @@ const OwnerSidebar = () => {
                 </li>
                 <li className="owner-menu-item">
                     <NavLink 
-                        to="/listing" 
+                        to="/owner/mylisting" 
                         className={({ isActive }) => isActive ? "owner-active-link" : ""}
                     >
                         <FaHome className="owner-sidebar-icon" />
@@ -30,7 +30,7 @@ const OwnerSidebar = () => {
                 </li>
                 <li className="owner-menu-item">
                     <NavLink 
-                        to="/messages" 
+                        to="/owner/messages" 
                         className={({ isActive }) => isActive ? "owner-active-link" : ""}
                     >
                         <FaEnvelope className="owner-sidebar-icon" />
@@ -39,7 +39,7 @@ const OwnerSidebar = () => {
                 </li>
                 <li className="owner-menu-item">
                     <NavLink 
-                        to="/settings" 
+                        to="/owner/settings" 
                         className={({ isActive }) => isActive ? "owner-active-link" : ""}
                     >
                         <FaCog className="owner-sidebar-icon" />
