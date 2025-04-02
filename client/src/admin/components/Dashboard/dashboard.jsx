@@ -77,9 +77,18 @@ const Dashboard = () => {
     }
   };
   useEffect(() => {
-    fetchUserData();
-    fetchAgentData();
-    fetchPropertiesData();
+    if (!userData) {
+      fetchUserData();
+    }
+    setUserLoading(false);
+    if (!agentData) {
+      fetchAgentData();
+    }
+    setAgentLoading(false);
+    if (!propertiesData) {
+      fetchPropertiesData();
+    }
+    setPropertiesLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

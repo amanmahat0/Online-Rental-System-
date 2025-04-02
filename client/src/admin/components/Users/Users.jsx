@@ -65,7 +65,7 @@ const Users = () => {
       setUserData({
         ...userData,
         data: userData.data.map((user) =>
-          user._id === updatedUser._id ? updatedUser : user
+          user._id === updatedUser.data._id ? updatedUser.data : user
         ),
       });
 
@@ -137,8 +137,9 @@ const Users = () => {
   };
 
   useEffect(() => {
-    fetchUserData();
-    console.log("he;;o");
+    if (!userData) {
+      fetchUserData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

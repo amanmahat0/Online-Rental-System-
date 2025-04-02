@@ -1,34 +1,67 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 import { FaUser, FaPhone, FaEnvelope, FaHome } from "react-icons/fa";
+import { OwnerDataContext } from "../../adminContext/AdminContext";
 import "./Owners.css";
 
 const Owners = () => {
-  const [owners, setOwners] = useState([]);
+  const { ownerData, setOwnerData } = useContext(OwnerDataContext);
   const [search, setSearch] = useState("");
-  const [filterStatus, setFilterStatus] = useState("All");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const fetchOwnerData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/owner", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      setOwnerData(data);
+      console.log(data);
+    } catch (error) {
+      console.log("Error fectching owner data : ", error);
+    }
+  };
 
   // Fetch owners from an API (replace with actual API URL)
   useEffect(() => {
-    fetch("https://api.example.com/owners") // Replace with actual API
-      .then((response) => response.json())
-      .then((data) => setOwners(data))
-      .catch((error) => console.error("Error fetching owners:", error));
+    if (!ownerData) {
+      fetchOwnerData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Filter owners based on search input and status selection
-  const filteredOwners = owners.filter(
-    (owner) =>
-      owner.name.toLowerCase().includes(search.toLowerCase()) &&
-      (filterStatus === "All" || owner.status === filterStatus)
+  const filteredOwner = ownerData?.data?.filter((owner) =>
+    owner.name.toLowerCase().includes(search.toLowerCase())
   );
 
   // Action handlers
-  const viewProfile = (id) => alert(`Viewing profile of owner ${id}`);
   const editOwner = (id) => alert(`Editing owner ${id}`);
-  const deleteOwner = (id) => {
-    if (window.confirm("Are you sure you want to delete this owner?")) {
-      alert(`Deleting owner ${id}`);
+  const deleteOwner = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this owner?")) {
+      return;
+    }
+    setIsDeleting(true);
+    try {
+      const response = await fetch(`http://localhost:5000/api/owner/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete owner");
+      }
+
+      setOwnerData({
+        ...ownerData,
+        data: ownerData.data.filter((owner) => owner._id !== id),
+      });
+    } catch (error) {
+      console.error("Error deleting agent:", error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -51,19 +84,13 @@ const Owners = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-
-        <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-          <option value="All">All</option>
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-        </select>
       </div>
 
       {/* Owners List */}
       <div className="owners-grid">
-        {filteredOwners.map((owner) => (
+        {filteredOwner?.map((owner) => (
           <motion.div
-            key={owner.id}
+            key={owner._id}
             className="owner-card"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -75,17 +102,21 @@ const Owners = () => {
             <div className="owner-info">
               <h3>{owner.name}</h3>
               <div className="owner-details">
-                <p><FaEnvelope /> {owner.email}</p>
-                <p><FaPhone /> {owner.phone}</p>
-                <p><FaHome /> {owner.properties} Properties</p>
-              </div>
-              <div className={`owner-status ${owner.status.toLowerCase()}`}>
-                {owner.status}
+                <p>
+                  <FaEnvelope /> {owner.email}
+                </p>
+                <p>
+                  <FaPhone /> {owner.contact}
+                </p>
+                <p>
+                  <FaHome /> {owner.properties} Properties
+                </p>
               </div>
               <div className="owner-actions">
-                <button onClick={() => viewProfile(owner.id)}>View</button>
-                <button onClick={() => editOwner(owner.id)}>Edit</button>
-                <button onClick={() => deleteOwner(owner.id)}>Delete</button>
+                <button onClick={() => editOwner(owner._id)}>Edit</button>
+                <button onClick={() => deleteOwner(owner._id)}>
+                  {isDeleting ? "Deleting..." : "Delete"}
+                </button>
               </div>
             </div>
           </motion.div>
