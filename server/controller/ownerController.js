@@ -139,10 +139,84 @@ async function handelOwnerChangePassword(req, res) {
   }
 }
 
+const handelOwnerById = async (req, res) => {
+  try {
+    const OwnerId = req.params.id;
+    const Owner = await Owner.findById(OwnerId);
+    if (!Owner) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Owner not found" });
+    }
+    return res.status(200).json({ status: true, data: Owner });
+  } catch (error) {
+    console.log("Error in handelOwnerId: ", error);
+    return res.status(500).json({ status: false, message: error.message });
+  }
+};
+
+const handelUpdateOwnerById = async (req, res) => {
+  try {
+    const updateData = {
+      ...req.body,
+    };
+    if (req.file) {
+      const imageUrl = `/uploads/profileImage/${req.file.filename}`;
+      updateData.profileImage = imageUrl; // Update the image URL in the database
+    }
+    const ownerId = req.params.id;
+    const updatedOwner = await Owner.findByIdAndUpdate(ownerId, updateData, {
+      new: true,
+    });
+
+    if (!updatedOwner) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Owner not found" });
+    }
+    return res.status(200).json({ status: true, data: updatedOwner });
+  } catch (error) {
+    console.log("Error in handelUpdateOwnerById: ", error);
+    return res.status(500).json({ status: false, message: error.message });
+  }
+};
+
+const handelDeleteOwnerById = async (req, res) => {
+  try {
+    const ownerId = req.params.id;
+
+    // Find the owner by ID and delete
+    const deletedOwner = await Owner.findByIdAndDelete(ownerId);
+
+    // If owner not found, return an error
+    if (!deletedOwner) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Owner not found" });
+    }
+
+    // Return success response
+    return res.status(200).json({
+      status: true,
+      message: "Owner deleted successfully",
+      data: deletedOwner,
+    });
+  } catch (error) {
+    console.error("Error in handelDeleteOwnerById:", error); // Log the error for debugging
+    return res.status(500).json({
+      status: false,
+      message: "An error occurred while processing the request",
+    });
+  }
+};
+
 module.exports = {
   handelOwnerSignUp,
   handelOwnerLogin,
   handelGetAllOwner,
   handelOwnerForgotPassword,
   handelOwnerChangePassword,
+  handelOwnerById,
+  handelUpdateOwnerById,
+  handelDeleteOwnerById,
 };

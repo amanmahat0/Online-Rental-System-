@@ -6,6 +6,10 @@ const mongoose = require("mongoose");
 // change the schema properties as needed
 const AgentSchema = mongoose.Schema(
   {
+    profileImage: {
+      type: String,
+      default: null,
+    },
     name: {
       type: String,
       required: true,

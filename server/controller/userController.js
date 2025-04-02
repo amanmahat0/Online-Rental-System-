@@ -138,10 +138,78 @@ async function handelUserChangePassword(req, res) {
     });
   }
 }
+
+const handelUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ status: false, message: "User not found" });
+    }
+    return res.status(200).json({ status: true, data: user });
+  } catch (error) {
+    console.log("Error in handelUserId: ", error);
+    return res.status(500).json({ status: false, message: error.message });
+  }
+};
+
+const handelUpdateUserById = async (req, res) => {
+  try {
+    const updateData = {
+      ...req.body,
+    };
+    if (req.file) {
+      const imageUrl = `/uploads/profileImage/${req.file.filename}`;
+      updateData.profileImage = imageUrl; // Update the image URL in the database
+    }
+    const userId = req.params.id;
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ status: false, message: "User not found" });
+    }
+    return res.status(200).json({ status: true, data: updatedUser });
+  } catch (error) {
+    console.log("Error in handelUpdateUserById: ", error);
+    return res.status(500).json({ status: false, message: error.message });
+  }
+};
+
+const handelDeleteUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Find the user by ID and delete
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    // If user not found, return an error
+    if (!deletedUser) {
+      return res.status(404).json({ status: false, message: "User not found" });
+    }
+
+    // Return success response
+    return res.status(200).json({
+      status: true,
+      message: "User deleted successfully",
+      data: deletedUser,
+    });
+  } catch (error) {
+    console.error("Error in handelDeleteUserById:", error); // Log the error for debugging
+    return res.status(500).json({
+      status: false,
+      message: "An error occurred while processing the request",
+    });
+  }
+};
 module.exports = {
   handelUserSignUp,
   handelUserLogin,
   handelGetAllUsers,
   handelUserForgotPassword,
   handelUserChangePassword,
+  handelUpdateUserById,
+  handelUserById,
+  handelDeleteUserById,
 };
