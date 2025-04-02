@@ -151,6 +151,148 @@
   filter: brightness(1.2);
 }
 
+/* Message notification */
+.message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out forwards;
+  max-width: 300px;
+  text-align: center;
+}
+
+.message.success {
+  background-color: rgba(46, 213, 115, 0.9);
+  color: white;
+  box-shadow: 0 4px 10px rgba(46, 213, 115, 0.5);
+}
+
+.message.error {
+  background-color: rgba(255, 99, 71, 0.9);
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 99, 71, 0.5);
+}
+
+/* Edit Modal */
+.edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.edit-modal-content {
+  background: linear-gradient(145deg, #5a52c4, #9595a8);
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.edit-modal-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.2);
+}
+
+.admin-owner-form-group {
+  margin-bottom: 20px;
+}
+
+.admin-owner-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.admin-owner-form-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.admin-owner-form-group input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  outline: none;
+}
+
+.admin-owner-form-group small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Non-editable field styling */
+.non-editable-field {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+}
+
+.info-text {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.edit-actions button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+}
+
+.edit-actions button:first-child {
+  background: rgba(255, 99, 71, 0.2);
+  border-color: rgba(255, 99, 71, 0.6);
+}
+
+.edit-actions button:last-child {
+  background: rgba(46, 213, 115, 0.2);
+  border-color: rgba(46, 213, 115, 0.6);
+}
+
+.edit-actions button:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
 @media (max-width: 768px) {
   .owners-container {
     padding: 20px;
@@ -163,6 +305,11 @@
   .owners-grid {
     grid-template-columns: 1fr;
   }
+  
+  .edit-modal-content {
+    width: 95%;
+    padding: 20px;
+  }
 }
 
 @keyframes fadeIn {
@@ -173,5 +320,16 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

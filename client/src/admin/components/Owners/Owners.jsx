@@ -8,6 +8,9 @@ const Owners = () => {
   const { ownerData, setOwnerData } = useContext(OwnerDataContext);
   const [search, setSearch] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [message, setMessage] = useState({ text: "", type: "" });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingOwner, setEditingOwner] = useState(null);
 
   const fetchOwnerData = async () => {
     try {
@@ -21,11 +24,12 @@ const Owners = () => {
       setOwnerData(data);
       console.log(data);
     } catch (error) {
-      console.log("Error fectching owner data : ", error);
+      console.log("Error fetching owner data: ", error);
+      showMessage("Failed to load owner data", "error");
     }
   };
 
-  // Fetch owners from an API (replace with actual API URL)
+  // Fetch owners from an API
   useEffect(() => {
     if (!ownerData) {
       fetchOwnerData();
@@ -33,17 +37,90 @@ const Owners = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Filter owners based on search input and status selection
+  // Show message with auto-dismiss
+  const showMessage = (text, type) => {
+    setMessage({ text, type });
+    setTimeout(() => {
+      setMessage({ text: "", type: "" });
+    }, 3000);
+  };
+
+  // Filter owners based on search input
+  // Add a null check for owner.name in the filter function
   const filteredOwner = ownerData?.data?.filter((owner) =>
-    owner.name.toLowerCase().includes(search.toLowerCase())
+    owner?.name?.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Action handlers
-  const editOwner = (id) => alert(`Editing owner ${id}`);
+  // Handle contact number input - only allow integers up to 10 digits
+  const handleContactChange = (e) => {
+    const value = e.target.value;
+    // Only allow digits and limit to 10 characters
+    if (/^\d{0,10}$/.test(value)) {
+      setEditingOwner({ ...editingOwner, contact: value });
+    }
+  };
+
+  // Start editing an owner
+  const editOwner = (owner) => {
+    setEditingOwner({ ...owner });
+    setIsEditing(true);
+  };
+
+  // Cancel editing
+  const cancelEdit = () => {
+    setIsEditing(false);
+    setEditingOwner(null);
+  };
+
+  // Save owner changes
+  const saveOwner = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/owner/${editingOwner._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editingOwner),
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error("Failed to update owner");
+      }
+  
+      const updatedOwner = await response.json();
+      
+      // Make sure we're getting the right data structure
+      const updatedOwnerData = updatedOwner.data || updatedOwner;
+      
+      // Update the owner in the local state
+      setOwnerData({
+        ...ownerData,
+        data: ownerData.data.map((owner) =>
+          owner._id === editingOwner._id ? updatedOwnerData : owner
+        ),
+      });
+      
+      setIsEditing(false);
+      setEditingOwner(null);
+      showMessage("Owner updated successfully", "success");
+      
+      // Re-fetch data to ensure consistency
+      fetchOwnerData();
+    } catch (error) {
+      console.error("Error updating owner:", error);
+      showMessage("Failed to update owner", "error");
+    }
+  };
+
+  // Delete an owner
   const deleteOwner = async (id) => {
     if (!window.confirm("Are you sure you want to delete this owner?")) {
       return;
     }
+
     setIsDeleting(true);
     try {
       const response = await fetch(`http://localhost:5000/api/owner/${id}`, {
@@ -58,8 +135,11 @@ const Owners = () => {
         ...ownerData,
         data: ownerData.data.filter((owner) => owner._id !== id),
       });
+
+      showMessage("Owner deleted successfully", "success");
     } catch (error) {
-      console.error("Error deleting agent:", error);
+      console.error("Error deleting owner:", error);
+      showMessage("Failed to delete owner", "error");
     } finally {
       setIsDeleting(false);
     }
@@ -76,6 +156,11 @@ const Owners = () => {
         Owners Overview
       </motion.h1>
 
+      {/* Message display */}
+      {message.text && (
+        <div className={`message ${message.type}`}>{message.text}</div>
+      )}
+
       {/* Search and Filter Section */}
       <div className="filter-container">
         <input
@@ -85,6 +170,53 @@ const Owners = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
+
+      {/* Edit Owner Modal */}
+      {isEditing && (
+        <div className="edit-modal">
+          <div className="edit-modal-content">
+            <h2>Edit Owner</h2>
+            <div className="admin-owner-form-group">
+              <label>Name:</label>
+              <input
+                type="text"
+                value={editingOwner.name}
+                onChange={(e) =>
+                  setEditingOwner({ ...editingOwner, name: e.target.value })
+                }
+              />
+            </div>
+            <div className="admin-owner-form-group">
+              <label>Email:</label>
+              <input
+                type="email"
+                value={editingOwner.email}
+                onChange={(e) =>
+                  setEditingOwner({ ...editingOwner, email: e.target.value })
+                }
+              />
+            </div>
+            <div className="admin-owner-form-group">
+              <label>Contact:</label>
+              <input
+                type="text"
+                value={editingOwner.contact}
+                onChange={handleContactChange}
+              />
+              <small>Numbers only, max 10 digits</small>
+            </div>
+            {/* <div className="admin-owner-form-group">
+              <label>Properties:</label>
+              <div className="non-editable-field">{editingOwner.properties}</div>
+              <small className="info-text">Properties count cannot be edited directly</small>
+            </div> */}
+            <div className="edit-actions">
+              <button onClick={cancelEdit}>Cancel</button>
+              <button onClick={saveOwner}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Owners List */}
       <div className="owners-grid">
@@ -109,11 +241,11 @@ const Owners = () => {
                   <FaPhone /> {owner.contact}
                 </p>
                 <p>
-                  <FaHome /> {owner.properties} Properties
+                  <FaHome /> Number of Properties: {owner.properties}
                 </p>
               </div>
               <div className="owner-actions">
-                <button onClick={() => editOwner(owner._id)}>Edit</button>
+                <button onClick={() => editOwner(owner)}>Edit</button>
                 <button onClick={() => deleteOwner(owner._id)}>
                   {isDeleting ? "Deleting..." : "Delete"}
                 </button>
