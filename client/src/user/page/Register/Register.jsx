@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../Context/UserContext";
+import { UserContext, RoleContext } from "../../Context/UserContext";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +16,7 @@ const Register = () => {
   });
   const [error, setError] = useState("");
   const { setUser } = useContext(UserContext);
+  const { setRole } = useContext(RoleContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -75,7 +76,8 @@ const Register = () => {
           // Check if user is successfully registered
           // If successful, set user context and redirect to home page
           if (data.status === true) {
-            setUser(data);
+            setUser(data.data);
+            setRole(formData.userType);
             navigate("/");
           }
         } else {

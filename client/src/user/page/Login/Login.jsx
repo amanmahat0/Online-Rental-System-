@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./Login.css";
 import { useNavigate, NavLink } from "react-router-dom";
-import { UserContext } from "../../Context/UserContext";
+import { UserContext, RoleContext } from "../../Context/UserContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { setUser } = useContext(UserContext);
+  const { setRole } = useContext(RoleContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -48,7 +49,8 @@ const Login = () => {
       const data = await response.json();
       if (response.status === 200) {
         console.log("Data Received: ", data);
-        setUser(data);
+        setUser(data.data);
+        setRole(formData.role);
         if (formData.role === "user") {
           return navigate("/");
         } else if (formData.role === "agent") {

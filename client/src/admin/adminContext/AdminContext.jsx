@@ -13,11 +13,13 @@ const AdminDataProvider = ({ children }) => {
   return (
     <UserDataContext.Provider value={{ userData, setUserData }}>
       <AgentDataContext.Provider value={{ agentData, setAgentData }}>
-        <PropertiesDataContext value={{ propertiesData, setPropertiesData }}>
-          <OwnerDataContext value={{ ownerData, setOwnerData }}>
+        <PropertiesDataContext.Provider
+          value={{ propertiesData, setPropertiesData }}
+        >
+          <OwnerDataContext.Provider value={{ ownerData, setOwnerData }}>
             {children}
-          </OwnerDataContext>
-        </PropertiesDataContext>
+          </OwnerDataContext.Provider>
+        </PropertiesDataContext.Provider>
       </AgentDataContext.Provider>
     </UserDataContext.Provider>
   );

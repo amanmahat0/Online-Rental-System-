@@ -14,7 +14,6 @@ import UserDashboard from "../user/page/UserDashBoard/UserDashBoard";
 import Agent from "../agent/Agent";
 import OwnerSidebar from "../owners/Sidebar/OwnerSidebar";
 
-
 const AppRoutes = () => {
   const location = useLocation();
   if (location.pathname === "/admin") {
@@ -25,14 +24,13 @@ const AppRoutes = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/forgotpassword" element={<ForgotPassword />} />
       {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
-      <Route path="/TopListings" element={<TopListings />} />
-      <Route path="/AboutUs" element={<AboutUs />} />
-      <Route path="/userdashboard" element={<UserDashboard />} />
-      <Route path="/Agent" element={<Agent />} />
-      <Route path="/Owner" element={<OwnerSidebar />} />
-
+      <Route path="/toplistings" element={<TopListings />} />
+      <Route path="/aboutus" element={<AboutUs />} />
+      <Route path="/user" element={<UserDashboard />} />
+      <Route path="/agent" element={<Agent />} />
+      <Route path="/owner" element={<OwnerSidebar />} />
     </Routes>
   );
 };

@@ -10,7 +10,9 @@ async function handelAgentSignUp(req, res) {
     const encodedPassword = await hashPassword(req.body.password);
     req.body.password = encodedPassword;
     const agent = await Agent.create(req.body);
-    res.status(200).json({ status: true, data: agent });
+    res
+      .status(200)
+      .json({ status: true, data: { id: agent._id, name: agent.name } });
   } catch (error) {
     console.error("Error in handelAgentSignUp:", error);
     res.status(500).json({ status: false, message: error });
@@ -38,7 +40,9 @@ async function handelAgentLogin(req, res) {
         .json({ status: false, message: "Invalid Credentials" });
     }
     // if agent found and password match return agent data and status true
-    res.status(200).json({ status: true, data: agent });
+    res
+      .status(200)
+      .json({ status: true, data: { id: agent._id, name: agent.name } });
   } catch (error) {
     console.error("Error in handelAgentLogin:", error);
     res.status(500).json({ status: false, message: error.message });

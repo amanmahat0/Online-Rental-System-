@@ -13,7 +13,9 @@ async function handelOwnerSignUp(req, res) {
 
     // Create the owner
     const owner = await Owner.create(req.body);
-    return res.status(200).json({ status: true, data: owner });
+    return res
+      .status(200)
+      .json({ status: true, data: { id: owner._id, name: owner.name } });
   } catch (error) {
     console.error("Error in handelOwnerSignUp:", error);
     return res.status(500).json({ status: false, message: error.message });
@@ -41,7 +43,9 @@ async function handelOwnerLogin(req, res) {
         .json({ status: false, message: "password didn't match" });
     }
     // if agent found and password match return owner data and status true
-    return res.status(200).json({ status: true, data: owner });
+    return res
+      .status(200)
+      .json({ status: true, data: { id: owner._id, name: owner.name } });
   } catch (error) {
     console.error("Error in handelOwnerLogin:", error);
     return res.status(500).json({ status: false, message: error.message });
@@ -141,14 +145,14 @@ async function handelOwnerChangePassword(req, res) {
 
 const handelOwnerById = async (req, res) => {
   try {
-    const OwnerId = req.params.id;
-    const Owner = await Owner.findById(OwnerId);
-    if (!Owner) {
+    const ownerId = req.params.id;
+    const owner = await Owner.findById(ownerId);
+    if (!owner) {
       return res
         .status(400)
         .json({ status: false, message: "Owner not found" });
     }
-    return res.status(200).json({ status: true, data: Owner });
+    return res.status(200).json({ status: true, data: owner });
   } catch (error) {
     console.log("Error in handelOwnerId: ", error);
     return res.status(500).json({ status: false, message: error.message });

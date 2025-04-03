@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
+import { UserContext, RoleContext } from "../../Context/UserContext";
 
 const Header = () => {
+  const { user } = useContext(UserContext);
+  const { role } = useContext(RoleContext);
   return (
     <div>
       <header className="landing-header">
@@ -25,16 +28,22 @@ const Header = () => {
             </Link>
           </nav>
         </div>
-        <div className="login-signup">
-          <nav className="nav-links">
-            <Link to="/login" className="login">
-              Login
-            </Link>
-            <Link to="/register" className="signUp">
-              Sign Up
-            </Link>
-          </nav>
-        </div>
+        {!user ? (
+          <div className="login-signup">
+            <nav className="nav-links">
+              <Link to="/login" className="login">
+                Login
+              </Link>
+              <Link to="/register" className="signUp">
+                Sign Up
+              </Link>
+            </nav>
+          </div>
+        ) : (
+          <Link to={`/${role}`} className="name-profile">
+            {user.name}
+          </Link>
+        )}
       </header>
     </div>
   );
