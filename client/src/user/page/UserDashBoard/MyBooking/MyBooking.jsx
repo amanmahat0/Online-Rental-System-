@@ -1,48 +1,103 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle } from 'react-icons/fa';
 import './MyBooking.css';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaPhone, FaTimes, FaCheck } from 'react-icons/fa';
+
+const listing = [
+    { 
+        id: 1, 
+        title: 'Luxury Apartment in Downtown', 
+        propertyType: 'Apartment', 
+        price: '$1200/month', 
+        location: 'Downtown', 
+        imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
+        description: 'This is the best apartment in the world. It has 1 million rooms, 10 million toilets, 100 million kitchens.', 
+        status: 'Booked', 
+        contact: '1234567890' 
+      },
+      { 
+        id: 2, 
+        title: 'Modern Villa with Pool', 
+        propertyType: 'Villa', 
+        price: '$5000/month', 
+        location: 'Beverly Hills', 
+        imageUrl: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg', 
+        description: 'A beautiful villa with a private pool and stunning ocean views.', 
+        status: 'Available', 
+        contact: '9876543210' 
+      },
+      { 
+        id: 3, 
+        title: 'Cozy Studio Apartment', 
+        propertyType: 'Apartment', 
+        price: '$800/month', 
+        location: 'New York City', 
+        imageUrl: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg', 
+        description: 'A compact and stylish studio in the heart of NYC.', 
+        status: 'Available', 
+        contact: '1122334455' 
+      },
+];
 
 const MyBooking = () => {
-    const [bookedProperties, setBookedProperties] = useState([
-        { id: 1, title: "Modern 2BHK Apartment", propertyType: "Apartment", location: { area: "Baneshwor", city: "Kathmandu" }, price: 25000, description: "Fully furnished apartment with modern amenities, 24/7 water supply, and secure parking.", isAvailable: false, contactNo: "9801234567", image: "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg", isSaved: false, isBooked: true },
-        { id: 2, title: "Spacious Family House", propertyType: "House", location: { area: "Baluwatar", city: "Kathmandu" }, price: 45000, description: "Beautiful 3BHK house with garden, perfect for families. Located in a quiet neighborhood.", isAvailable: false, contactNo: "9807654321", image: "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg", isSaved: false, isBooked: true }
-    ]);
+  const navigate = useNavigate();
+  const [listings, setListings] = useState([...listing]);
+  
+  const cancelBooking = (id) => {
+    setListings(listings.filter((listing) => listing.id !== id)); // Remove the listing
+  };
 
-    const cancelBooking = (id) => {
-        setBookedProperties(bookedProperties.filter(property => property.id !== id));
-    };
+  const listingsPerPage = 6;
+  const currentListings = listings.slice(0, listingsPerPage);
 
-    return (
-        <div className="userdashboard-my-booking">
-            <div className="userdashboard-my-booking-header">
-                <h2>My Bookings</h2>
+  return (
+    <div className="mybooking-listings-container">
+      <div className="mybooking-header-section">
+        <h1>My Booking</h1>
+      </div>
+      <div className="mybooking-listings-grid">
+        {currentListings.map((listing) => (
+          <div
+            className="mybooking-listing-card"
+            onClick={() => {
+              navigate(`/topListings/${listing.id}`, { state: { description: listing.description, title: listing.title, price: listing.price, location: listing.location, imageUrl: listing.imageUrl, propertyType: listing.propertyType, status: listing.status, contact: listing.contact } });
+            }}
+            style={{ cursor: 'pointer' }}
+            key={listing.id}
+          >
+            <img src={listing.imageUrl} alt={listing.title} className="mybooking-listing-image" />
+            <div className="mybooking-listing-details">
+              <div className="mybooking-listing-button-section">
+                <h2 className="mybooking-lsiting-details-card-title">{listing.title}</h2>
+                <button className="mybooking-listing-save-button">
+                  <img src="/bookmark.png" height={25} width={20} />
+                </button>
+              </div>
+              <p className="mybooking-listing-details-card"><FaHome width={20} height={20} className="mybooking-lsitings-cards-icons" />{listing.propertyType}</p>
+              <p className="mybooking-listing-details-card"><FaMapMarkerAlt width={20} height={20} className="mybooking-lsitings-cards-icons" />{listing.location}</p>
+              <p className="mybooking-listing-details-card"><FaRupeeSign width={20} height={20} className="mybooking-lsitings-cards-icons" />{listing.price}</p>
+              <p className="mybooking-listing-details-card">
+                <FaInfoCircle width={20} height={20} className="mybooking-lsitings-cards-icons" />
+                {listing.description.length > 100 ? listing.description.slice(0, 85) + "..." : listing.description}
+              </p>
+              <div className='mybooking-canceling-section'>
+              <button
+                className="mybooking-cancel-booking-button"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering the card click
+                  cancelBooking(listing.id);
+                }}
+              >
+                Cancel Booking
+              </button>
             </div>
-            
-            <div className="userdashboard-my-booking-list">
-                {bookedProperties.map(property => (
-                    <div key={property.id} className="userdashboard-mybooking-property-card">
-                        <img src={property.image} alt={property.title} className="userdashboard-mybooking-property-image" />
-                        <div className="userdashboard-mybooking-property-details">
-                            <h3 className="userdashboard-mybooking-property-title">{property.title}</h3>
-                            <p><FaHome /> {property.propertyType}</p>
-                            <p><FaMapMarkerAlt /> {property.location.area}, {property.location.city}</p>
-                            <p><FaRupeeSign /> Rs. {property.price.toLocaleString()}/month</p>
-                            <p><FaInfoCircle /> {property.description}</p>
-                            <p><FaPhone /> {property.contactNo}</p>
-                        </div>
-                        <div className="userdashboard-mybooking-property-actions">
-                            <button className="userdashboard-mybooking-cancel-btn" onClick={() => cancelBooking(property.id)}>
-                                <FaTimes /> Cancel Booking
-                            </button>
-                            <button className="userdashboard-mybooking-view-btn">
-                                <FaCheck /> View Details
-                            </button>
-                        </div>
-                    </div>
-                ))}
+              
             </div>
-        </div>
-    );
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default MyBooking;

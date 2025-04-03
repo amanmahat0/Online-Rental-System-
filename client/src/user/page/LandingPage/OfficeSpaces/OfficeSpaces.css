@@ -51,12 +51,11 @@
     overflow: hidden;
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
 }
 
 /* Hover effect */
 .office-spaces-listing-card:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Image inside the card */
@@ -64,20 +63,34 @@
     width: 100%;
     height: 200px;
     object-fit: cover;
+    padding: 15px;
 }
 
 /* Details section */
 .office-spaces-listing-details {
     padding: 15px;
-    text-align: center;
+}
+.office-spaces-listing-details-card{
+    text-align: left;
+    padding: 5px;
+}
+.office-spaces-lsiting-details-card-title{
+    text-align: left;
+    width: 200%;
 }
 
+.office-spaces-lsitings-cards-icons{
+    color: #7065f0;
+}
+.office-spaces-listing-property-details-description-info{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
 .office-spaces-listing-details h2 {
     font-size: 1.5rem;
     margin-bottom: 10px;
     color: #34495e;
     font-weight: 600;
-    text-align: center;
     padding: 5px;
 }
 
@@ -85,10 +98,7 @@
     color: #7f8c8d;
     margin: 5px 0;
     padding: 2px;
-
 }
-
-
 
 .office-spaces-list-page-button {
     background-color: white;
@@ -128,29 +138,36 @@
 }
 
 .office-spaces-listing-button-section {
-    display: flex;
-    justify-content:flex-end;
-    padding: 10px;
-    margin-top: auto; 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
-
 
 .office-spaces-listing-save-button {
     background-color: white;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); */
     height: 23px;
     width: 20px;
+    margin-left: 150px;
+    margin-top: 5px;
 }
 
 .office-spaces-listing-save-button:hover {
-    /* transform: translateY(-2px); */
     background-color: #7065f0;
 }
 .office-spaces-lisitng-property-description{
     font-size: 12px;
+    text-align: left;
 }
 
-
+.office-spaces-listing-details-card {
+    display: flex;
+    align-items: start;
+    gap: 8px; /* Adjust spacing between icon and text */
+}
+  
+.office-spaces-lsitings-cards-icons {
+    flex-shrink: 0; /* Prevent icon from shrinking */
+    margin-top: 4px; /* Adjust alignment */
+}

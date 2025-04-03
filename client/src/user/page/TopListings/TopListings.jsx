@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaPhone, FaTimes, FaCheck } from 'react-icons/fa';
 import './TopListings.css';
 
 const agentListings = [
@@ -7,7 +8,7 @@ const agentListings = [
     id: 1, 
     title: 'Luxury Apartment in Downtown', 
     propertyType: 'Apartment', 
-    price: '$1200/month', 
+    price: '1200/month', 
     location: 'Downtown', 
     imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
     description: 'This is the best apartment in the world. It has 1 million rooms, 10 million toilets, 100 million kitchens.', 
@@ -18,7 +19,7 @@ const agentListings = [
     id: 2, 
     title: 'Modern Villa with Pool', 
     propertyType: 'Villa', 
-    price: '$5000/month', 
+    price: '5000/month', 
     location: 'Beverly Hills', 
     imageUrl: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg', 
     description: 'A beautiful villa with a private pool and stunning ocean views.', 
@@ -29,7 +30,7 @@ const agentListings = [
     id: 3, 
     title: 'Cozy Studio Apartment', 
     propertyType: 'Apartment', 
-    price: '$800/month', 
+    price: '800/month', 
     location: 'New York City', 
     imageUrl: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg', 
     description: 'A compact and stylish studio in the heart of NYC.', 
@@ -40,7 +41,7 @@ const agentListings = [
     id: 4, 
     title: 'Spacious Family Home', 
     propertyType: 'House', 
-    price: '$2500/month', 
+    price: '2500/month', 
     location: 'Los Angeles', 
     imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
     description: 'Perfect for families, with a large backyard and modern amenities.', 
@@ -51,7 +52,7 @@ const agentListings = [
     id: 5, 
     title: 'Penthouse with City View', 
     propertyType: 'Penthouse', 
-    price: '$7000/month', 
+    price: '7000/month', 
     location: 'Chicago', 
     imageUrl: 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg', 
     description: 'An exclusive penthouse with a breathtaking skyline view.', 
@@ -62,7 +63,7 @@ const agentListings = [
     id: 6, 
     title: 'Countryside Cottage', 
     propertyType: 'Cottage', 
-    price: '$1500/month', 
+    price: '1500/month', 
     location: 'Colorado', 
     imageUrl: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg', 
     description: 'A peaceful cottage surrounded by nature and fresh air.', 
@@ -73,7 +74,7 @@ const agentListings = [
     id: 7, 
     title: 'Beachfront Bungalow', 
     propertyType: 'Bungalow', 
-    price: '$3000/month', 
+    price: '3000/month', 
     location: 'Miami', 
     imageUrl: 'https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg', 
     description: 'A perfect vacation home right on the beach.', 
@@ -84,7 +85,7 @@ const agentListings = [
     id: 8, 
     title: 'Urban Loft in Downtown', 
     propertyType: 'Loft', 
-    price: '$2200/month', 
+    price: '2200/month', 
     location: 'San Francisco', 
     imageUrl: 'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg', 
     description: 'A trendy loft with high ceilings and modern decor.', 
@@ -95,7 +96,7 @@ const agentListings = [
     id: 9, 
     title: 'Farmhouse Retreat', 
     propertyType: 'Farmhouse', 
-    price: '$2000/month', 
+    price: '2000/month', 
     location: 'Texas', 
     imageUrl: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg', 
     description: 'A spacious farmhouse with land for gardening and animals.', 
@@ -106,7 +107,7 @@ const agentListings = [
     id: 10, 
     title: 'Luxury Mansion', 
     propertyType: 'Mansion', 
-    price: '$15000/month', 
+    price: '15000/month', 
     location: 'Beverly Hills', 
     imageUrl: 'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg', 
     description: 'A stunning luxury mansion with private security and a pool.', 
@@ -119,7 +120,7 @@ const ownerListings = [
     id: 11, 
     title: 'Charming Suburban Home', 
     propertyType: 'House', 
-    price: '$1800/month', 
+    price: '1800/month', 
     location: 'Seattle', 
     imageUrl: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg', 
     description: 'A cozy home with a beautiful garden and quiet neighborhood.', 
@@ -130,7 +131,7 @@ const ownerListings = [
     id: 12, 
     title: 'Luxury Condo with Lake View', 
     propertyType: 'Condo', 
-    price: '$3200/month', 
+    price: '3200/month', 
     location: 'Toronto', 
     imageUrl: 'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg', 
     description: 'A high-end condo with breathtaking views of the lake.', 
@@ -141,7 +142,7 @@ const ownerListings = [
     id: 13, 
     title: 'Rustic Mountain Cabin', 
     propertyType: 'Cabin', 
-    price: '$1700/month', 
+    price: '1700/month', 
     location: 'Aspen', 
     imageUrl: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg', 
     description: 'A charming wooden cabin perfect for nature lovers.', 
@@ -152,7 +153,7 @@ const ownerListings = [
     id: 14, 
     title: 'Modern Smart Home', 
     propertyType: 'House', 
-    price: '$4500/month', 
+    price: '4500/month', 
     location: 'San Diego', 
     imageUrl: 'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg', 
     description: 'A fully automated smart home with state-of-the-art security.', 
@@ -163,7 +164,7 @@ const ownerListings = [
     id: 15, 
     title: 'Luxury Lakehouse', 
     propertyType: 'Villa', 
-    price: '$8000/month', 
+    price: '8000/month', 
     location: 'Lake Tahoe', 
     imageUrl: 'https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg', 
     description: 'A magnificent villa with private lake access.', 
@@ -174,7 +175,7 @@ const ownerListings = [
     id: 16, 
     title: 'Downtown Office Space', 
     propertyType: 'Commercial', 
-    price: '$6000/month', 
+    price: '6000/month', 
     location: 'New York City', 
     imageUrl: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg', 
     description: 'A spacious office space in a prime business district.', 
@@ -185,7 +186,7 @@ const ownerListings = [
     id: 17, 
     title: 'Seaside Villa with Infinity Pool', 
     propertyType: 'Villa', 
-    price: '$10000/month', 
+    price: '10000/month', 
     location: 'Malibu', 
     imageUrl: 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg', 
     description: 'An elegant villa with stunning ocean views and a large pool.', 
@@ -196,7 +197,7 @@ const ownerListings = [
     id: 18, 
     title: 'Minimalist Loft', 
     propertyType: 'Loft', 
-    price: '$2700/month', 
+    price: '2700/month', 
     location: 'Brooklyn', 
     imageUrl: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg', 
     description: 'A sleek, open-space loft with modern design.', 
@@ -207,7 +208,7 @@ const ownerListings = [
     id: 19, 
     title: 'Historic Brownstone', 
     propertyType: 'Townhouse', 
-    price: '$5000/month', 
+    price: '5000/month', 
     location: 'Boston', 
     imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
     description: 'A classic brownstone with beautiful architectural details.', 
@@ -218,7 +219,7 @@ const ownerListings = [
     id: 20, 
     title: 'Modern Glass House', 
     propertyType: 'House', 
-    price: '$9000/month', 
+    price: '9000/month', 
     location: 'Los Angeles', 
     imageUrl: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg', 
     description: 'A futuristic home with floor-to-ceiling glass walls.', 
@@ -289,13 +290,23 @@ const TopListings = () => {
           >
             <img src={listing.imageUrl} alt={listing.title} className="top-listing-image" />
             <div className="top-listing-details">
-              <h2>{listing.title}</h2>
-              <p>{listing.price}</p>
-              <p>{listing.location}</p>
-              <p className='top-listing-property-description'>{listing.description}</p>
-            </div>
-            <div className='top-listing-button-section'>
+              
+              <div className='top-listing-button-section'>
+              <h2 className='top-lsiting-details-card-title'>{listing.title}</h2>
               <button className='top-listing-save-button'><img src='/bookmark.png' height={25} width={20}/></button>
+            </div>
+              <p className='top-listing-details-card'><FaHome width={20} height={20} className='top-lsitings-cards-icons'/>{listing.propertyType}</p>
+              <p className='top-listing-details-card'><FaMapMarkerAlt width={20} height={20} className='top-lsitings-cards-icons'/>{listing.location}</p>
+              <p className='top-listing-details-card'><FaRupeeSign width={20} height={20} className='top-lsitings-cards-icons'/>{listing.price}</p>
+              
+              {/* <p className='top-listing-details-card'><FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>{listing.description}</p> */}
+              <p className='top-listing-details-card'>
+                  <FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>
+                  {listing.description.length > 100 
+                    ? listing.description.slice(0, 85) + "..." 
+                    : listing.description}
+              </p>
+
             </div>
           </div>
         ))}

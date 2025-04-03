@@ -1,67 +1,109 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle } from 'react-icons/fa';
 import './SavedProperties.css';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaPhone, FaBookmark, FaBookOpen } from 'react-icons/fa';
+
+const listing = [
+  { 
+    id: 1, 
+    title: 'Luxury Apartment in Downtown', 
+    propertyType: 'Apartment', 
+    price: '$1200/month', 
+    location: 'Downtown', 
+    imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
+    description: 'This is the best apartment in the world. It has 1 million rooms, 10 million toilets, 100 million kitchens.', 
+    status: 'Booked', 
+    contact: '1234567890' 
+  },
+  { 
+    id: 2, 
+    title: 'Modern Villa with Pool', 
+    propertyType: 'Villa', 
+    price: '$5000/month', 
+    location: 'Beverly Hills', 
+    imageUrl: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg', 
+    description: 'A beautiful villa with a private pool and stunning ocean views.', 
+    status: 'Available', 
+    contact: '9876543210' 
+  },
+  { 
+    id: 3, 
+    title: 'Cozy Studio Apartment', 
+    propertyType: 'Apartment', 
+    price: '$800/month', 
+    location: 'New York City', 
+    imageUrl: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg', 
+    description: 'A compact and stylish studio in the heart of NYC.', 
+    status: 'Available', 
+    contact: '1122334455' 
+  },
+  // More listings...
+];
 
 const SavedProperties = () => {
-    const [listings, setListings] = useState([]);
+  const navigate = useNavigate();
+  const [savedProperties, setSavedProperties] = useState([...listing]); // Track saved properties
+  const listingsPerPage = 6;
+  
+  // Only show the first 6 listings
+  const currentListings = savedProperties.slice(0, listingsPerPage);
 
-    useEffect(() => {
-        const savedListings = JSON.parse(localStorage.getItem("savedListings")) || [
-            { id: 1, title: "Modern 2BHK Apartment", propertyType: "Apartment", location: { area: "Baneshwor", city: "Kathmandu" }, price: 25000, description: "Fully furnished apartment with modern amenities, 24/7 water supply, and secure parking.", isAvailable: true, contactNo: "9801234567", image: "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg", isSaved: false, isBooked: false },
-            { id: 2, title: "Spacious Family House", propertyType: "House", location: { area: "Baluwatar", city: "Kathmandu" }, price: 45000, description: "Beautiful 3BHK house with garden, perfect for families. Located in a quiet neighborhood.", isAvailable: true, contactNo: "9807654321", image: "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg", isSaved: false, isBooked: false },
-            { id: 3, title: "Commercial Space for Office", propertyType: "Commercial", location: { area: "Thamel", city: "Kathmandu" }, price: 60000, description: "Prime location commercial space ideal for office, restaurant or retail business.", isAvailable: false, contactNo: "9801122334", image: "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg", isSaved: false, isBooked: false },
-            { id: 4, title: "Single Room with Attached Bathroom", propertyType: "Room", location: { area: "Lazimpat", city: "Kathmandu" }, price: 8000, description: "Furnished single room with attached bathroom, suitable for students or working professionals.", isAvailable: true, contactNo: "9809988776", image: "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg", isSaved: false, isBooked: false }
-        ];
-        setListings(savedListings);
-    }, []);
+  const handleBookmarkClick = (id) => {
+    // Remove property from saved properties when clicked
+    setSavedProperties(savedProperties.filter(property => property.id !== id));
+  };
 
-    const toggleSaveProperty = (id) => {
-        const updatedListings = listings.filter(listing => listing.id !== id); // Remove the property from the list
-        setListings(updatedListings);
-        localStorage.setItem("savedListings", JSON.stringify(updatedListings));
-    };
-    
-
-    const bookProperty = (id) => {
-        const updatedListings = listings.map(listing => listing.id === id ? { ...listing, isBooked: true, isAvailable: false } : listing);
-        setListings(updatedListings);
-        localStorage.setItem("savedListings", JSON.stringify(updatedListings));
-        localStorage.setItem("bookedProperties", JSON.stringify(updatedListings.filter(listing => listing.isBooked)));
-    };
-
-    return (
-        <div className="userdashboard-saved-properties">
-            <div className="userdashboard-saved-properties-header">
-                <h2>Saved Properties</h2>
+  return (
+    <div className="saved-properties-listings-container">
+      <div className="saved-properties-header-section">
+        <h1>Saved Properties</h1>
+      </div>
+      <div className="saved-properties-listings-grid">
+        {currentListings.map((listing) => (
+          <div
+            className="saved-properties-listing-card"
+            onClick={() => {
+              navigate(`/topListings/${listing.id}`, { state: { description: listing.description, title: listing.title, price: listing.price, location: listing.location, imageUrl: listing.imageUrl, propertyType: listing.propertyType, status: listing.status, contact: listing.contact } });
+            }}
+            style={{ cursor: "pointer" }}
+            key={listing.id}
+          >
+            <img src={listing.imageUrl} alt={listing.title} className="saved-properties-listing-image" />
+            <div className="saved-properties-listing-details">
+              <div className='saved-properties-listing-button-section'>
+                <h2 className='saved-properties-lsiting-details-card-title'>{listing.title}</h2>
+                <button 
+                  className='saved-properties-listing-save-button' 
+                  onClick={(e) => { 
+                    e.stopPropagation(); // Prevent the listing from being clicked
+                    handleBookmarkClick(listing.id); // Remove property
+                  }}
+                >
+                  <img src='/bookmark.png' height={25} width={20} alt="bookmark" />
+                </button>
+              </div>
+              <p className='saved-properties-listing-details-card'>
+                <FaHome width={20} height={20} className='saved-properties-lsitings-cards-icons'/>
+                {listing.propertyType}
+              </p>
+              <p className='saved-properties-listing-details-card'>
+                <FaMapMarkerAlt width={20} height={20} className='saved-properties-lsitings-cards-icons'/>
+                {listing.location}
+              </p>
+              <p className='saved-properties-listing-details-card'>
+                <FaRupeeSign width={20} height={20} className='saved-properties-lsitings-cards-icons'/>
+                {listing.price}
+              </p>
+              <p className='saved-properties-listing-details-card'>
+                <FaInfoCircle width={20} height={20} className='saved-properties-lsitings-cards-icons'/>
+                {listing.description.length > 100 ? listing.description.slice(0, 85) + "..." : listing.description}
+              </p>
             </div>
-            
-            <div className="userdashboard-saved-properties-list">
-                {listings.map(listing => (
-                    <div key={listing.id} className="userdashboard-saved-property-card">
-                        <img src={listing.image} alt={listing.title} className="userdashboard-saved-property-image" />
-                        <div className="userdashboard-saved-property-details">
-                            <h3 className='userdashboard-saved-properties-card-title'>{listing.title}</h3>
-                            <p><FaHome className='userdashboard-saved-properties-icon'/> {listing.propertyType}</p>
-                            <p><FaMapMarkerAlt className='userdashboard-saved-properties-icon'/> {listing.location.area}, {listing.location.city}</p>
-                            <p><FaRupeeSign className='userdashboard-saved-properties-icon'/> Rs. {listing.price.toLocaleString()}/month</p>
-                            <p><FaInfoCircle className='userdashboard-saved-properties-icon'/> {listing.description}</p>
-                            <p><FaPhone className='userdashboard-saved-properties-icon'/> {listing.contactNo}</p>
-                        </div>
-                        <div className="userdashboard-saved-property-actions">
-                            <button className={`userdashboard-save-property-save-btn ${listing.isSaved ? 'saved' : ''}`} onClick={() => toggleSaveProperty(listing.id)}>
-                                <FaBookmark className='userdashboard-saved-properties-icon'/> {listing.isSaved ? 'Unsave' : 'Remove'}
-                            </button>
-                            {!listing.isBooked && (
-                                <button className="userdashboard-save-property-book-btn" onClick={() => bookProperty(listing.id)}>
-                                    <FaBookOpen className='userdashboard-saved-properties-icon'/> Book
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default SavedProperties;

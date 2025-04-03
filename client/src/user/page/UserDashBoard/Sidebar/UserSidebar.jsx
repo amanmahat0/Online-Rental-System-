@@ -34,7 +34,7 @@ const UserSidebar = () => {
                         className={({ isActive }) => isActive ? "user-active-link" : ""}
                     >
                         <FaBookmark className="user-sidebar-icon" />
-                        <span>Bookmark</span>
+                        <span>Saved Properties</span>
                     </NavLink>
                 </li>
                 <li className="user-menu-item">

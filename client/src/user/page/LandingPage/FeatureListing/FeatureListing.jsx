@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaPhone, FaTimes, FaCheck } from 'react-icons/fa';
 import './FeatureListing.css';
 
 const listing = [
@@ -133,41 +134,37 @@ const FeatureListing = () => {
         <h1>Feature Listing</h1>
       </div>
       <div className="feature-listings-grid">
-        {currentListings.map((listing) => (
-          <div
-            className="feature-listing-card"
-            onClick={() => {
-              navigate(`/topListings/${listing.id}`, { 
-                state: { 
-                  description: listing.description, 
-                  title: listing.title, 
-                  price: listing.price, 
-                  location: listing.location, 
-                  imageUrl: listing.imageUrl, 
-                  propertyType: listing.propertyType, 
-                  status: listing.status, 
-                  contact: listing.contact 
-                } 
-              });
-            }}
-            style={{ cursor: "pointer" }}
-            key={listing.id}
-          >
-            <img src={listing.imageUrl} alt={listing.title} className="feature-listing-image" />
-            <div className="feature-listing-details">
-              <h2>{listing.title}</h2>
-              <p>{listing.price}</p>
-              <p>{listing.location}</p>
-              <p className='feature-listing-property-description'>{listing.description}</p>
+              {currentListings.map((listing) => (
+                <div
+                  className="feature-listing-card"
+                  onClick={() => {
+                    navigate(`/topListings/${listing.id}`, { state: { description: listing.description, title: listing.title, price: listing.price, location: listing.location, imageUrl: listing.imageUrl, propertyType: listing.propertyType, status: listing.status, contact: listing.contact } });
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  <img src={listing.imageUrl} alt={listing.title} className="feature-listing-image" />
+                  <div className="feature-listing-details">
+                    
+                    <div className='feature-listing-button-section'>
+                    <h2 className='feature-lsiting-details-card-title'>{listing.title}</h2>
+                    <button className='feature-listing-save-button'><img src='/bookmark.png' height={25} width={20}/></button>
+                  </div>
+                    <p className='feature-listing-details-card'><FaHome width={20} height={20} className='feature-lsitings-cards-icons'/>{listing.propertyType}</p>
+                    <p className='feature-listing-details-card'><FaMapMarkerAlt width={20} height={20} className='feature-lsitings-cards-icons'/>{listing.location}</p>
+                    <p className='feature-listing-details-card'><FaRupeeSign width={20} height={20} className='feature-lsitings-cards-icons'/>{listing.price}</p>
+                    
+                    {/* <p className='top-listing-details-card'><FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>{listing.description}</p> */}
+                    <p className='feature-listing-details-card'>
+                        <FaInfoCircle width={20} height={20} className='feature-lsitings-cards-icons'/>
+                        {listing.description.length > 100 
+                          ? listing.description.slice(0, 85) + "..." 
+                          : listing.description}
+                    </p>
+      
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className='feature-listing-button-section'>
-              <button className='feature-listing-save-button'>
-                <img src='/bookmark.png' height={25} width={20} alt="Save"/>
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
