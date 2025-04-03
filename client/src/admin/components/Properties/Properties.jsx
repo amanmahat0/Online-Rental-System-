@@ -5,25 +5,7 @@ import "./properties.css";
 import { PropertiesDataContext } from "../../adminContext/AdminContext";
 
 const Properties = () => {
-  // const [properties] = useState([
-  //   {
-  //     id: 1,
-  //     title: "Modern Luxury Villa",
-  //     location: "123 Palm Street, Beverly Hills",
-  //     price: 1250000,
-  //     bedrooms: 4,
-  //     bathrooms: 3,
-  //     sqft: 2800,
-  //     image: "https://example.com/property1.jpg",
-  //     agent: {
-  //       name: "John Doe",
-  //       contact: "+1 234-567-8900",
-  //     },
-  //     status: "For Sale",
-  //     type: "Residential",
-  //   },
-  //   // Add more properties as needed
-  // ]);
+
   const { propertiesData, setPropertiesData } = useContext(
     PropertiesDataContext
   );
