@@ -10,6 +10,8 @@
 
 .user-profile-header {
     margin-bottom: 30px;
+    border-bottom: #7065f0 2px solid;
+    padding-bottom: 10px;
 }
 
 .user-profile-header h2 {

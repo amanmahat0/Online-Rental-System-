@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
 import './MyBooking.css';
 
 const listing = [
@@ -70,7 +70,8 @@ const MyBooking = () => {
               <div className="mybooking-listing-button-section">
                 <h2 className="mybooking-lsiting-details-card-title">{listing.title}</h2>
                 <button className="mybooking-listing-save-button">
-                  <img src="/bookmark.png" height={25} width={20} />
+                  {/* <img src="/bookmark.png" height={25} width={20} /> */}
+                  <FaBookmark className='mybooking-bookmark-icons'/>
                 </button>
               </div>
               <p className="mybooking-listing-details-card"><FaHome width={20} height={20} className="mybooking-lsitings-cards-icons" />{listing.propertyType}</p>
@@ -80,7 +81,7 @@ const MyBooking = () => {
                 <FaInfoCircle width={20} height={20} className="mybooking-lsitings-cards-icons" />
                 {listing.description.length > 100 ? listing.description.slice(0, 85) + "..." : listing.description}
               </p>
-              <div className='mybooking-canceling-section'>
+              
               <button
                 className="mybooking-cancel-booking-button"
                 onClick={(e) => {
@@ -90,7 +91,7 @@ const MyBooking = () => {
               >
                 Cancel Booking
               </button>
-            </div>
+            
               
             </div>
           </div>

@@ -13,6 +13,17 @@
     align-items: center;
     margin-bottom: 20px;
     margin-top: 20px;
+    border-bottom: #7065f0 2px solid;
+    padding-bottom: 10px;
+}
+.saved-properties-bookmark-icons{
+    color: #7065f0;
+    height: 25px;
+    width: 25px;
+}
+.saved-properties-bookmark-icons:hover{
+    color: #939393;
+    cursor: pointer;
 }
 
 /* Dropdown menu */
@@ -141,6 +152,9 @@
     flex-grow: 1; /* Pushes the button down */
     padding: 15px;
     text-align: center;
+    position: relative; /* For absolute positioning of the icon */
+    height: 100%;
+    padding-bottom: 50px; /* Ensures button stays at the bottom */
 }
 
 .saved-properties-listing-button-section {
@@ -170,10 +184,7 @@
 
 }
 
-.saved-properties-listing-save-button:hover {
-    /* transform: translateY(-2px); */
-    background-color: #7065f0;
-}
+
 .saved-properties-lisitng-property-description{
     font-size: 12px;
     text-align: left;
@@ -191,5 +202,26 @@
     flex-shrink: 0; /* Prevent icon from shrinking */
     margin-top: 4px; /* Adjust alignment */
   }
-  
+  /* Book button styling */
+.saved-properties-listing-book-button {
+    width: 90%;
+    background-color: #7065f0;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 0 0 10px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute; /* For absolute positioning of the icon */
+    bottom: 0; /* Ensures button stays at the bottom */
+    left: 5%;
+    margin-bottom: 10px;
+}
+
+.saved-properties-listing-book-button:hover {
+    background-color: #5a4bd7;
+}
+
   

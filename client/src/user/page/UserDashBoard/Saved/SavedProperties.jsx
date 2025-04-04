@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
 import './SavedProperties.css';
 
 const listing = [
@@ -79,7 +79,8 @@ const SavedProperties = () => {
                     handleBookmarkClick(listing.id); // Remove property
                   }}
                 >
-                  <img src='/bookmark.png' height={25} width={20} alt="bookmark" />
+                  {/* <img src='/bookmark.png' height={25} width={20} alt="bookmark" /> */}
+                  <FaBookmark className='saved-properties-bookmark-icons'/>
                 </button>
               </div>
               <p className='saved-properties-listing-details-card'>
@@ -98,6 +99,16 @@ const SavedProperties = () => {
                 <FaInfoCircle width={20} height={20} className='saved-properties-lsitings-cards-icons'/>
                 {listing.description.length > 100 ? listing.description.slice(0, 85) + "..." : listing.description}
               </p>
+              <button 
+                className="saved-properties-listing-book-button"
+                onClick={(e) => { 
+                  e.stopPropagation(); // Prevent card click event
+                  alert(`Booking property: ${listing.title}`); // Replace with actual booking logic
+                }}
+              >
+                Book Now
+              </button>
+
             </div>
           </div>
         ))}

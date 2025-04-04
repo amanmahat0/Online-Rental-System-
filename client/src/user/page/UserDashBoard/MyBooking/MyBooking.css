@@ -13,6 +13,8 @@
     align-items: center;
     margin-bottom: 20px;
     margin-top: 20px;
+    border-bottom: #7065f0 2px solid;
+    padding-bottom: 10px;
 }
 
 /* Dropdown menu */
@@ -52,6 +54,7 @@
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+    position: relative;
 }
 
 /* Hover effect */
@@ -141,6 +144,9 @@
     flex-grow: 1; /* Pushes the button down */
     padding: 15px;
     text-align: center;
+    position: relative; /* For absolute positioning of the icon */
+    height: 100%;
+    padding-bottom: 50px; /* Ensures button stays at the bottom */
 }
 
 .mybooking-listing-button-section {
@@ -170,10 +176,8 @@
 
 }
 
-.mybooking-listing-save-button:hover {
-    /* transform: translateY(-2px); */
-    background-color: #7065f0;
-}
+
+
 .mybooking-lisitng-property-description{
     font-size: 12px;
     text-align: left;
@@ -194,28 +198,45 @@
   
   
   .mybooking-cancel-booking-button {
-    background-color: #f44336; /* Red color */
+    width: 90%;
+    background-color: #7065f0;
     color: white;
+    padding: 10px;
     border: none;
-    padding: 8px 16px;
-    font-size: 14px;
+    border-radius: 0 0 10px 10px;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: auto;
-    margin-left: auto;
-    margin-right: auto;
-    width: 150px;
+    transition: background-color 0.3s ease;
+    position: absolute; /* For absolute positioning of the icon */
+    bottom: 0; /* Ensures button stays at the bottom */
+    left: 5%;
+    margin-bottom: 10px;
+    
+
+    
 }
 
 .mybooking-cancel-booking-button:hover {
-    background-color: #d32f2f; /* Darker red when hovered */
-    transform: translateY(-2px); /* Optional: subtle hover effect */
+    background-color: #5a4bd7;
 }
 
-.mybooking-cancel-booking-button:focus {
-    outline: none;
+.mybooking-bookmark-icons{
+    color: #7065f0;
+    height: 25px;
+    width: 25px;
 }
+.mybooking-bookmark-icons:hover{
+    color: #939393;
+    cursor: pointer;
+}
+.mybooking-canceling-section{
+    margin-top: auto;
+    position: relative;
+    bottom: 0; /* Ensures button stays at the bottom */
+}
+
+
 
 
 

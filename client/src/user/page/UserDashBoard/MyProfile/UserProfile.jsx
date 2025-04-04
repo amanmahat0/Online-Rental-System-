@@ -42,8 +42,8 @@ const UserProfile = () => {
     return (
         <div className="user-profile">
             <div className="user-profile-header">
-                <h2>My Profile</h2>
-                <p>Manage your personal information and account settings</p>
+                <h2>Welcome Aman</h2>
+                {/* <p>Manage your personal information and account settings</p> */}
             </div>
             
             <div className="user-profile-container">
