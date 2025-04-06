@@ -76,6 +76,8 @@ const Register = () => {
           // Check if user is successfully registered
           // If successful, set user context and redirect to home page
           if (data.status === true) {
+            localStorage.setItem("user", JSON.stringify(data.data));
+            localStorage.setItem("role", formData.userType);
             setUser(data.data);
             setRole(formData.userType);
             navigate("/");

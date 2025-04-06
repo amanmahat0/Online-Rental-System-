@@ -164,6 +164,14 @@ const handelUpdateOwnerById = async (req, res) => {
     const updateData = {
       ...req.body,
     };
+
+    // Convert "null" strings to real nulls for all fields
+    Object.keys(updateData).forEach((key) => {
+      if (updateData[key] === "null") {
+        updateData[key] = null;
+      }
+    });
+
     if (req.file) {
       const imageUrl = `/uploads/profileImage/${req.file.filename}`;
       updateData.profileImage = imageUrl; // Update the image URL in the database

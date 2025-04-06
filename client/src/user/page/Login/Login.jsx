@@ -49,6 +49,8 @@ const Login = () => {
       const data = await response.json();
       if (response.status === 200) {
         console.log("Data Received: ", data);
+        localStorage.setItem("user", JSON.stringify(data.data));
+        localStorage.setItem("role", formData.role);
         setUser(data.data);
         setRole(formData.role);
         if (formData.role === "user") {
