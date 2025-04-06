@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaPhone, FaTimes, FaCheck } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
 import './TopListings.css';
 
 const agentListings = [
@@ -250,14 +250,14 @@ const TopListings = () => {
   }
 
   // Pagination Logic
+  const totalPages = Math.ceil(listings.length / listingsPerPage);
   const indexOfLastListing = currentPage * listingsPerPage;
   const indexOfFirstListing = indexOfLastListing - listingsPerPage;
   const currentListings = listings.slice(indexOfFirstListing, indexOfLastListing);
-  const totalPages = Math.ceil(listings.length / listingsPerPage);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
 
   return (
     <div className="top-listings-container">
@@ -293,7 +293,10 @@ const TopListings = () => {
               
               <div className='top-listing-button-section'>
               <h2 className='top-lsiting-details-card-title'>{listing.title}</h2>
-              <button className='top-listing-save-button'><img src='/bookmark.png' height={25} width={20}/></button>
+              <button className='top-listing-save-button'>
+                {/* <img src='/bookmark.png' height={25} width={20}/> */}
+                <FaBookmark className='top-listing-bookmark-icons' />
+              </button>
             </div>
               <p className='top-listing-details-card'><FaHome width={20} height={20} className='top-lsitings-cards-icons'/>{listing.propertyType}</p>
               <p className='top-listing-details-card'><FaMapMarkerAlt width={20} height={20} className='top-lsitings-cards-icons'/>{listing.location}</p>
@@ -313,16 +316,32 @@ const TopListings = () => {
       </div>
 
       {/* Pagination Section */}
-      <div className="top-listing-pagination">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button 
-            key={index + 1} 
-            className={`top-list-page-button ${currentPage === index + 1 ? 'active' : ''}`} 
-            onClick={() => handlePageChange(index + 1)}
+      <div className="toplisting-pagination">
+        <button
+          className="toplisting-pagination-button"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index + 1}
+            className={`toplisting-pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
+            onClick={() => setCurrentPage(index + 1)}
           >
             {index + 1}
           </button>
         ))}
+
+        <button
+          className="toplisting-pagination-button"
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

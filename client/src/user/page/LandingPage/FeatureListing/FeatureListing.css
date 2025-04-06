@@ -169,11 +169,6 @@
     margin-top: 5px;
 
 }
-
-.feature-listing-save-button:hover {
-    /* transform: translateY(-2px); */
-    background-color: #7065f0;
-}
 .feature-lisitng-property-description{
     font-size: 12px;
     text-align: left;
@@ -191,5 +186,12 @@
     flex-shrink: 0; /* Prevent icon from shrinking */
     margin-top: 4px; /* Adjust alignment */
   }
-  
+  .feature-listing-bookmark-icons{
+    color: #7065f0;
+    width: 25px;
+    height: 25px;
+  }
+  .feature-listing-bookmark-icons:hover{
+    color: #5249ba;
+  }
   

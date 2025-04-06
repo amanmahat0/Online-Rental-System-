@@ -153,9 +153,6 @@
     margin-top: 5px;
 }
 
-.office-spaces-listing-save-button:hover {
-    background-color: #7065f0;
-}
 .office-spaces-lisitng-property-description{
     font-size: 12px;
     text-align: left;
@@ -171,3 +168,12 @@
     flex-shrink: 0; /* Prevent icon from shrinking */
     margin-top: 4px; /* Adjust alignment */
 }
+.office-spaces-listing-bookmark-icons{
+    color: #7065f0;
+    width: 25px;
+    height: 25px;
+  }
+  .office-spaces-listing-bookmark-icons:hover{
+    color: #5249ba;
+  }
+  

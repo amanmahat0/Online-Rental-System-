@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaPhone, FaTimes, FaCheck } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
 import './OfficeSpaces.css';
 
 const listing = [
@@ -145,12 +145,12 @@ const OfficeSpaces = () => {
                 
                 <div className='office-spaces-listing-button-section'>
                 <h2 className='office-spaces-lsiting-details-card-title'>{listing.title}</h2>
-                <button className='office-spaces-listing-save-button'><img src='/bookmark.png' height={25} width={20}/></button>
+                <button className='office-spaces-listing-save-button'><FaBookmark className='office-spaces-listing-bookmark-icons' /></button>
               </div>
                 <p className='office-spaces-listing-details-card'><FaHome width={20} height={20} className='office-spaces-lsitings-cards-icons'/>{listing.propertyType}</p>
                 <p className='office-spaces-listing-details-card'><FaMapMarkerAlt width={20} height={20} className='office-spaces-lsitings-cards-icons'/>{listing.location}</p>
                 <p className='office-spaces-listing-details-card'><FaRupeeSign width={20} height={20} className='office-spaces-lsitings-cards-icons'/>{listing.price}</p>
-                
+          
                 {/* <p className='top-listing-details-card'><FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>{listing.description}</p> */}
                 <p className='office-spaces-listing-details-card'>
                     <FaInfoCircle width={20} height={20} className='office-spaces-lsitings-cards-icons'/>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
 import './SavedProperties.css';
@@ -37,20 +37,120 @@ const listing = [
     status: 'Available', 
     contact: '1122334455' 
   },
-  // More listings...
+  { 
+    id: 4, 
+    title: 'Spacious Family Home', 
+    propertyType: 'House', 
+    price: '$2500/month', 
+    location: 'Los Angeles', 
+    imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
+    description: 'Perfect for families, with a large backyard and modern amenities.', 
+    status: 'Booked', 
+    contact: '2233445566' 
+  },
+  { 
+    id: 5, 
+    title: 'Penthouse with City View', 
+    propertyType: 'Penthouse', 
+    price: '$7000/month', 
+    location: 'Chicago', 
+    imageUrl: 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg', 
+    description: 'An exclusive penthouse with a breathtaking skyline view.', 
+    status: 'Available', 
+    contact: '3344556677' 
+  },
+  { 
+    id: 6, 
+    title: 'Countryside Cottage', 
+    propertyType: 'Cottage', 
+    price: '$1500/month', 
+    location: 'Colorado', 
+    imageUrl: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg', 
+    description: 'A peaceful cottage surrounded by nature and fresh air.', 
+    status: 'Booked', 
+    contact: '4455667788' 
+  },
+  { 
+    id: 7, 
+    title: 'Beachfront Bungalow', 
+    propertyType: 'Bungalow', 
+    price: '$3000/month', 
+    location: 'Miami', 
+    imageUrl: 'https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg', 
+    description: 'A perfect vacation home right on the beach.', 
+    status: 'Available', 
+    contact: '5566778899' 
+  },
+  { 
+    id: 8, 
+    title: 'Urban Loft in Downtown', 
+    propertyType: 'Loft', 
+    price: '$2200/month', 
+    location: 'San Francisco', 
+    imageUrl: 'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg', 
+    description: 'A trendy loft with high ceilings and modern decor.', 
+    status: 'Available', 
+    contact: '6677889900' 
+  },
+  { 
+    id: 9, 
+    title: 'Farmhouse Retreat', 
+    propertyType: 'Farmhouse', 
+    price: '$2000/month', 
+    location: 'Texas', 
+    imageUrl: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg', 
+    description: 'A spacious farmhouse with land for gardening and animals.', 
+    status: 'Booked', 
+    contact: '7788990011' 
+  },
+  { 
+    id: 10, 
+    title: 'Luxury Mansion', 
+    propertyType: 'Mansion', 
+    price: '$15000/month', 
+    location: 'Beverly Hills', 
+    imageUrl: 'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg', 
+    description: 'A stunning luxury mansion with private security and a pool.', 
+    status: 'Available', 
+    contact: '8899001122' 
+  }
+  // Add more listings as needed...
 ];
 
 const SavedProperties = () => {
   const navigate = useNavigate();
-  const [savedProperties, setSavedProperties] = useState([...listing]); // Track saved properties
+  const [savedProperties, setSavedProperties] = useState([...listing]);
+  const [filter, setFilter] = useState('All');
+  const [currentPage, setCurrentPage] = useState(1);
   const listingsPerPage = 6;
-  
-  // Only show the first 6 listings
-  const currentListings = savedProperties.slice(0, listingsPerPage);
 
   const handleBookmarkClick = (id) => {
-    // Remove property from saved properties when clicked
     setSavedProperties(savedProperties.filter(property => property.id !== id));
+  };
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+  };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
+
+  const filteredProperties = savedProperties.filter((property) => {
+    if (filter === 'All') return true;
+    return property.status === filter;
+  });
+
+  const totalPages = Math.ceil(filteredProperties.length / listingsPerPage);
+  const startIndex = (currentPage - 1) * listingsPerPage;
+  const currentListings = filteredProperties.slice(startIndex, startIndex + listingsPerPage);
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   return (
@@ -58,60 +158,113 @@ const SavedProperties = () => {
       <div className="saved-properties-header-section">
         <h1>Saved Properties</h1>
       </div>
+
+      {/* Filter Buttons */}
+      <div className="saved-properties-filter-buttons">
+        {['All', 'Available', 'Booked'].map((status) => (
+          <button
+            key={status}
+            onClick={() => handleFilterChange(status)}
+            className={`saved-properties-filter-button ${filter === status ? 'active' : ''}`}
+          >
+            {status}
+          </button>
+        ))}
+      </div>
+
+      {/* Listings Grid */}
       <div className="saved-properties-listings-grid">
         {currentListings.map((listing) => (
           <div
             className="saved-properties-listing-card"
             onClick={() => {
-              navigate(`/topListings/${listing.id}`, { state: { description: listing.description, title: listing.title, price: listing.price, location: listing.location, imageUrl: listing.imageUrl, propertyType: listing.propertyType, status: listing.status, contact: listing.contact } });
+              navigate(`/topListings/${listing.id}`, {
+                state: {
+                  description: listing.description,
+                  title: listing.title,
+                  price: listing.price,
+                  location: listing.location,
+                  imageUrl: listing.imageUrl,
+                  propertyType: listing.propertyType,
+                  status: listing.status,
+                  contact: listing.contact
+                }
+              });
             }}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             key={listing.id}
           >
             <img src={listing.imageUrl} alt={listing.title} className="saved-properties-listing-image" />
             <div className="saved-properties-listing-details">
               <div className='saved-properties-listing-button-section'>
                 <h2 className='saved-properties-lsiting-details-card-title'>{listing.title}</h2>
-                <button 
-                  className='saved-properties-listing-save-button' 
-                  onClick={(e) => { 
-                    e.stopPropagation(); // Prevent the listing from being clicked
-                    handleBookmarkClick(listing.id); // Remove property
+                <button
+                  className='saved-properties-listing-save-button'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleBookmarkClick(listing.id);
                   }}
                 >
-                  {/* <img src='/bookmark.png' height={25} width={20} alt="bookmark" /> */}
-                  <FaBookmark className='saved-properties-bookmark-icons'/>
+                  <FaBookmark className='saved-properties-bookmark-icons' />
                 </button>
               </div>
               <p className='saved-properties-listing-details-card'>
-                <FaHome width={20} height={20} className='saved-properties-lsitings-cards-icons'/>
+                <FaHome className='saved-properties-lsitings-cards-icons' />
                 {listing.propertyType}
               </p>
               <p className='saved-properties-listing-details-card'>
-                <FaMapMarkerAlt width={20} height={20} className='saved-properties-lsitings-cards-icons'/>
+                <FaMapMarkerAlt className='saved-properties-lsitings-cards-icons' />
                 {listing.location}
               </p>
               <p className='saved-properties-listing-details-card'>
-                <FaRupeeSign width={20} height={20} className='saved-properties-lsitings-cards-icons'/>
+                <FaRupeeSign className='saved-properties-lsitings-cards-icons' />
                 {listing.price}
               </p>
               <p className='saved-properties-listing-details-card'>
-                <FaInfoCircle width={20} height={20} className='saved-properties-lsitings-cards-icons'/>
+                <FaInfoCircle className='saved-properties-lsitings-cards-icons' />
                 {listing.description.length > 100 ? listing.description.slice(0, 85) + "..." : listing.description}
               </p>
-              <button 
+              <button
                 className="saved-properties-listing-book-button"
-                onClick={(e) => { 
-                  e.stopPropagation(); // Prevent card click event
-                  alert(`Booking property: ${listing.title}`); // Replace with actual booking logic
+                onClick={(e) => {
+                  e.stopPropagation();
+                  alert(`Booking property: ${listing.title}`);
                 }}
               >
                 Book Now
               </button>
-
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Pagination */}
+      <div className="saved-properties-pagination">
+        <button
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+          className="saved-properties-list-page-button"
+        >
+          Previous
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+          <button
+            key={number}
+            onClick={() => setCurrentPage(number)}
+            className={`saved-properties-list-page-button ${currentPage === number ? 'active' : ''}`}
+          >
+            {number}
+          </button>
+        ))}
+
+        <button
+          onClick={goToNextPage}
+          disabled={currentPage === totalPages}
+          className="saved-properties-list-page-button"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaPhone, FaTimes, FaCheck } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
 import './FeatureListing.css';
 
 const listing = [
@@ -147,7 +147,9 @@ const FeatureListing = () => {
                     
                     <div className='feature-listing-button-section'>
                     <h2 className='feature-lsiting-details-card-title'>{listing.title}</h2>
-                    <button className='feature-listing-save-button'><img src='/bookmark.png' height={25} width={20}/></button>
+                    <button className='feature-listing-save-button'>
+                      <FaBookmark className='feature-listing-bookmark-icons' />
+                    </button>
                   </div>
                     <p className='feature-listing-details-card'><FaHome width={20} height={20} className='feature-lsitings-cards-icons'/>{listing.propertyType}</p>
                     <p className='feature-listing-details-card'><FaMapMarkerAlt width={20} height={20} className='feature-lsitings-cards-icons'/>{listing.location}</p>

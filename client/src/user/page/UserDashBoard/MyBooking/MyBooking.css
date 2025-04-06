@@ -236,6 +236,35 @@
     bottom: 0; /* Ensures button stays at the bottom */
 }
 
+.mybooking-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.mybooking-pagination-button {
+    background-color: white;
+    color: #7065f0;
+    border: 1px solid #7065f0;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 500;
+}
+
+.mybooking-pagination-button:hover {
+    background-color: #939393;
+    color: white;
+}
+
+.mybooking-pagination-button.active {
+    background-color: #7065f0;
+    color: white;
+    font-weight: bold;
+}
 
 
 

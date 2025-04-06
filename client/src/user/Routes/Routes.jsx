@@ -7,6 +7,9 @@ import AdminLogin from "../../admin/pages/AdminLogin";
 import TopListings from "../page/TopListings/TopListings";
 import PropertyDetails from "../page/TopListings/PropertyDetails";
 import UserProfile from "../page/UserDashBoard/MyProfile/UserProfile";
+import TermAndCondition from "../component/Footer/TermsAndCondition/TermsAndCondition";
+import PrivacyPolicy from "../component/Footer/PrivacyPolicy/PrivacyPolicy";
+import Contact from "../component/Footer/Contact/Contact";
 
 // import VerifyEmail from "./VerifyEmail";
 // import TopListings from "./TopListings";
@@ -34,6 +37,10 @@ const AppRoutes = () => {
       <Route path="/Agent" element={<Agent />} />
       <Route path="/user" element={<UserSidebar />} />
       <Route path="/user/user-profile" element={<UserProfile/>} />
+      <Route path="/termsAndCondition" element={<TermAndCondition />} />
+      <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+      <Route path="/contact" element={<Contact />} />
+
 
     </Routes>
   );

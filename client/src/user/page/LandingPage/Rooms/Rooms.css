@@ -153,9 +153,7 @@
     margin-top: 5px;
 }
 
-.rooms-listing-save-button:hover {
-    background-color: #7065f0;
-}
+
 .rooms-lisitng-property-description{
     font-size: 12px;
     text-align: left;
@@ -171,3 +169,11 @@
     flex-shrink: 0; /* Prevent icon from shrinking */
     margin-top: 4px; /* Adjust alignment */
 }
+.rooms-listing-bookmark-icons{
+    color: #7065f0;
+    width: 25px;
+    height: 25px;
+  }
+  .rooms-listing-bookmark-icons:hover{
+    color: #5249ba;
+  }

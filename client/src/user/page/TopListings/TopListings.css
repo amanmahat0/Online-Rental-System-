@@ -106,33 +106,34 @@
 }
 
 /* Pagination */
-.top-listing-pagination {
+.toplisting-pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.top-list-page-button {
+.toplisting-pagination-button {
     background-color: white;
     color: #7065f0;
-    border: #7065f0 1px solid;
-    padding: 8px 12px;
-    margin: 0 5px;
+    border: 1px solid #7065f0;
+    padding: 8px 14px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
+    font-weight: 500;
 }
 
-.top-list-page-button:hover {
+.toplisting-pagination-button:hover {
     background-color: #939393;
     color: white;
 }
 
-.top-list-page-button.active {
+.toplisting-pagination-button.active {
     background-color: #7065f0;
-    font-weight: bold;
     color: white;
+    font-weight: bold;
 }
 
 /* Ensure the card takes full height */
@@ -169,17 +170,11 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); */
     height: 23px;
     width: 20px;
     margin-left: 150px;
     margin-top: 5px;
 
-}
-
-.top-listing-save-button:hover {
-    /* transform: translateY(-2px); */
-    background-color: #7065f0;
 }
 .top-lisitng-property-description{
     font-size: 12px;
@@ -227,6 +222,7 @@
     border-radius: 5px;
     background-color: #7065f0;
     border:#7065f0 1px solid;
+    color: white;
 }
 .top-listing-search-btn:hover{
     background-color: white;
@@ -244,4 +240,12 @@
     margin-top: 4px; /* Adjust alignment */
   }
   
+  .top-listing-bookmark-icons{
+    color: #7065f0;
+    width: 25px;
+    height: 25px;
+  }
+  .top-listing-bookmark-icons:hover{
+    color: #5249ba;
+  }
   

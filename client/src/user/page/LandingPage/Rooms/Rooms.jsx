@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaPhone, FaTimes, FaCheck } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
 import './Rooms.css';
 
 const listing = [
@@ -145,7 +145,7 @@ const Rooms = () => {
               
               <div className='rooms-listing-button-section'>
               <h2 className='rooms-lsiting-details-card-title'>{listing.title}</h2>
-              <button className='rooms-listing-save-button'><img src='/bookmark.png' height={25} width={20}/></button>
+              <button className='rooms-listing-save-button'><FaBookmark className='rooms-listing-bookmark-icons' /></button>
             </div>
               <p className='rooms-listing-details-card'><FaHome width={20} height={20} className='rooms-lsitings-cards-icons'/>{listing.propertyType}</p>
               <p className='rooms-listing-details-card'><FaMapMarkerAlt width={20} height={20} className='rooms-lsitings-cards-icons'/>{listing.location}</p>

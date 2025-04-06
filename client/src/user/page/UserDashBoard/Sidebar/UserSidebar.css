@@ -35,6 +35,8 @@
 
 .user-menu-item {
     margin-bottom: 15px;
+    list-style-type: none;
+    
 }
 
 .user-menu-item a {
