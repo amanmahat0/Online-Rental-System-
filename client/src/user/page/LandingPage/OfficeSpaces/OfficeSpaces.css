@@ -1,5 +1,5 @@
 /* Container and header */
-.top-listings-container {
+.office-spaces-listings-container {
     padding: 20px;
     max-width: 1130px;
     margin: 0 auto;
@@ -7,7 +7,7 @@
     font-family: Arial, sans-serif;
 }
 
-.top-header-section {
+.office-spaces-header-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -16,7 +16,7 @@
 }
 
 /* Dropdown menu */
-.top-listing-dropdown {
+.office-spaces-listing-dropdown {
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -24,7 +24,7 @@
 }
 
 /* Grid container for the listings */
-.top-listings-grid {
+.office-spaces-listings-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
@@ -33,34 +33,33 @@
 
 /*Responsive design for smaller screens*/
 @media (max-width: 768px) {
-    .top-listings-grid {
+    .office-spaces-listings-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 480px) {
-    .top-listings-grid {
+    .office-spaces-listings-grid {
         grid-template-columns: 1fr;
     }
 }
 
 /* Individual card styling */
-.top-listing-card {
+.office-spaces-listing-card {
     border: 1px solid #e0e0e0;
     border-radius: 10px;
     overflow: hidden;
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
 }
 
 /* Hover effect */
-.top-listing-card:hover {
+.office-spaces-listing-card:hover {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Image inside the card */
-.top-listing-image {
+.office-spaces-listing-image {
     width: 100%;
     height: 200px;
     object-fit: cover;
@@ -68,76 +67,63 @@
 }
 
 /* Details section */
-.top-listing-details {
+.office-spaces-listing-details {
     padding: 15px;
 }
-.top-listing-details-card{
+.office-spaces-listing-details-card{
     text-align: left;
     padding: 5px;
 }
-.top-lsiting-details-card-title{
+.office-spaces-lsiting-details-card-title{
     text-align: left;
     width: 200%;
 }
 
-.top-lsitings-cards-icons{
+.office-spaces-lsitings-cards-icons{
     color: #7065f0;
-
 }
-.top-listing-property-details-description-info{
+.office-spaces-listing-property-details-description-info{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    
 }
-.top-listing-details h2 {
+.office-spaces-listing-details h2 {
     font-size: 1.5rem;
     margin-bottom: 10px;
     color: #34495e;
     font-weight: 600;
-    /* text-align: center; */
     padding: 5px;
 }
 
-.top-listing-details p {
+.office-spaces-listing-details p {
     color: #7f8c8d;
     margin: 5px 0;
     padding: 2px;
-
 }
 
-/* Pagination */
-.toplisting-pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.toplisting-pagination-button {
+.office-spaces-list-page-button {
     background-color: white;
     color: #7065f0;
-    border: 1px solid #7065f0;
-    padding: 8px 14px;
+    border: #7065f0 1px solid;
+    padding: 8px 12px;
+    margin: 0 5px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: 500;
+    transition: background 0.3s ease;
 }
 
-.toplisting-pagination-button:hover {
+.office-spaces-list-page-button:hover {
     background-color: #939393;
     color: white;
 }
 
-.toplisting-pagination-button.active {
+.office-spaces-list-page-button.active {
     background-color: #7065f0;
-    color: white;
     font-weight: bold;
+    color: white;
 }
 
 /* Ensure the card takes full height */
-.top-listing-card {
+.office-spaces-listing-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -145,27 +131,18 @@
 }
 
 /* Details section should take available space */
-.top-listing-details {
+.office-spaces-listing-details {
     flex-grow: 1; /* Pushes the button down */
     padding: 15px;
     text-align: center;
 }
 
-.top-listing-button-section {
-    /* display: flex; */
-    /* justify-content:flex-end; */
-    /* padding: 10px; */
-    /* margin-top: auto; */
-    /* height: 50px; */
+.office-spaces-listing-button-section {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    
-
-    
 }
 
-
-.top-listing-save-button {
+.office-spaces-listing-save-button {
     background-color: white;
     border: none;
     cursor: pointer;
@@ -174,78 +151,29 @@
     width: 20px;
     margin-left: 150px;
     margin-top: 5px;
-
 }
-.top-lisitng-property-description{
+
+.office-spaces-lisitng-property-description{
     font-size: 12px;
     text-align: left;
 }
 
-/* Updated Filter Styles */
-.top-listing-filters {
-    display: flex;
-    gap: 10px;
-}
-
-.top-listing-filters select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    cursor: pointer;
-    background-color: white;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.top-listing-filters select:focus {
-    border-color: #7065f0;
-    box-shadow: 0 0 5px rgba(112, 101, 240, 0.5);
-    outline: none;
-}
-.top-listing-search-btn-section{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    /* margin-left: 10rem; */
-    gap: 5px;
-    margin-left: 17.5rem;
-
-}
-.top-listing-search-input{
-    width: 250px;
-    height: 40px;
-    border-radius: 5px;
-    border: #7065f0 1px solid;
-}
-.top-listing-search-btn{
-    width: 70px;
-    height: 39px;
-    border-radius: 5px;
-    background-color: #7065f0;
-    border:#7065f0 1px solid;
-    color: white;
-}
-.top-listing-search-btn:hover{
-    background-color: white;
-    color: #7065f0;
-    cursor: pointer;
-}
-.top-listing-details-card {
+.office-spaces-listing-details-card {
     display: flex;
     align-items: start;
     gap: 8px; /* Adjust spacing between icon and text */
-  }
+}
   
-  .top-lsitings-cards-icons {
+.office-spaces-lsitings-cards-icons {
     flex-shrink: 0; /* Prevent icon from shrinking */
     margin-top: 4px; /* Adjust alignment */
-  }
-  
-  .top-listing-bookmark-icons{
+}
+.office-spaces-listing-bookmark-icons{
     color: #7065f0;
     width: 25px;
     height: 25px;
   }
-  .top-listing-bookmark-icons:hover{
+  .office-spaces-listing-bookmark-icons:hover{
     color: #5249ba;
   }
   

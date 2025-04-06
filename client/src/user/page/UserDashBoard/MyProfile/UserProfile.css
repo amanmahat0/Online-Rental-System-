@@ -1,0 +1,226 @@
+/* OwnerProfile.css - Enhanced styling for My Profile Section */
+
+.user-profile {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.5s ease-in-out;
+    width: 100%;
+}
+
+.user-profile-header {
+    margin-bottom: 30px;
+    border-bottom: #7065f0 2px solid;
+    padding-bottom: 10px;
+}
+
+.user-profile-header h2 {
+    font-size: 28px;
+    text-align: left;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.user-profile-header p {
+    color: #666;
+    font-size: 16px;
+}
+
+.user-profile-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+}
+
+.user-profile-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.6s ease-out;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+}
+
+@media screen and (max-width: 768px) {
+    .user-profile-card {
+        grid-template-columns: 1fr;
+    }
+    
+    .user-profile {
+        padding: 20px 15px;
+    }
+}
+
+.user-section-title {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-profile-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.user-image-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.user-profile-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    border: 4px solid #fff;
+}
+
+.user-profile-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    color: #999;
+}
+
+.user-profile-name {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin: 15px 0;
+}
+
+.user-upload-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    cursor: pointer;
+    background-color: #7065f0;
+    color: #fff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s;
+}
+
+.user-upload-button:hover {
+    background-color: #5749d1;
+    transform: scale(1.05);
+}
+
+.user-upload-button input {
+    display: none;
+}
+
+.user-profile-details {
+    width: 100%;
+}
+
+.user-profile-field {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.user-field-label {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.user-field-icon {
+    margin-right: 10px;
+    color: #7065f0;
+}
+
+.user-field-value {
+    font-size: 16px;
+    color: #333;
+    padding: 5px 0;
+}
+
+.user-edit-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    transition: border 0.3s;
+}
+
+.user-edit-input:focus {
+    border-color: #7065f0;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(112, 101, 240, 0.2);
+}
+
+.user-action-buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.user-edit-button, .owner-save-button {
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.user-edit-button {
+    background-color: #7065f0;
+}
+
+.user-save-button {
+    background-color: #4CAF50;
+}
+
+.user-edit-button:hover {
+    background-color: #5749d1;
+}
+
+.user-save-button:hover {
+    background-color: #3d8b40;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

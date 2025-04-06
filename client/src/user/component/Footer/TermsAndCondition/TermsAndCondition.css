@@ -1,0 +1,89 @@
+.termsAndCondition-Container {
+  max-width: 860px;
+  margin: 48px auto;
+  padding: 36px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2e2e2e;
+  line-height: 1.75;
+  transition: all 0.3s ease;
+}
+
+.termsAndCondition-heading {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  color: #1a1a1a;
+}
+
+section {
+  margin-bottom: 2.75rem;
+}
+
+section h2 {
+  font-size: 1.65rem;
+  font-weight: 600;
+  color: #264653;
+  margin-bottom: 1rem;
+  padding-left: 12px;
+  border-left: 4px solid #0077cc;
+}
+
+section p,
+section ul {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 0.75rem;
+}
+
+ul {
+  padding-left: 1.8rem;
+  margin-top: 0.5rem;
+}
+
+li {
+  margin-bottom: 0.6rem;
+}
+
+strong {
+  font-weight: 600;
+  color: #000;
+}
+
+/* Hover effect on list items (optional) */
+li:hover {
+  color: #0077cc;
+}
+
+/* Responsive styling */
+@media screen and (max-width: 768px) {
+  .termsAndCondition-Container {
+    padding: 24px;
+  }
+
+  .termsAndCondition-heading {
+    font-size: 2.2rem;
+  }
+
+  section h2 {
+    font-size: 1.35rem;
+  }
+
+  section p,
+  section ul {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .termsAndCondition-heading {
+    font-size: 1.9rem;
+  }
+
+  section h2 {
+    font-size: 1.2rem;
+  }
+}
