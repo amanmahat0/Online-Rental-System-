@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 //-----------Creating Table Schema for User Collection--------
 const UserSchema = mongoose.Schema(
   {
+    profileImage: {
+      type: String,
+      default: null,
+    },
     name: {
       type: String,
       required: true,

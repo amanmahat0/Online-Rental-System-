@@ -360,6 +360,7 @@ const handleCancelEdit = () => {
       </div>
 
       {/* Main Content Section */}
+
       <div className="main-content">
       {activeSection === "Profile" && (
           <div className="profile-section">
@@ -435,6 +436,7 @@ const handleCancelEdit = () => {
             )}
           </div>
         )}
+
 
       {activeSection === "Listings" && (
   <div className="section-container">

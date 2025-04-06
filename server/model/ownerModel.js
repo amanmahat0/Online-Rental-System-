@@ -6,6 +6,10 @@ const mongoose = require("mongoose");
 // change the schema properties as needed
 const OwnerSchema = mongoose.Schema(
   {
+    profileImage: {
+      type: String,
+      default: null,
+    },
     name: {
       type: String,
       required: true,
@@ -38,6 +42,14 @@ const OwnerSchema = mongoose.Schema(
       required: true,
       min: 6,
       max: 255,
+    },
+    resetToken: {
+      type: String,
+      default: null,
+    },
+    resetTokenExpiry: {
+      type: Date,
+      default: null,
     },
   },
   // add timestamps to the schema gives createdAt and updatedAt time

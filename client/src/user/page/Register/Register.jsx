@@ -171,7 +171,12 @@ const Register = () => {
               id="contact"
               name="contact"
               value={formData.contact}
-              onChange={handleChange}
+              onChange={(e) => {
+                // Allow only numbers and limit to 10 digits
+                if (/^\d{0,10}$/.test(e.target.value)) {
+                  handleChange(e);
+                }
+              }}
               placeholder="Enter your contact number"
               required
             />

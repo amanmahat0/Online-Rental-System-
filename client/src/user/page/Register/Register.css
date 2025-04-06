@@ -15,6 +15,12 @@
   width: 100%;
   max-width: 520px;
   min-width: 400px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.register-card:hover {
+  transform: translateY(-5px); /* Slightly lift the card */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
 .register-card form .form-group label {
@@ -60,7 +66,7 @@ input {
 .register-card form .form-group input:focus {
   outline: none;
   border-width: 2px;
-  border-color: #3498db;
+  border-color: #7065f0;
 }
 
 .error-message {
@@ -76,7 +82,7 @@ input {
   margin-top: 1rem;
   width: 100%;
   padding: 0.75rem;
-  background: #3498db;
+  background: #7065f0;
   color: white;
   border: none;
   border-radius: 5px;
@@ -86,7 +92,7 @@ input {
 }
 
 .submit-btn:hover {
-  background: #2980b9;
+  background: #5c53c5;
 }
 
 .login-link {
@@ -96,7 +102,7 @@ input {
 }
 
 .login-link a {
-  color: #3498db;
+  color: #7065f0;
   text-decoration: none;
 }
 
@@ -131,8 +137,8 @@ input {
 }
 
 .radio-group div:hover label {
-  color: #3498dbae;
-  text-shadow: 0 0 9px #0e4569c4, 0 0 3px #3498dbae;
+  color: #7065f0ae;
+  text-shadow: 0 0 9px #7065f0c4, 0 0 3px #7065f0ae;
 }
 .radio-group input[type="radio"]:checked + label {
   background-color: transparent; /* Effectively removes background */
@@ -144,7 +150,7 @@ input {
   display: none;
 }
 .radio-group input[type="radio"]:checked + label {
-  color: #3498db;
+  color: #7065f0;
 }
 
 .selected-radio-line {
@@ -152,7 +158,7 @@ input {
   height: 2px;
   position: relative;
   top: -18px;
-  background-color: #3498db;
+  background-color: #7065f0;
   transition: all 0.5s ease;
 }
 .agent-selected {

@@ -1,153 +1,47 @@
 const express = require("express");
-const {
-  hashPassword,
-  comparePassword,
-} = require("../EncoderDecoder/passwordEncoderDecoder");
+const multer = require("multer");
+const path = require("path");
 const app = express();
-const { forgotPassword } = require("../auth/auth");
 
-// Importing User Schema
-const User = require("../model/userModel");
+const {
+  handelUserSignUp,
+  handelUserLogin,
+  handelGetAllUsers,
+  handelUserForgotPassword,
+  handelUserChangePassword,
+  handelUserById,
+  handelUpdateUserById,
+  handelDeleteUserById,
+} = require("../controller/userController");
 
-// handle post request
-app.post("/user/signup", async (req, res) => {
-  try {
-    // encode password
-    const encodedPassword = await hashPassword(req.body.password);
-    // set password to encoded password
-    req.body.password = encodedPassword;
-    const user = await User.create(req.body);
-    res.status(200).json({ status: true, data: user });
-  } catch (error) {
-    res.json({ status: false, message: error });
-  }
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../uploads/profileImage")); // Save files to the "uploads" directory
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueName); // Use a unique name for each file
+  },
 });
 
-//login user
-app.post("/user/login", async (req, res) => {
-  try {
-    // find user by email and password
-    const user = await User.findOne({
-      email: req.body.email,
-    });
-    // if user not found return error
-    if (!user) {
-      return res
-        .status(400)
-        .json({ status: false, message: "Invalid Credentials" });
-    }
-    // compare password
-    const isMatch = await comparePassword(req.body.password, user.password);
-    // if password not match return error
-    if (!isMatch) {
-      return res
-        .status(400)
-        .json({ status: false, message: "Invalid Credentials" });
-    }
-    // if user found return user data and status true
-    res.status(200).json({ status: true, data: user });
-  } catch (error) {
-    res.status(500).json({ status: false, message: error.message });
-  }
+const upload = multer({
+  storage,
+  limits: { fileSize: 50 * 1024 * 1024 },
 });
 
-// api to get all users
-// handle get request for users
-app.get("/user", async (req, res) => {
-  try {
-    const users = await User.find({});
-    res.status(200).json({ status: true, data: users });
-  } catch (error) {
-    res.status(500).json({ status: false, message: error.message });
-  }
-});
+app.post("/signup", handelUserSignUp);
 
-app.post("/user/forgotPassword", async (req, res) => {
-  try {
-    const { email } = req.body;
+app.post("/login", handelUserLogin);
 
-    // Validate input
-    if (!email) {
-      return res
-        .status(400)
-        .json({ status: false, message: "Email is required" });
-    }
+app.get("/", handelGetAllUsers);
 
-    // Find the user by email
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({
-        status: false,
-        message: "User with this email does not exist",
-      });
-    }
+app.post("/forgot-password", handelUserForgotPassword);
 
-    // Call the forgotPassword function
-    const forgotPasswordMessage = await forgotPassword(email, User);
-    res.status(200).json({ status: true, message: forgotPasswordMessage });
-  } catch (error) {
-    console.error("Error in /user/forgotPassword:", error); // Log the error for debugging
-    res.status(500).json({
-      status: false,
-      message: "An error occurred while processing the request",
-    });
-  }
-});
+app.post("/changePassword", handelUserChangePassword);
 
-app.post("/user/changePassword", async (req, res) => {
-  try {
-    const { email, resetToken, newPassword } = req.body;
+app.get("/:id", handelUserById);
 
-    // Validate input
-    if (!email || !resetToken || !newPassword) {
-      return res.status(400).json({
-        status: false,
-        message: "Email, reset token, and new password are required",
-      });
-    }
+app.put("/:id", upload.single("profileImage"), handelUpdateUserById);
 
-    // Find the user by email and resetToken
-    const user = await User.findOne({ email, resetToken });
-
-    // If user not found or token is invalid
-    if (!user) {
-      return res.status(400).json({
-        status: false,
-        message: "Invalid email or reset token",
-      });
-    }
-
-    // Check if the reset token has expired
-    if (user.resetTokenExpiry < Date.now()) {
-      return res.status(400).json({
-        status: false,
-        message: "Reset token has expired",
-      });
-    }
-
-    // Hash the new password
-    const hashedPassword = await hashPassword(newPassword);
-
-    // Update the user's password and clear the reset token and expiry
-    user.password = hashedPassword;
-    user.resetToken = null;
-    user.resetTokenExpiry = null;
-
-    // Save the updated user
-    await user.save();
-
-    res.status(200).json({
-      status: true,
-      message: "Password has been changed successfully",
-      data: user,
-    });
-  } catch (error) {
-    console.error("Error in /user/changePassword:", error); // Log the error for debugging
-    res.status(500).json({
-      status: false,
-      message: "An error occurred while processing the request",
-    });
-  }
-});
-
+app.delete("/:id", handelDeleteUserById);
 module.exports = app;

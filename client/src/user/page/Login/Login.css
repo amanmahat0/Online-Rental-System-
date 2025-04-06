@@ -15,6 +15,12 @@
   width: 100%;
   max-width: 520px;
   min-width: 400px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+.login-card:hover {
+  transform: translateY(-5px); /* Slightly lift the card */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
 h2 {
@@ -51,7 +57,7 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: #7065f0;
 }
 
 .error-message {
@@ -66,7 +72,7 @@ input:focus {
 .submit-btn {
   width: 100%;
   padding: 0.75rem;
-  background: #3498db;
+  background: #7065f0;
   color: white;
   border: none;
   border-radius: 5px;
@@ -76,7 +82,7 @@ input:focus {
 }
 
 .submit-btn:hover {
-  background: #2980b9;
+  background: #574fb7;
 }
 
 .register-link {
@@ -86,7 +92,7 @@ input:focus {
 }
 
 .register-link a {
-  color: #3498db;
+  color: #7065f0;
   text-decoration: none;
 }
 
@@ -120,8 +126,13 @@ option {
 }
 
 .radio-group div:hover label {
-  color: #3498dbae;
-  text-shadow: 0 0 9px #0e4569c4, 0 0 2px #3498db82;
+  color: #7065f0ae;
+  text-shadow: 0 0 9px #7065f0c4, 0 0 2px #7065f082;
+}
+
+.radio-group input[type="radio"]:checked + label {
+  text-shadow: none;
+  color: #7065f0;
 }
 
 /* Styling for the radio buttons */
@@ -130,7 +141,7 @@ option {
   display: none;
 }
 .radio-group input[type="radio"]:checked + label {
-  color: #3498db;
+  color: #7065f0;
 }
 
 .selected-radio-line {
@@ -138,7 +149,7 @@ option {
   height: 2px;
   position: relative;
   top: -18px;
-  background-color: #3498db;
+  background-color: #7065f0;
   transition: all 0.5s ease;
 }
 .agent-selected {
@@ -164,16 +175,13 @@ option {
 }
 
 .forgot-password {
-  text-align: left;
-  margin-bottom: 1rem;
-}
-
-.forgot-password a {
-  color: #3498db;
+  display: inline-block;
+  color: #7065f0;
   text-decoration: none;
   font-size: 0.9rem;
+  margin: 1rem 0;
 }
 
-.forgot-password a:hover {
+.forgot-password:hover {
   text-decoration: underline;
 }
