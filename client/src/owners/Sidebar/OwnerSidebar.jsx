@@ -10,6 +10,10 @@ import {
 import { NavLink } from "react-router-dom";
 
 const OwnerSidebar = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+  };
   return (
     <div className="owner-sidebar">
       <h2 className="owner-title">Owner Dashboard</h2>
@@ -51,9 +55,9 @@ const OwnerSidebar = () => {
           </NavLink>
         </li>
       </ul>
-      <div className="owner-logout">
+      <div className="owner-logout" onClick={handleLogout}>
         <NavLink
-          to="/logout"
+          to="/"
           className={({ isActive }) => (isActive ? "owner-active-link" : "")}
         >
           <FaSignOutAlt className="owner-sidebar-icon" />
