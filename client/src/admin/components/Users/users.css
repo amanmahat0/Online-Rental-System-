@@ -139,16 +139,17 @@
 
 /* Apply background to entire row instead of individual cells */
 .admin-user-table tbody tr {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   transition: all 0.2s ease;
 }
 
 /* Add hover effect for better UX */
 .admin-user-table tbody tr:hover {
   background: rgba(255, 255, 255, 0.1);
-
+}
 .users-table tbody tr {
-  /* background: rgba(255, 255, 255, 0.08); */
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   position: relative;
   overflow: hidden;
@@ -214,7 +215,7 @@
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
   padding-right: 20px; /* Add a bit more padding for visual balance */
-
+}
 /* Actions styling */
 .actions {
   display: flex;
@@ -264,8 +265,6 @@
 }
 
 .admin-user-action-btn {
-
-.action-btn {
 
   background: transparent;
   border: none;
@@ -361,7 +360,6 @@ form {
 
 .admin-user-form-group label {
 
-.edit-modal form .form-group label {
 
   display: block;
   margin-bottom: 5px;
@@ -373,8 +371,6 @@ form {
 .admin-user-form-group input,
 .admin-user-form-group select {
 
-.edit-modal form .form-group input,
-.edit-modal form .form-group select {
 
   width: 100%;
   padding: 10px 12px;
@@ -388,9 +384,6 @@ form {
 
 .admin-user-form-group input:focus,
 .admin-user-form-group select:focus {
-
-.edit-modal form .form-group input:focus,
-.edit-modal form .form-group select:focus {
 
   outline: none;
   border-color: rgba(255, 255, 255, 0.5);
