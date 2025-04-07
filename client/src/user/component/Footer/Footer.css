@@ -33,6 +33,7 @@
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
   color: #333;
+  list-style-type: none;
 }
 
 .footer-section ul li:hover {
@@ -51,6 +52,7 @@
   /* margin-left: 11rem; */
   /* justify-content: center; */
   /* align-items: center; */
+  cursor: pointer;
 }
 .footer-rentIt{
   margin-top: 6px;

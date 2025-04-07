@@ -118,17 +118,17 @@
 /* Table styling */
 .admin-user-table {
   width: 100%;
-  border-collapse: separate; /* Keep this to allow for border-radius */
-  border-spacing: 0 8px; /* This creates space between rows but not columns */
+  border-collapse: separate;
+  border-spacing: 0 10px;
 }
 
 .admin-user-table th {
   text-align: left;
-  padding: 10px 15px;
+  padding: 10px 20px;
   color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 
 /* Modified to remove the background from individual cells */
 .admin-user-table td {
@@ -146,9 +146,62 @@
 /* Add hover effect for better UX */
 .admin-user-table tbody tr:hover {
   background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+.users-table tbody tr {
+  /* background: rgba(255, 255, 255, 0.08); */
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
 }
+
+.users-table td {
+  padding: 15px 20px;
+  position: relative;
+  background: none;
+}
+
+/* Apply the background to a pseudo-element of the row */
+.users-table tbody tr::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/* Ensure content stays above the background */
+.users-table td {
+  position: relative;
+  z-index: 2;
+}
+
+/* First and last cell styling */
+.users-table tr td:first-child {
+  padding-left: 25px;
+}
+
+.users-table tr td:last-child {
+  padding-right: 25px;
+}
+
+/* Hover effect */
+.users-table tbody tr:hover::before {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.users-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
 
 /* Ensure first and last cells have proper border radius */
 .admin-user-table tbody tr td:first-child {
@@ -161,6 +214,20 @@
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
   padding-right: 20px; /* Add a bit more padding for visual balance */
+
+/* Actions styling */
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+/* User info styling */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
 }
 
 /* Icons styling */
@@ -172,6 +239,7 @@
   margin-right: 6px;
   vertical-align: middle;
 }
+
 
 /* Restore user-info class for proper icon alignment */
 .admin-user-info {
@@ -188,6 +256,7 @@
 }
 
 /* Actions (edit, delete) */
+
 .admin-user-actions {
   display: flex;
   gap: 15px;
@@ -195,6 +264,9 @@
 }
 
 .admin-user-action-btn {
+
+.action-btn {
+
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.7);
@@ -288,14 +360,22 @@ form {
 }
 
 .admin-user-form-group label {
+
+.edit-modal form .form-group label {
+
   display: block;
   margin-bottom: 5px;
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.9rem;
 }
 
+
 .admin-user-form-group input,
 .admin-user-form-group select {
+
+.edit-modal form .form-group input,
+.edit-modal form .form-group select {
+
   width: 100%;
   padding: 10px 12px;
   background: rgba(255, 255, 255, 0.1);
@@ -308,6 +388,10 @@ form {
 
 .admin-user-form-group input:focus,
 .admin-user-form-group select:focus {
+
+.edit-modal form .form-group input:focus,
+.edit-modal form .form-group select:focus {
+
   outline: none;
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.15);

@@ -1,9 +1,13 @@
 import React from "react";
 // import { Link } from "react-router-dom";
 import "./LandingPage.css";
+import FeatureListing from "./FeatureListing/FeatureListing";
+import Rooms from "./Rooms/Rooms";
+import OfficeSpaces from "./OfficeSpaces/OfficeSpaces";
 
 const LandingPage = () => {
   return (
+    <>
     <div className="landing-container">
       <main className="landing-main">
         <h3>Rent Your Properties</h3>
@@ -25,14 +29,28 @@ const LandingPage = () => {
           <label className="label">Rent</label>
         </div>
 
-        <div className="search-bar">
+        <div className="home-search-bar">
           <div className="search-input-container">
             <input type="text" placeholder="Search" className="search-input" />
             <button className="search-btn">Browse Properties</button>
           </div>
         </div>
       </main>
+      
     </div>
+    <div>
+    <FeatureListing />
+
+    </div>
+    <div>
+      <Rooms />
+
+    </div>
+    <div>
+      <OfficeSpaces />
+    </div>
+    </>
+    
   );
 };
 
