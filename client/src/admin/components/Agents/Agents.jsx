@@ -231,7 +231,7 @@ const Agents = () => {
             </div>
 
             <form onSubmit={handleSubmitEdit}>
-              <div className="form-group">
+              <div className="admin-agent-form-group">
                 <label htmlFor="name">Name</label>
                 <input
                   type="text"
@@ -243,7 +243,7 @@ const Agents = () => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="admin-agent-form-group">
                 <label htmlFor="email">Email</label>
                 <input
                   type="email"
@@ -255,7 +255,7 @@ const Agents = () => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="admin-agent-form-group">
                 <label htmlFor="contact">Contact</label>
                 <input
                   type="text"

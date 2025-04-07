@@ -8,6 +8,7 @@ import {
   FaTrash,
   FaPhone,
   FaTimes,
+  FaCheckCircle,
 } from "react-icons/fa";
 import { UserDataContext } from "../../adminContext/AdminContext";
 import "./users.css";
@@ -18,29 +19,58 @@ const Users = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [contactError, setContactError] = useState("");
 
   // Handle opening the edit modal with user data
   const handleEditUser = (user) => {
     setEditingUser({ ...user });
-    console.log(editingUser);
+    setContactError("");
     setIsEditing(true);
   };
 
   // Handle input changes in edit form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditingUser((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    
+    // Validate contact field
+    if (name === "contact") {
+      // Only allow digits
+      const digitsOnly = value.replace(/\D/g, "");
+      
+      // Validate that contact starts with 98 and is exactly 10 digits
+      if (digitsOnly !== "" && (!digitsOnly.startsWith("98") || digitsOnly.length > 10)) {
+        setContactError("Contact must be 10 digits and start with 98");
+      } else {
+        setContactError("");
+      }
+      
+      // Update with digits only
+      setEditingUser((prev) => ({
+        ...prev,
+        [name]: digitsOnly,
+      }));
+    } else {
+      setEditingUser((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   // Handle form submission for editing a user
   const handleSubmitEdit = async (e) => {
     e.preventDefault();
+    
+    // Validate contact before submission
+    if (!editingUser.contact || editingUser.contact.length !== 10 || !editingUser.contact.startsWith("98")) {
+      setContactError("Contact must be exactly 10 digits and start with 98");
+      return;
+    }
+    
     setIsLoading(true);
     setErrorMessage("");
-    console.log(editingUser._id);
+    setSuccessMessage("");
 
     try {
       // Make API call to update user
@@ -69,9 +99,15 @@ const Users = () => {
         ),
       });
 
-      // Close the edit modal
-      setIsEditing(false);
-      setEditingUser(null);
+      // Show success message
+      setSuccessMessage(`User ${editingUser.name} successfully updated!`);
+      
+      // Close the edit modal after a short delay
+      setTimeout(() => {
+        setIsEditing(false);
+        setEditingUser(null);
+      }, 1500);
+      
     } catch (error) {
       console.error("Error updating user:", error);
       setErrorMessage(error.message || "Failed to update user");
@@ -88,6 +124,7 @@ const Users = () => {
 
     setIsLoading(true);
     setErrorMessage("");
+    setSuccessMessage("");
 
     try {
       // Make API call to delete user
@@ -104,6 +141,15 @@ const Users = () => {
         ...userData,
         data: userData.data.filter((user) => user._id !== userId),
       });
+      
+      // Show success message
+      setSuccessMessage("User successfully deleted!");
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+      
     } catch (error) {
       console.error("Error deleting user:", error);
       setErrorMessage(error.message || "Failed to delete user");
@@ -131,8 +177,7 @@ const Users = () => {
       setUserData(data);
     } catch (error) {
       console.log("Error fetching user data : ", error);
-    } finally {
-      // setUserLoading(false);
+      setErrorMessage("Failed to fetch user data");
     }
   };
 
@@ -143,10 +188,27 @@ const Users = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Clear messages after some time
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+    
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage, successMessage]);
+
   return (
-    <div className="users-container">
+    <div className="admin-user-container">
       <motion.h1
-        className="users-title"
+        className="admin-user-title"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -155,21 +217,31 @@ const Users = () => {
       </motion.h1>
 
       {errorMessage && (
-        <div className="error-message">
+        <div className="admin-user-error-message">
           {errorMessage}
           <button onClick={() => setErrorMessage("")}>
             <FaTimes />
           </button>
         </div>
       )}
+      
+      {successMessage && (
+        <div className="admin-user-success-message">
+          <FaCheckCircle className="admin-user-success-icon" />
+          {successMessage}
+          <button onClick={() => setSuccessMessage("")}>
+            <FaTimes />
+          </button>
+        </div>
+      )}
 
-      <div className="users-table-container">
-        {isLoading && <div className="loading-overlay">Processing...</div>}
+      <div className="admin-user-table-container">
+        {isLoading && <div className="admin-user-loading-overlay">Processing...</div>}
 
         {users.length === 0 ? (
           <p>No users found</p>
         ) : (
-          <table className="users-table">
+          <table className="admin-user-table">
             <thead>
               <tr>
                 <th>User</th>
@@ -187,25 +259,25 @@ const Users = () => {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <td className="user-info">
-                    <FaUser className="user-icon" />
+                  <td className="admin-user-info">
+                    <FaUser className="admin-user-icon" />
                     <span>{user.name}</span>
                   </td>
                   <td>
-                    <FaEnvelope className="email-icon" />
+                    <FaEnvelope className="admin-user-email-icon" />
                     {user.email}
                   </td>
                   <td>
-                    <FaCalendar className="date-icon" />
+                    <FaCalendar className="admin-user-date-icon" />
                     {new Date(user.createdAt).toLocaleDateString()}
                   </td>
                   <td>
-                    <FaPhone className="phone-icon" />
+                    <FaPhone className="admin-user-phone-icon" />
                     {user.contact}
                   </td>
-                  <td className="actions">
+                  <td className="admin-user-actions">
                     <button
-                      className="action-btn edit"
+                      className="admin-user-action-btn admin-user-edit"
                       onClick={() => handleEditUser(user)}
                       aria-label="Edit user"
                       disabled={isLoading}
@@ -213,7 +285,7 @@ const Users = () => {
                       <FaEdit />
                     </button>
                     <button
-                      className="action-btn delete"
+                      className="admin-user-action-btn admin-user-delete"
                       onClick={() => handleDeleteUser(user._id)}
                       aria-label="Delete user"
                       disabled={isLoading}
@@ -230,17 +302,17 @@ const Users = () => {
 
       {/* Edit User Modal */}
       {isEditing && editingUser && (
-        <div className="modal-overlay">
+        <div className="admin-user-modal-overlay">
           <motion.div
-            className="edit-modal"
+            className="admin-user-edit-modal"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="modal-header">
+            <div className="admin-user-modal-header">
               <h2>Edit User</h2>
               <button
-                className="close-modal"
+                className="admin-user-close-modal"
                 onClick={() => setIsEditing(false)}
               >
                 <FaTimes />
@@ -248,7 +320,7 @@ const Users = () => {
             </div>
 
             <form onSubmit={handleSubmitEdit}>
-              <div className="form-group">
+              <div className="admin-user-form-group">
                 <label htmlFor="name">Name</label>
                 <input
                   type="text"
@@ -260,7 +332,7 @@ const Users = () => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="admin-user-form-group">
                 <label htmlFor="email">Email</label>
                 <input
                   type="email"
@@ -272,8 +344,8 @@ const Users = () => {
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="contact">Contact</label>
+              <div className="admin-user-form-group">
+                <label htmlFor="contact">Contact (must be 10 digits starting with 98)</label>
                 <input
                   type="text"
                   id="contact"
@@ -281,22 +353,36 @@ const Users = () => {
                   value={editingUser.contact || ""}
                   onChange={handleInputChange}
                   required
+                  maxLength={10}
+                  placeholder="e.g., 9812345678"
+                  className={contactError ? "admin-user-input-error" : ""}
                 />
+                {contactError && <div className="admin-user-input-error-message">{contactError}</div>}
               </div>
 
-              <div className="modal-actions">
+              <div className="admin-user-modal-actions">
                 <button
                   type="button"
-                  className="cancel-btn"
+                  className="admin-user-cancel-btn"
                   onClick={() => setIsEditing(false)}
                   disabled={isLoading}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="save-btn" disabled={isLoading}>
+                <button 
+                  type="submit" 
+                  className="admin-user-save-btn" 
+                  disabled={isLoading || contactError}
+                >
                   {isLoading ? "Saving..." : "Save Changes"}
                 </button>
               </div>
+              
+              {successMessage && (
+                <div className="admin-user-modal-success-message">
+                  <FaCheckCircle className="admin-user-success-icon" /> {successMessage}
+                </div>
+              )}
             </form>
           </motion.div>
         </div>
