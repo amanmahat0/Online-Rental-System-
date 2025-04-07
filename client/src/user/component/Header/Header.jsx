@@ -25,7 +25,7 @@ const Header = () => {
               About us
             </Link>
             <Link to="/topListings" className="nav">
-              Top Listings
+              Properties
             </Link>
           </nav>
         </div>

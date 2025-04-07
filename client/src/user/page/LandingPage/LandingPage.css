@@ -4,7 +4,7 @@
   flex-direction: column;
   background: url("../../../../public/map.png") no-repeat;
   color: #333;
-  background-position: right;
+  background-position: top right;
   width: 100%;
   /* margin-left: 5rem; */
 }
@@ -40,7 +40,6 @@
   padding: 8rem 5rem;
   /* margin-right:32rem; */
   margin-left: 8rem;
-  margin-top: 50px;
 }
 
 .landing-main h3 {
@@ -54,7 +53,7 @@
   color: #000000;
 }
 
-.search-bar {
+.home-search-bar {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 2rem;
@@ -141,4 +140,8 @@
 }
 .label-container .label {
   color: #7065f0;
+}
+
+.landing-page-feature-listing{
+  margin-top: 1000px;
 }
