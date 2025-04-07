@@ -6,6 +6,11 @@ const propertySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["owner", "agent"],
+      default: "owner",
+    },
     title: {
       type: String,
       required: true,
@@ -13,7 +18,7 @@ const propertySchema = new mongoose.Schema(
     },
     propertyType: {
       type: String,
-      enum: ["Room", "Apartment", "Commercial"], // Dropdown options
+      enum: ["Apartment", "House", "Room", "Commercial", "Office"], // Dropdown options
       required: true,
     },
     location: {

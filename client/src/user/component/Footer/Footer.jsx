@@ -1,10 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Footer.css";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className="app-footer">
-      <div className="logo">
+      <div className="logo" onClick={() => {
+              navigate(`/`)}}>
         <div>
           <img
             src="/Frame.png"
@@ -22,24 +25,24 @@ const Footer = () => {
         <div className="footer-section">
           <h3>Rent IT</h3>
           <ul>
-            <li>Agents and Brokers</li>
-            <li>Rent home, Apartment</li>
+            <li onClick={() => {
+              navigate(`/agentAndOwner`)}}>Agents and Owner</li>
           </ul>
         </div>
         <div className="footer-section">
           <h3>Terms & Privacy</h3>
           <ul>
-            <li>Terms and Condition</li>
-            <li>Privacy Policy</li>
+            <li onClick={() => {
+              navigate(`/termsAndCondition`)}}>Terms and Condition</li>
+            <li onClick={() => {
+              navigate(`/privacyPolicy`)}}>Privacy Policy</li>
           </ul>
         </div>
         <div className="footer-section">
           <h3>About</h3>
           <ul>
-            <li>Company</li>
-            <li>How it works</li>
-            <li>Contact</li>
-            <li>Investors</li>
+            <li onClick={() => {
+              navigate(`/contact`)}}>Contact</li>
           </ul>
         </div>
       </div>

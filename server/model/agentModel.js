@@ -48,6 +48,13 @@ const AgentSchema = mongoose.Schema(
       min: 6,
       max: 255,
     },
+    properties: [
+      {
+        type: String,
+        ref: "Property",
+        default: [],
+      },
+    ],
     resetToken: {
       type: String,
       default: null,

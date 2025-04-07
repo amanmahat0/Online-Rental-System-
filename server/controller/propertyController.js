@@ -1,6 +1,8 @@
 const Property = require("../model/propertyModel");
+const Owner = require("../model/ownerModel");
 const multer = require("multer");
 const path = require("path");
+const { console } = require("inspector");
 
 // Configure Multer for memory storage
 const storage = multer.diskStorage({
@@ -21,8 +23,8 @@ const upload = multer({
 // Create a new property with multiple image uploads
 const createProperty = async (req, res) => {
   try {
-    // console.log("Request Body:", req.body);
-    // console.log("Uploaded File:", req.file);
+    console.log("Request Body:", req.body);
+    console.log("Uploaded File:", req.file);
 
     if (!req.file) {
       return res
@@ -40,6 +42,13 @@ const createProperty = async (req, res) => {
     };
 
     const property = await Property.create(propertyData);
+
+    const ownerId = req.body.owner; // Ensure this is passed from frontend
+    if (ownerId) {
+      await Owner.findByIdAndUpdate(ownerId, {
+        $push: { properties: property._id }, // Add the property ID to the owner's properties array
+      });
+    }
     return res.status(201).json({ status: true, data: property });
   } catch (error) {
     console.error("Error in Try Block:", error);
@@ -130,6 +139,13 @@ const deleteProperty = async (req, res) => {
         .status(404)
         .json({ status: false, message: "Property not found." });
     }
+
+    if (property.owner) {
+      await Owner.findByIdAndUpdate(property.owner, {
+        $pull: { properties: property._id },
+      });
+    }
+
     return res
       .status(200)
       .json({ status: true, message: "Property deleted successfully." });
@@ -141,10 +157,33 @@ const deleteProperty = async (req, res) => {
   }
 };
 
+const propertiesByOwnerId = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    console.log("Owner ID:", ownerId);
+    const properties = await Property.find({ owner: ownerId });
+    console.log("Properties by Owner ID:", properties);
+    if (!properties || properties.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "No properties found for this owner.",
+      });
+    }
+    return res.status(200).json({ status: true, data: properties });
+  } catch (error) {
+    console.error("Error fetching properties by owner ID:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Failed to fetch properties by owner Id.",
+    });
+  }
+};
+
 module.exports = {
   createProperty,
   getAllProperties,
   getPropertyById,
   updateProperty,
   deleteProperty,
+  propertiesByOwnerId,
 };

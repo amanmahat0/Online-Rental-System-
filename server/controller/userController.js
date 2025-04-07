@@ -13,7 +13,9 @@ async function handelUserSignUp(req, res) {
     req.body.password = encodedPassword;
 
     const user = await User.create(req.body);
-    return res.status(200).json({ status: true, data: user });
+    return res
+      .status(200)
+      .json({ status: true, data: { id: user._id, name: user.name } });
   } catch (error) {
     console.error("Error in handelSignUp:", error);
     return res.json({ status: false, message: error });
@@ -41,7 +43,9 @@ async function handelUserLogin(req, res) {
         .json({ status: false, message: "Invalid Credentials" });
     }
     // if user found return user data and status true
-    return res.status(200).json({ status: true, data: user });
+    return res
+      .status(200)
+      .json({ status: true, data: { id: user._id, name: user.name } });
   } catch (error) {
     console.error("Error in handelLogin:", error);
     return res.status(500).json({ status: false, message: error.message });
