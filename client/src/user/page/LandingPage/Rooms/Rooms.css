@@ -167,7 +167,7 @@
   
 .rooms-lsitings-cards-icons {
     flex-shrink: 0; /* Prevent icon from shrinking */
-    margin-top: 4px; /* Adjust alignment */
+    /* margin-top: 4px;  */
 }
 .rooms-listing-bookmark-icons{
     color: #7065f0;

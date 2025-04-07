@@ -193,7 +193,7 @@
   
   .mybooking-lsitings-cards-icons {
     flex-shrink: 0; /* Prevent icon from shrinking */
-    margin-top: 4px; /* Adjust alignment */
+    /* margin-top: 4px; */
   }
   
   
