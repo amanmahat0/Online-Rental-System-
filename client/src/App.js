@@ -19,7 +19,7 @@ const AppWithLocation = () => {
   const hideHeaderFooter =
     location.pathname === "/login" ||
     location.pathname === "/register" ||
-    location.pathname === "/forgot-password";
+    location.pathname === "/forgotpassword";
   const isAdminRoute = location.pathname.startsWith("/admin"); // Check if the current route is admin
   const isAdminLoginPage = location.pathname === "/admin"; // Check if the current route is admin login
   const isUserRoute = location.pathname.startsWith("/user");
@@ -30,7 +30,9 @@ const AppWithLocation = () => {
     <div className="App">
       {!isAdminLoginPage && <Sidebar />}{" "}
       {/* Render Sidebar only if not on Admin Login */}
-      <div className={`admin-main-content ${isAdminLoginPage ? "full-width" : ""}`}>
+      <div
+        className={`admin-main-content ${isAdminLoginPage ? "full-width" : ""}`}
+      >
         <AdminRoutes /> {/* Admin-specific routes */}
       </div>
     </div>
@@ -46,7 +48,6 @@ const AppWithLocation = () => {
   ): 
   isOwnerRoute ? (
     <div className="app-container">
-
       <main className="app-main">
         <OwnerDashboard /> {/* Owner-specific dashboard */}
       </main>

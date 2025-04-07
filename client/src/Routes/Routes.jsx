@@ -22,7 +22,6 @@ import PrivacyPolicy from "../user/component/Footer/PrivacyPolicy/PrivacyPolicy"
 import Contact from "../user/component/Footer/Contact/Contact";
 
 
-
 const AppRoutes = () => {
   const location = useLocation();
   if (location.pathname === "/admin") {
@@ -33,13 +32,14 @@ const AppRoutes = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/forgotpassword" element={<ForgotPassword />} />
       {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
-      <Route path="/TopListings" element={<TopListings />} />
+      <Route path="/toplistings" element={<TopListings />} />
+      <Route path="/aboutus" element={<AboutUs />} />
+      <Route path="/agent" element={<Agent />} />
+      <Route path="/owner" element={<OwnerSidebar />} />
       <Route path="/TopListings/:id" element={<PropertyDetails />} />
-      <Route path="/AboutUs" element={<AboutUs />} />
       {/* <Route path="/userdashboard" element={<UserDashboard />} /> */}
-      <Route path="/Agent" element={<Agent />} />
 
       <Route path="/user" element={<UserSidebar />} />
       <Route path="/user/user-profile" element={<UserProfile/>} />
@@ -49,7 +49,6 @@ const AppRoutes = () => {
 
 
       {/* <Route path="/Owner" element={<OwnerSidebar />} /> */}
-
 
     </Routes>
   );

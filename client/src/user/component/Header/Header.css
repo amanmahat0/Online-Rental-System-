@@ -38,7 +38,7 @@ div .landing-header .nav-links .nav:hover {
   transition: transform 0.3s ease;
   margin-left: 10rem;
 }
-.rentIt-text{
+.rentIt-text {
   margin-top: 6px;
 }
 
@@ -105,6 +105,11 @@ div .landing-header .nav-links .nav:hover {
 .logo-rentIt {
   height: 1px;
   width: 1px;
+}
+
+.name-profile {
+  color: #7065f0;
+  text-decoration: none;
 }
 
 .navigations{
