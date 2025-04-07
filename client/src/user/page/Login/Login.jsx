@@ -150,7 +150,7 @@ const Login = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        <NavLink to="/forgot-password" className="forgot-password">
+        <NavLink to="/forgotpassword" className="forgot-password">
           <span>Forgot Password ?</span>
         </NavLink>
 
