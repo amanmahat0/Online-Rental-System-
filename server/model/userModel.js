@@ -40,6 +40,10 @@ const UserSchema = mongoose.Schema(
       min: 6,
       max: 255,
     },
+    saveProperties: {
+      type: [String],
+      default: [],
+    },
     resetToken: {
       type: String,
       default: null,

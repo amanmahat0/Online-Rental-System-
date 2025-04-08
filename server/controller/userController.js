@@ -1,11 +1,12 @@
 const User = require("../model/userModel");
+const Property = require("../model/propertyModel");
 const {
   hashPassword,
   comparePassword,
 } = require("../EncoderDecoder/passwordEncoderDecoder");
 const { forgotPassword } = require("../auth/auth");
 
-async function handelUserSignUp(req, res) {
+async function handleUserSignUp(req, res) {
   try {
     // encode password
     const encodedPassword = await hashPassword(req.body.password);
@@ -17,12 +18,12 @@ async function handelUserSignUp(req, res) {
       .status(200)
       .json({ status: true, data: { id: user._id, name: user.name } });
   } catch (error) {
-    console.error("Error in handelSignUp:", error);
+    console.error("Error in handleSignUp:", error);
     return res.json({ status: false, message: error });
   }
 }
 
-async function handelUserLogin(req, res) {
+async function handleUserLogin(req, res) {
   try {
     // find user by email and password
     const user = await User.findOne({
@@ -47,22 +48,22 @@ async function handelUserLogin(req, res) {
       .status(200)
       .json({ status: true, data: { id: user._id, name: user.name } });
   } catch (error) {
-    console.error("Error in handelLogin:", error);
+    console.error("Error in handleLogin:", error);
     return res.status(500).json({ status: false, message: error.message });
   }
 }
 
-async function handelGetAllUsers(req, res) {
+async function handleGetAllUsers(req, res) {
   try {
     const users = await User.find({});
     return res.status(200).json({ status: true, data: users });
   } catch (error) {
-    console.error("Error in handelGetAllUsers:", error);
+    console.error("Error in handleGetAllUsers:", error);
     return res.status(500).json({ status: false, message: error.message });
   }
 }
 
-async function handelUserForgotPassword(req, res) {
+async function handleUserForgotPassword(req, res) {
   try {
     const { email } = req.body;
 
@@ -86,7 +87,7 @@ async function handelUserForgotPassword(req, res) {
     const forgotPasswordMessage = await forgotPassword(email, User);
     res.status(200).json({ message: forgotPasswordMessage });
   } catch (error) {
-    console.error("Error in handelForgotPassword:", error); // Log the error for debugging
+    console.error("Error in handleForgotPassword:", error); // Log the error for debugging
     res.status(500).json({
       status: false,
       message: "An error occurred while processing the request",
@@ -94,7 +95,7 @@ async function handelUserForgotPassword(req, res) {
   }
 }
 
-async function handelUserChangePassword(req, res) {
+async function handleUserChangePassword(req, res) {
   try {
     const { email, resetToken, newPassword } = req.body;
     console.log(email, resetToken, newPassword);
@@ -135,7 +136,7 @@ async function handelUserChangePassword(req, res) {
       data: user,
     });
   } catch (error) {
-    console.error("Error in handelChangePassword:", error); // Log the error for debugging
+    console.error("Error in handleChangePassword:", error); // Log the error for debugging
     res.status(500).json({
       status: false,
       message: "An error occurred while processing the request",
@@ -143,7 +144,7 @@ async function handelUserChangePassword(req, res) {
   }
 }
 
-const handelUserById = async (req, res) => {
+const handleUserById = async (req, res) => {
   try {
     const userId = req.params.id;
     const user = await User.findById(userId);
@@ -152,16 +153,24 @@ const handelUserById = async (req, res) => {
     }
     return res.status(200).json({ status: true, data: user });
   } catch (error) {
-    console.log("Error in handelUserId: ", error);
+    console.log("Error in handleUserId: ", error);
     return res.status(500).json({ status: false, message: error.message });
   }
 };
 
-const handelUpdateUserById = async (req, res) => {
+const handleUpdateUserById = async (req, res) => {
   try {
     const updateData = {
       ...req.body,
     };
+
+    // Convert "null" strings to real nulls for all fields
+    Object.keys(updateData).forEach((key) => {
+      if (updateData[key] === "null") {
+        updateData[key] = null;
+      }
+    });
+
     if (req.file) {
       const imageUrl = `/uploads/profileImage/${req.file.filename}`;
       updateData.profileImage = imageUrl; // Update the image URL in the database
@@ -176,12 +185,12 @@ const handelUpdateUserById = async (req, res) => {
     }
     return res.status(200).json({ status: true, data: updatedUser });
   } catch (error) {
-    console.log("Error in handelUpdateUserById: ", error);
+    console.log("Error in handleUpdateUserById: ", error);
     return res.status(500).json({ status: false, message: error.message });
   }
 };
 
-const handelDeleteUserById = async (req, res) => {
+const handleDeleteUserById = async (req, res) => {
   try {
     const userId = req.params.id;
 
@@ -200,20 +209,55 @@ const handelDeleteUserById = async (req, res) => {
       data: deletedUser,
     });
   } catch (error) {
-    console.error("Error in handelDeleteUserById:", error); // Log the error for debugging
+    console.error("Error in handleDeleteUserById:", error); // Log the error for debugging
     return res.status(500).json({
       status: false,
       message: "An error occurred while processing the request",
     });
   }
 };
+
+const handleSaveProperties = async (req, res) => {
+  try {
+    const { userId, propertyId } = req.body;
+    console.log("User ID:", userId);
+    console.log("Property ID:", propertyId);
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        $addToSet: { saveProperties: propertyId },
+      },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found.",
+      });
+    }
+    return res.status(200).json({
+      status: true,
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error saving properties:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Failed to save properties.",
+    });
+  }
+};
+
 module.exports = {
-  handelUserSignUp,
-  handelUserLogin,
-  handelGetAllUsers,
-  handelUserForgotPassword,
-  handelUserChangePassword,
-  handelUpdateUserById,
-  handelUserById,
-  handelDeleteUserById,
+  handleUserSignUp,
+  handleUserLogin,
+  handleGetAllUsers,
+  handleUserForgotPassword,
+  handleUserChangePassword,
+  handleUpdateUserById,
+  handleUserById,
+  handleDeleteUserById,
+  handleSaveProperties,
 };

@@ -179,6 +179,47 @@ const propertiesByOwnerId = async (req, res) => {
   }
 };
 
+const handleGetAllSavedProperties = async (req, res) => {
+  const propertiesId = req.body.propertiesId;
+  try {
+    const savedProperties = await Property.find({
+      _id: { $in: propertiesId },
+    });
+    if (!savedProperties || savedProperties.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "No saved properties found.",
+      });
+    }
+    return res.status(200).json({ status: true, data: savedProperties });
+  } catch (error) {
+    console.error("Error fetching saved properties:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Failed to fetch saved properties.",
+    });
+  }
+};
+
+const getPropertyByType = async (req, res) => {
+  try {
+    const property = await Property.find({
+      propertyType: req.params.propertyType,
+    });
+    if (!property) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Property not found." });
+    }
+    return res.status(200).json({ status: true, data: property });
+  } catch (error) {
+    console.error("Error fetching property:", error);
+    return res
+      .status(500)
+      .json({ status: false, message: "Failed to fetch property." });
+  }
+};
+
 module.exports = {
   createProperty,
   getAllProperties,
@@ -186,4 +227,6 @@ module.exports = {
   updateProperty,
   deleteProperty,
   propertiesByOwnerId,
+  handleGetAllSavedProperties,
+  getPropertyByType,
 };

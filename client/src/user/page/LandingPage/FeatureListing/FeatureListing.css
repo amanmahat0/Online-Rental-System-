@@ -1,197 +1,185 @@
 /* Container and header */
 .feature-listings-container {
-    padding: 20px;
-    max-width: 1130px;
-    margin: 0 auto;
-    text-align: center;
-    font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 1130px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
 }
 
 .feature-header-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 /* Dropdown menu */
 .feature-listing-dropdown {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
 }
 
 /* Grid container for the listings */
 .feature-listings-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
 }
 
 /*Responsive design for smaller screens*/
 @media (max-width: 768px) {
-    .feature-listings-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .feature-listings-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 480px) {
-    .feature-listings-grid {
-        grid-template-columns: 1fr;
-    }
+  .feature-listings-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Individual card styling */
 .feature-listing-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
 }
 
 /* Hover effect */
 .feature-listing-card:hover {
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Image inside the card */
 .feature-listing-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    padding: 15px;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  padding: 15px;
 }
 
 /* Details section */
 .feature-listing-details {
-    padding: 15px;
+  padding: 15px;
 }
-.feature-listing-details-card{
-    text-align: left;
-    padding: 5px;
+.feature-listing-details-card {
+  text-align: left;
+  padding: 5px;
 }
-.feature-lsiting-details-card-title{
-    text-align: left;
-    width: 200%;
+.feature-lsiting-details-card-title {
+  text-align: left;
+  width: 200%;
 }
 
-.feature-lsitings-cards-icons{
-    color: #7065f0;
-
+.feature-lsitings-cards-icons {
+  color: #7065f0;
 }
-.feature-listing-property-details-description-info{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    
+.feature-listing-property-details-description-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 .feature-listing-details h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #34495e;
-    font-weight: 600;
-    /* text-align: center; */
-    padding: 5px;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #34495e;
+  font-weight: 600;
+  /* text-align: center; */
+  padding: 5px;
 }
 
 .feature-listing-details p {
-    color: #7f8c8d;
-    margin: 5px 0;
-    padding: 2px;
-
+  color: #7f8c8d;
+  margin: 5px 0;
+  padding: 2px;
 }
 
-
 .feature-list-page-button {
-    background-color: white;
-    color: #7065f0;
-    border: #7065f0 1px solid;
-    padding: 8px 12px;
-    margin: 0 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+  background-color: white;
+  color: #7065f0;
+  border: #7065f0 1px solid;
+  padding: 8px 12px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .feature-list-page-button:hover {
-    background-color: #939393;
-    color: white;
+  background-color: #939393;
+  color: white;
 }
 
 .feature-list-page-button.active {
-    background-color: #7065f0;
-    font-weight: bold;
-    color: white;
+  background-color: #7065f0;
+  font-weight: bold;
+  color: white;
 }
 
 /* Ensure the card takes full height */
 .feature-listing-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%; /* Ensures consistent height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Ensures consistent height */
 }
 
 /* Details section should take available space */
 .feature-listing-details {
-    flex-grow: 1; /* Pushes the button down */
-    padding: 15px;
-    text-align: center;
+  flex-grow: 1; /* Pushes the button down */
+  padding: 15px;
+  text-align: center;
 }
 
 .feature-listing-button-section {
-    /* display: flex; */
-    /* justify-content:flex-end; */
-    /* padding: 10px; */
-    /* margin-top: auto; */
-    /* height: 50px; */
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    
-
-    
+  /* display: flex; */
+  /* justify-content:flex-end; */
+  /* padding: 10px; */
+  /* margin-top: auto; */
+  /* height: 50px; */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
-
 
 .feature-listing-save-button {
-    background-color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); */
-    height: 23px;
-    width: 20px;
-    margin-left: 150px;
-    margin-top: 5px;
-
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); */
+  height: 23px;
+  width: 20px;
+  margin-left: 150px;
+  margin-top: 5px;
 }
-.feature-lisitng-property-description{
-    font-size: 12px;
-    text-align: left;
+.feature-lisitng-property-description {
+  font-size: 12px;
+  text-align: left;
 }
-
-
 
 .feature-listing-details-card {
-    display: flex;
-    align-items: start;
-    gap: 8px; /* Adjust spacing between icon and text */
-  }
-  
-  .feature-lsitings-cards-icons {
-    flex-shrink: 0; /* Prevent icon from shrinking */
-    /* margin-top: 4px; */
-  }
-  .feature-listing-bookmark-icons{
-    color: #7065f0;
-    width: 25px;
-    height: 25px;
-  }
-  .feature-listing-bookmark-icons:hover{
-    color: #5249ba;
-  }
-  
+  display: flex;
+  align-items: start;
+  gap: 8px; /* Adjust spacing between icon and text */
+}
+
+.feature-lsitings-cards-icons {
+  flex-shrink: 0; /* Prevent icon from shrinking */
+  /* margin-top: 4px; */
+}
+.feature-listing-bookmark-icons {
+  color: #7065f0;
+  width: 25px;
+  height: 25px;
+}
+.feature-listing-bookmark-icons:hover {
+  color: #5249ba;
+}
