@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import './OfficeSpaces.css';
 
 const listing = [
@@ -119,12 +119,37 @@ const listing = [
 
 const OfficeSpaces = () => {
   const navigate = useNavigate();
-    const listings = [...listing];
-    const listingsPerPage = 6;
-    
-    // Only show the first 6 listings
-    const currentListings = listings.slice(0, listingsPerPage);
+  const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
+  const [hoveredItems, setHoveredItems] = useState(new Set());
+  const listings = [...listing];
+  const listingsPerPage = 6;
+  
+  // Only show the first 6 listings
+  const currentListings = listings.slice(0, listingsPerPage);
 
+  const handleBookmarkClick = (id) => {
+    setBookmarkedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const handleBookmarkHover = (id, isHovering) => {
+    setHoveredItems(prev => {
+      const newSet = new Set(prev);
+      if (isHovering) {
+        newSet.add(id);
+      } else {
+        newSet.delete(id);
+      }
+      return newSet;
+    });
+  };
   return (
     <div className="office-spaces-listings-container">
       <div className="office-spaces-header-section">
@@ -145,7 +170,19 @@ const OfficeSpaces = () => {
                 
                 <div className='office-spaces-listing-button-section'>
                 <h2 className='office-spaces-lsiting-details-card-title'>{listing.title}</h2>
-                <button className='office-spaces-listing-save-button'><FaBookmark className='office-spaces-listing-bookmark-icons' /></button>
+                <button className='office-spaces-listing-save-button' onClick={(e) => {
+                  e.stopPropagation();
+                  handleBookmarkClick(listing.id);
+                }}
+                onMouseEnter={() => handleBookmarkHover(listing.id, true)}
+                onMouseLeave={() => handleBookmarkHover(listing.id, false)}
+                >
+                  {bookmarkedItems.has(listing.id) || hoveredItems.has(listing.id) ? (
+                    <FaBookmark className='office-spaces-listing-bookmark-icons' />
+                  ) : (
+                    <FaRegBookmark className='office-spaces-listing-bookmark-icons' />
+                  )}
+                </button>
               </div>
                 <p className='office-spaces-listing-details-card'><FaHome width={20} height={20} className='office-spaces-lsitings-cards-icons'/>{listing.propertyType}</p>
                 <p className='office-spaces-listing-details-card'><FaMapMarkerAlt width={20} height={20} className='office-spaces-lsitings-cards-icons'/>{listing.location}</p>

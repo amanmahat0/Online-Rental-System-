@@ -19,13 +19,13 @@ const Header = () => {
         <div className="navigations">
           <nav className="nav-links">
             <Link to="/" className="nav">
-              Home
+            <strong className="header-nav">Home</strong>
             </Link>
             <Link to="/aboutUs" className="nav">
-              About us
+              <strong className="header-nav">About us</strong>
             </Link>
             <Link to="/topListings" className="nav">
-              Properties
+              <strong className="header-nav">Properties</strong>
             </Link>
           </nav>
         </div>

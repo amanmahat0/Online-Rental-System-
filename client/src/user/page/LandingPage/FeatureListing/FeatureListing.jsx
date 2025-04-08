@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import './FeatureListing.css';
 
 const listing = [
@@ -124,9 +124,35 @@ const FeatureListing = () => {
   const navigate = useNavigate();
   const listings = [...listing];
   const listingsPerPage = 6;
+  const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
+  const [hoveredItems, setHoveredItems] = useState(new Set());
   
   // Only show the first 6 listings
   const currentListings = listings.slice(0, listingsPerPage);
+
+  const handleBookmarkClick = (id) => {
+    setBookmarkedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const handleBookmarkHover = (id, isHovering) => {
+    setHoveredItems(prev => {
+      const newSet = new Set(prev);
+      if (isHovering) {
+        newSet.add(id);
+      } else {
+        newSet.delete(id);
+      }
+      return newSet;
+    });
+  };
 
   return (
     <div className="feature-listings-container">
@@ -147,8 +173,20 @@ const FeatureListing = () => {
                     
                     <div className='feature-listing-button-section'>
                     <h2 className='feature-lsiting-details-card-title'>{listing.title}</h2>
-                    <button className='feature-listing-save-button'>
-                      <FaBookmark className='feature-listing-bookmark-icons' />
+                    <button 
+                      className='feature-listing-save-button'
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBookmarkClick(listing.id);
+                      }}
+                      onMouseEnter={() => handleBookmarkHover(listing.id, true)}
+                      onMouseLeave={() => handleBookmarkHover(listing.id, false)}
+                    >
+                      {bookmarkedItems.has(listing.id) || hoveredItems.has(listing.id) ? (
+                        <FaBookmark className='feature-listing-bookmark-icons' />
+                      ) : (
+                        <FaRegBookmark className='feature-listing-bookmark-icons' />
+                      )}
                     </button>
                   </div>
                     <p className='feature-listing-details-card'><FaHome width={20} height={20} className='feature-lsitings-cards-icons'/>{listing.propertyType}</p>

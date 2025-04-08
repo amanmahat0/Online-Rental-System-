@@ -1,73 +1,127 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { FaBookmark, FaRegBookmark, FaArrowLeft, FaMapMarkerAlt } from 'react-icons/fa';
 import './PropertyDetails.css';
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isBookmarked, setIsBookmarked] = useState(false);
   
   // Destructure the data passed via navigation
-  const { title, price, location: propertyLocation, imageUrl, description, propertyType, status, contact,} = location.state || {};
+  const { title, price, location: propertyLocation, imageUrl, description, propertyType, status, contact } = location.state || {};
+
+  useEffect(() => {
+    // Simulate loading state
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const toggleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="property-details-container loading">
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
+
+  if (!location.state) {
+    return (
+      <div className="property-details-container error">
+        <h2>Property Not Found</h2>
+        <p>We couldn't find the property details you're looking for.</p>
+        <button className="back-button" onClick={() => navigate(-1)}>
+          <FaArrowLeft /> Back to Listings
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="property-details-container">
-      <div className='property-details-buttons-section'>
-      <div className='property-details-back-btn'>
-      <button className="back-button" onClick={() => navigate(-1)}>
-            &larr; Back
+      <div className="property-details-header">
+        <button 
+          className="back-button" 
+          onClick={() => navigate(-1)}
+          aria-label="Go back to previous page"
+        >
+          <FaArrowLeft /> Back
         </button>
-      </div>
         
-        <div className='property-book-save-button'>
-        <button className='property-detail-book-btn'>Book</button>
-        <button className='property-detail-save-btn'><img src='/bookmark.png' height={30} width={25}/></button>
+        <div className="property-actions">
+          <button 
+            className="property-detail-book-btn"
+            aria-label="Book this property"
+          >
+            Book Now
+          </button>
+          <button 
+            className="property-detail-save-btn"
+            onClick={toggleBookmark}
+            aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
+          >
+            {isBookmarked ? <FaBookmark className='property-details-bookmark-btn'/> : <FaRegBookmark className='property-details-bookmark-btn'/>}
+          </button>
         </div>
       </div>
       
-        
-      
-      
-      {/* Display the details of the property */}
-      <div className='property-details-card-grids'>
-      <div className='property-details-image-container'>
-      {imageUrl && <img src={imageUrl} alt={title} className="details-property-image"/>}
-      </div>
-      <div className='property-details-1'>
-        <div className='property-detail-agent-info'>
-        <strong>Contact Info</strong>
+      <div className="property-details-content">
+        <div className="property-details-main">
+          <div className="property-details-image-container">
+            {imageUrl ? (
+              <img 
+                src={imageUrl} 
+                alt={title || 'Property image'} 
+                className="details-property-image"
+                loading="lazy"
+              />
+            ) : (
+              <div className="property-image-placeholder">
+                No image available
+              </div>
+            )}
+          </div>
+
+          <div className="property-details-info">
+            <div className="property-details-section">
+              <h2 className="property-title">{title}</h2>
+              <div className="property-meta">
+                <span className="property-details-price">${price}</span>
+                <span className="property-details-type">{propertyType}</span>
+                <span className="property-status">{status}</span>
+              </div>
+              <p className="property-location">
+                <FaMapMarkerAlt className="location-icon" /> {propertyLocation}
+              </p>
+            </div>
+
+            <div className="property-contact-section">
+              <h3>Contact Information</h3>
+              <div className="contact-details">
+                {contact && <p><strong>Phone:</strong> {contact}</p>}
+                <p><strong>Email:</strong> sample@example.com</p>
+              </div>
+            </div>
+          </div>
         </div>
-      
-      {contact && <p><strong>Contact:</strong>{contact}</p>}
-      
-      <p><strong>Email:</strong>sample@example.com</p>
-      {/* {ownerName && <p><strong>Owner:</strong>{ownerName}</p>}
-      {agentName && <p><strong>Agent:</strong>{agentName}</p>} */}
-      </div>
-      
-      <div className='property-details-2'>
-      
-      <div>
-      <h3>Property Details</h3>
-      {title && <p>{title}</p>}
-      {status && <p><strong>Status:</strong>{status}</p>}
-      
-      
-      
 
+        <div className="property-description-section">
+          <h3>Description</h3>
+          <p className="property-description">
+            {description || 'No description available for this property.'}
+          </p>
+        </div>
       </div>
-      <div>
-      {price && <p className='property-details-price'><strong>Price:</strong> {price}</p>}
-      {propertyLocation && <p><strong>Location:</strong> {propertyLocation}</p>}
-      {propertyType && <p><strong>Property Type:</strong>{propertyType}</p>}
-      </div>
-        
-      </div>
-      
-      </div>
-      <div className='properties-details-description'>{description && <p><strong>Description:</strong> {description}</p>}</div>
-
-      
     </div>
   );
 };

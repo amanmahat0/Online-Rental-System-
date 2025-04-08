@@ -1,28 +1,157 @@
 div .landing-header {
-  /* display: flex;
-  justify-content: space-between;
-  
-   */
   background: #ffffff;
   color: #000000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
   align-items: center;
-  padding: 1.5rem 3rem;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  height: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
+
 div .landing-header .logo .rentIt {
   display: flex;
-  color: #000;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: transform 0.3s ease;
 }
-div .landing-header .nav-links .nav {
-  color: #000;
+
+div .landing-header .logo .rentIt:hover {
+  transform: scale(1.05);
 }
-div .landing-header .nav-links .nav:hover {
+
+.rentIt-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: black;
+  margin: 0;
+  margin-top: 7px;
+  text-transform: none;
+}
+.rentIt-text:hover{
   color: #7065f0;
-  /* background: #000; */
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.nav-links .nav {
+  position: relative;
+}
+
+.nav-links .nav::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #7065f0;
+  transition: width 0.3s ease;
+}
+
+.nav-links .nav:hover::after {
+  width: 100%;
+}
+
+.nav-links .login {
+  background: transparent;
+  color: #7065f0;
+  border: 2px solid #7065f0;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-links .login:hover {
+  background: #7065f0;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.nav-links .signUp {
+  background: #7065f0;
+  color: #ffffff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(112, 101, 240, 0.3);
+  margin-right: 120px;
+}
+
+.nav-links .signUp:hover {
+  background: #5a4fd0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(112, 101, 240, 0.4);
+}
+
+.name-profile {
+  color: #7065f0;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.name-profile:hover {
+  background: rgba(112, 101, 240, 0.1);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  div .landing-header {
+    padding: 1rem;
+  }
+  
+  .nav-links {
+    gap: 1rem;
+  }
+  
+  .nav-links a {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .rentIt-text {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  div .landing-header {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .nav-links a {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .nav {
@@ -36,10 +165,8 @@ div .landing-header .nav-links .nav:hover {
   text-decoration: none;
   letter-spacing: 1px;
   transition: transform 0.3s ease;
-  margin-left: 10rem;
-}
-.rentIt-text {
-  margin-top: 6px;
+  margin-left: 7rem;
+  margin-top: 10px;
 }
 
 .logo a:hover {
@@ -50,46 +177,6 @@ div .landing-header .nav-links .nav:hover {
   display: flex;
   gap: 2rem; /* Space between nav links */
   
-}
-
-.nav-links a {
-  color: #000000; /* Black text for links */
-  text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
-  transition: all 0.3s ease;
-}
-
-.nav-links .login {
-  background: #ffffff; /* White background for login */
-  color: #7065f0; /* Black text */
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-  border: 1px solid #7065f0; /* Black border */
-  margin-left: 7rem;
-}
-.nav-links .login:hover {
-  background: #7065f0;
-  color: #ffffff; /* White text */
-  border: 1px solid #7065f0; /* Black border */
-}
-
-.nav-links .signUp {
-  background: #7065f0; /* Purple background for sign-up */
-  color: #ffffff; /* White text */
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-  /* margin-right: 10rem; */
-}
-
-.nav-links .signUp:hover {
-  background: #ffffff; /* Black background on hover */
-  color: #7065f0; /* White text */
-  border: 1px solid #7065f0; /* Purple border */
 }
 
 .nav-links a:hover {
@@ -107,11 +194,13 @@ div .landing-header .nav-links .nav:hover {
   width: 1px;
 }
 
-.name-profile {
-  color: #7065f0;
-  text-decoration: none;
-}
-
 .navigations{
   margin-left: 4rem;
 }
+.header-nav{
+  color: #000000;
+}
+.header-nav:hover{
+  color: #7065f0;
+}
+

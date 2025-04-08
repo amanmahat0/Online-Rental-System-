@@ -6,6 +6,7 @@ const Footer = () => {
   const navigate = useNavigate();
   return (
     <footer className="app-footer">
+      <div className="foooter-compoents-container">
       <div className="logo" onClick={() => {
               navigate(`/`)}}>
         <div>
@@ -46,6 +47,9 @@ const Footer = () => {
           </ul>
         </div>
       </div>
+
+      </div>
+    
       <p>&copy; 2025 Rent IT. All rights reserved.</p>
     </footer>
   );
