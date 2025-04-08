@@ -1,7 +1,8 @@
 /* Container and header */
 .feature-listings-container {
     padding: 20px;
-    max-width: 1130px;
+    /* max-width: 1130px; */
+    max-width: 82.8%;
     margin: 0 auto;
     text-align: center;
     font-family: Arial, sans-serif;
@@ -158,17 +159,20 @@
 
 
 .feature-listing-save-button {
-    background-color: white;
+    background-color: transparent;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); */
-    height: 23px;
-    width: 20px;
+    transition: transform 0.2s ease;
+    height: 25px;
+    width: 25px;
     margin-left: 150px;
     margin-top: 5px;
-
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 .feature-lisitng-property-description{
     font-size: 12px;
     text-align: left;
@@ -186,12 +190,14 @@
     flex-shrink: 0; /* Prevent icon from shrinking */
     /* margin-top: 4px; */
   }
-  .feature-listing-bookmark-icons{
+  .feature-listing-bookmark-icons {
     color: #7065f0;
     width: 25px;
     height: 25px;
+    transition: color 0.2s ease, transform 0.2s ease;
   }
-  .feature-listing-bookmark-icons:hover{
+  .feature-listing-bookmark-icons:hover {
     color: #5249ba;
+    transform: scale(1.1);
   }
   

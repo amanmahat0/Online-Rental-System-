@@ -8,7 +8,7 @@ const UserSidebar = () => {
     
     return (
         <div className="user-sidebar">
-            <h2 className="user-title">User Profile</h2>
+            <h2 className="user-title">Profile</h2>
             <ul className="user-menu">
                 <li className="user-menu-item">
                     <NavLink 
