@@ -85,16 +85,16 @@ const Owners = () => {
           body: JSON.stringify(editingOwner),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Failed to update owner");
       }
-  
+
       const updatedOwner = await response.json();
-      
+
       // Make sure we're getting the right data structure
       const updatedOwnerData = updatedOwner.data || updatedOwner;
-      
+
       // Update the owner in the local state
       setOwnerData({
         ...ownerData,
@@ -102,11 +102,11 @@ const Owners = () => {
           owner._id === editingOwner._id ? updatedOwnerData : owner
         ),
       });
-      
+
       setIsEditing(false);
       setEditingOwner(null);
       showMessage("Owner updated successfully", "success");
-      
+
       // Re-fetch data to ensure consistency
       fetchOwnerData();
     } catch (error) {
