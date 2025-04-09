@@ -11,7 +11,6 @@ import { AdminDataProvider } from "./admin/adminContext/AdminContext";
 import UserDashboard from "./user/page/UserDashBoard/Routes/UserDashboard";
 import OwnerDashboard from "./owners/Routes/OwnerDashboard";
 
-
 const AppWithLocation = () => {
   const location = useLocation(); // Get the current route
 
@@ -25,7 +24,6 @@ const AppWithLocation = () => {
   const isUserRoute = location.pathname.startsWith("/user");
   const isOwnerRoute = location.pathname.startsWith("/owner"); // Check if the current route is owner
 
-
   return isAdminRoute ? (
     <div className="App">
       {!isAdminLoginPage && <Sidebar />}{" "}
@@ -36,8 +34,7 @@ const AppWithLocation = () => {
         <AdminRoutes /> {/* Admin-specific routes */}
       </div>
     </div>
-
-  ) :isUserRoute ? (
+  ) : isUserRoute ? (
     <div className="app-container">
       {!hideHeaderFooter && <Header />} {/* Conditionally render Header */}
       <main className="app-main">
@@ -45,15 +42,13 @@ const AppWithLocation = () => {
       </main>
       {!hideHeaderFooter && <Footer />} {/* Conditionally render Footer */}
     </div>
-  ): 
-  isOwnerRoute ? (
+  ) : isOwnerRoute ? (
     <div className="app-container">
       <main className="app-main">
         <OwnerDashboard /> {/* Owner-specific dashboard */}
       </main>
     </div>
   ) : (
-
     <div className="app-container">
       {!hideHeaderFooter && <Header />} {/* Conditionally render Header */}
       <main className="app-main">

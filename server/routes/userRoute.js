@@ -4,14 +4,15 @@ const path = require("path");
 const app = express();
 
 const {
-  handelUserSignUp,
-  handelUserLogin,
-  handelGetAllUsers,
-  handelUserForgotPassword,
-  handelUserChangePassword,
-  handelUserById,
-  handelUpdateUserById,
-  handelDeleteUserById,
+  handleUserSignUp,
+  handleUserLogin,
+  handleGetAllUsers,
+  handleUserForgotPassword,
+  handleUserChangePassword,
+  handleUserById,
+  handleUpdateUserById,
+  handleDeleteUserById,
+  handleSaveAndUnsaveProperties,
 } = require("../controller/userController");
 
 const storage = multer.diskStorage({
@@ -29,19 +30,22 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 },
 });
 
-app.post("/signup", handelUserSignUp);
+app.post("/signup", handleUserSignUp);
 
-app.post("/login", handelUserLogin);
+app.post("/login", handleUserLogin);
 
-app.get("/", handelGetAllUsers);
+app.get("/", handleGetAllUsers);
 
-app.post("/forgot-password", handelUserForgotPassword);
+app.post("/forgot-password", handleUserForgotPassword);
 
-app.post("/changePassword", handelUserChangePassword);
+app.post("/changePassword", handleUserChangePassword);
 
-app.get("/:id", handelUserById);
+app.get("/:id", handleUserById);
 
-app.put("/:id", upload.single("profileImage"), handelUpdateUserById);
+app.put("/:id", upload.single("profileImage"), handleUpdateUserById);
 
-app.delete("/:id", handelDeleteUserById);
+app.delete("/:id", handleDeleteUserById);
+
+app.post("/saveProperties", handleSaveAndUnsaveProperties);
+
 module.exports = app;

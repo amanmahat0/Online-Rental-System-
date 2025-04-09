@@ -33,8 +33,6 @@ app.post("/signup", handelOwnerSignUp);
 
 app.post("/login", handelOwnerLogin);
 
-// gets all owner
-// handle get request for owner
 app.get("/", handelGetAllOwner);
 
 app.get("/forgot-password", handelOwnerForgotPassword);
