@@ -53,7 +53,7 @@ const SavedProperties = () => {
       }
 
       const data = await response.json();
-      console.log("Fetched saved properties:", data);
+      // console.log("Fetched saved properties:", data);
       setSavedProperties(data.data);
     } catch (error) {
       console.error("Error fetching saved properties:", error);
@@ -64,10 +64,68 @@ const SavedProperties = () => {
     // Cleanup function to avoid memory lreaks
   }, []);
 
-  const handleBookmarkClick = (id) => {
-    setSavedProperties(
-      savedProperties.filter((property) => property.id !== id)
-    );
+  const handleBookmarkClick = async (id) => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser) {
+        console.error("User not found in localStorage");
+        return;
+      }
+
+      const storedUserId = JSON.parse(storedUser).id;
+
+      const sendedData = {
+        userId: storedUserId,
+        propertyId: id,
+      };
+
+      const storedRole = localStorage.getItem("role");
+      if (storedRole !== "user") {
+        console.error("Invalid role or role is not 'user'");
+        return;
+      }
+
+      // Make the POST request to save/unsave the property
+      const response = await fetch(
+        "http://localhost:5000/api/user/saveProperties",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(sendedData),
+        }
+      );
+
+      if (!response.ok) {
+        console.error("Error saving/unsaving property");
+        return;
+      }
+
+      const data = await response.json();
+      // console.log("Property save/unsave response:", data);
+
+      // Update the saved properties state
+      if (data.message === "Property unsaved successfully.") {
+        setSavedProperties((prev) =>
+          prev.filter((property) => property._id !== id)
+        );
+        const storedSaveProperties = localStorage.getItem("saveProperties");
+        if (storedSaveProperties) {
+          const savePropertiesData = JSON.parse(storedSaveProperties);
+          const updatedSaveProperties = savePropertiesData.filter(
+            (propertyId) => propertyId !== id
+          );
+          localStorage.setItem(
+            "saveProperties",
+            JSON.stringify(updatedSaveProperties)
+          );
+        }
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error saving/unsaving property:", error);
+    }
   };
 
   const handleFilterChange = (newFilter) => {

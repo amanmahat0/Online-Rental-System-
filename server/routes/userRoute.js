@@ -12,7 +12,7 @@ const {
   handleUserById,
   handleUpdateUserById,
   handleDeleteUserById,
-  handleSaveProperties,
+  handleSaveAndUnsaveProperties,
 } = require("../controller/userController");
 
 const storage = multer.diskStorage({
@@ -46,6 +46,6 @@ app.put("/:id", upload.single("profileImage"), handleUpdateUserById);
 
 app.delete("/:id", handleDeleteUserById);
 
-app.post("/saveProperties", handleSaveProperties);
+app.post("/saveProperties", handleSaveAndUnsaveProperties);
 
 module.exports = app;

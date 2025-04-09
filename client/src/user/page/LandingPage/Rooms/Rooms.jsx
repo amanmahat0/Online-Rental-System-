@@ -15,7 +15,6 @@ const Rooms = () => {
   const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
   const [hoveredItems, setHoveredItems] = useState(new Set());
   const [listings, setListings] = useState([]);
-  const listingsPerPage = 6;
 
   const fetchListingsOfRoom = async () => {
     try {
@@ -39,19 +38,47 @@ const Rooms = () => {
     // Cleanup function to avoid memory leaks
   }, []);
 
-  // Only show the first 6 listings
-  const currentListings = listings.slice(0, listingsPerPage);
+  const handleBookmarkClick = async (id) => {
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      console.error("User not found in localStorage");
+      return;
+    }
 
-  const handleBookmarkClick = (id) => {
-    setBookmarkedItems((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
-        newSet.add(id);
+    const storedUserId = JSON.parse(storedUser).id; // Parse only if it exists
+    const sendedData = {
+      userId: storedUserId,
+      propertyId: id,
+    };
+
+    const storedRole = localStorage.getItem("role");
+    if (storedRole === "user") {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/user/saveProperties",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(sendedData),
+          }
+        );
+        if (!response.ok) {
+          console.error("Error saving property");
+          return;
+        }
+        const data = await response.json();
+        // console.log("Property saved successfully:", data);
+        alert(data.message);
+        localStorage.setItem(
+          "savedProperties",
+          JSON.stringify(data.data.saveProperties)
+        );
+      } catch (error) {
+        console.error("Error saving property:", error);
       }
-      return newSet;
-    });
+    }
   };
 
   const handleBookmarkHover = (id, isHovering) => {

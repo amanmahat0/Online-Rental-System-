@@ -76,7 +76,12 @@ const FeatureListing = () => {
           return;
         }
         const data = await response.json();
-        console.log("Property saved successfully:", data);
+        // console.log("Property saved successfully:", data);
+        alert(data.message);
+        localStorage.setItem(
+          "savedProperties",
+          JSON.stringify(data.data.saveProperties)
+        );
       } catch (error) {
         console.error("Error saving property:", error);
       }

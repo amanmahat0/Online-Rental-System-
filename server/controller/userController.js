@@ -217,35 +217,59 @@ const handleDeleteUserById = async (req, res) => {
   }
 };
 
-const handleSaveProperties = async (req, res) => {
+const handleSaveAndUnsaveProperties = async (req, res) => {
   try {
     const { userId, propertyId } = req.body;
+
     console.log("User ID:", userId);
     console.log("Property ID:", propertyId);
 
-    const user = await User.findByIdAndUpdate(
-      userId,
-      {
-        $addToSet: { saveProperties: propertyId },
-      },
-      { new: true }
-    );
+    // Validate input
+    if (!userId || !propertyId) {
+      return res.status(400).json({
+        status: false,
+        message: "User ID and Property ID are required.",
+      });
+    }
 
+    // Find the user
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
         status: false,
         message: "User not found.",
       });
     }
-    return res.status(200).json({
-      status: true,
-      data: user,
-    });
+
+    // Check if the property is already saved
+    const isPropertySaved = user.saveProperties.includes(propertyId);
+
+    if (isPropertySaved) {
+      // If the property is already saved, remove it (unsave)
+      user.saveProperties = user.saveProperties.filter(
+        (id) => id !== propertyId
+      );
+      await user.save();
+      return res.status(200).json({
+        status: true,
+        message: "Property unsaved successfully.",
+        data: user,
+      });
+    } else {
+      // If the property is not saved, add it
+      user.saveProperties.push(propertyId);
+      await user.save();
+      return res.status(200).json({
+        status: true,
+        message: "Property saved successfully.",
+        data: user,
+      });
+    }
   } catch (error) {
-    console.error("Error saving properties:", error);
+    console.error("Error in handleSaveAndUnsaveProperties:", error);
     return res.status(500).json({
       status: false,
-      message: "Failed to save properties.",
+      message: "An error occurred while saving or unsaving the property.",
     });
   }
 };
@@ -259,5 +283,5 @@ module.exports = {
   handleUpdateUserById,
   handleUserById,
   handleDeleteUserById,
-  handleSaveProperties,
+  handleSaveAndUnsaveProperties,
 };

@@ -7,11 +7,9 @@ import {
   FaCog,
   FaSignOutAlt,
 } from "react-icons/fa";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const UserSidebar = () => {
-  const location = useLocation();
-
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("role");
