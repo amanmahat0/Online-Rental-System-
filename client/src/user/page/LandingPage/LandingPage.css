@@ -39,7 +39,7 @@
   flex-direction: column;
   padding: 8rem 5rem;
   /* margin-right:32rem; */
-  margin-left: 8rem;
+  margin-left: 4rem;
 }
 
 .landing-main h3 {
@@ -48,9 +48,13 @@
   text-align: left;
 }
 
-.landing-main p {
+/* .landing-main p {
   font-size: 0.8rem;
   color: #000000;
+} */
+.landing-page-small-description{
+  font-size: 1rem;
+  color: #706f6f;
 }
 
 .home-search-bar {
@@ -90,6 +94,7 @@
   cursor: pointer;
   margin-right: 10px;
   border-radius: 5px;
+  font-weight: bold;
 }
 
 .search-btn:hover {
@@ -104,7 +109,7 @@
   align-items: center;
   gap: 20px;
   margin-top: 50px;
-  margin-right: 62rem;
+  margin-right: 66rem;
 }
 
 /* Individual card styling */

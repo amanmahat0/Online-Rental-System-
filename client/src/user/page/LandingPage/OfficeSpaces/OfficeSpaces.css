@@ -1,7 +1,8 @@
 /* Container and header */
 .office-spaces-listings-container {
     padding: 20px;
-    max-width: 1130px;
+    /* max-width: 1130px; */
+    max-width: 82.8%;
     margin: 0 auto;
     text-align: center;
     font-family: Arial, sans-serif;
@@ -143,14 +144,18 @@
 }
 
 .office-spaces-listing-save-button {
-    background-color: white;
+    background-color: transparent;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    height: 23px;
-    width: 20px;
+    transition: transform 0.2s ease;
+    height: 25px;
+    width: 25px;
     margin-left: 150px;
     margin-top: 5px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .office-spaces-lisitng-property-description{
@@ -172,8 +177,10 @@
     color: #7065f0;
     width: 25px;
     height: 25px;
+    transition: color 0.2s ease, transform 0.2s ease;
   }
   .office-spaces-listing-bookmark-icons:hover{
     color: #5249ba;
+    transform: scale(1.1);
   }
   

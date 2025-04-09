@@ -241,7 +241,7 @@ const Owners = () => {
                   <FaPhone /> {owner.contact}
                 </p>
                 <p>
-                  <FaHome /> Number of Properties: {owner.properties}
+                  <FaHome /> Number of Properties: {owner.properties.length}
                 </p>
               </div>
               <div className="owner-actions">

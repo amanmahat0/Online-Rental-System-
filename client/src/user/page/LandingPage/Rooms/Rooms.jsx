@@ -5,12 +5,15 @@ import {
   FaMapMarkerAlt,
   FaRupeeSign,
   FaInfoCircle,
+  FaRegBookmark,
   FaBookmark,
 } from "react-icons/fa";
 import "./Rooms.css";
 
 const Rooms = () => {
   const navigate = useNavigate();
+  const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
+  const [hoveredItems, setHoveredItems] = useState(new Set());
   const [listings, setListings] = useState([]);
   const listingsPerPage = 6;
 
@@ -38,6 +41,30 @@ const Rooms = () => {
 
   // Only show the first 6 listings
   const currentListings = listings.slice(0, listingsPerPage);
+
+  const handleBookmarkClick = (id) => {
+    setBookmarkedItems((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const handleBookmarkHover = (id, isHovering) => {
+    setHoveredItems((prev) => {
+      const newSet = new Set(prev);
+      if (isHovering) {
+        newSet.add(id);
+      } else {
+        newSet.delete(id);
+      }
+      return newSet;
+    });
+  };
 
   return (
     <div className="rooms-listings-container">
@@ -67,7 +94,7 @@ const Rooms = () => {
             style={{ cursor: "pointer" }}
           >
             <img
-              src={listing.imageUrl}
+              src={`http://localhost:5000/${listing.images}`}
               alt={listing.title}
               className="rooms-listing-image"
             />
@@ -76,46 +103,44 @@ const Rooms = () => {
                 <h2 className="rooms-lsiting-details-card-title">
                   {listing.title}
                 </h2>
-                <button className="rooms-listing-save-button">
-                  <FaBookmark className="rooms-listing-bookmark-icons" />
+                <button
+                  className="rooms-listing-save-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleBookmarkClick(listing._id);
+                  }}
+                  onMouseEnter={() => handleBookmarkHover(listing._id, true)}
+                  onMouseLeave={() => handleBookmarkHover(listing._id, false)}
+                >
+                  {bookmarkedItems.has(listing.id) ||
+                  hoveredItems.has(listing.id) ? (
+                    <FaBookmark className="rooms-listing-bookmark-icons" />
+                  ) : (
+                    <FaRegBookmark className="rooms-listing-bookmark-icons" />
+                  )}
                 </button>
               </div>
               <p className="rooms-listing-details-card">
-                <FaHome
-                  width={20}
-                  height={20}
-                  className="rooms-lsitings-cards-icons"
-                />
+                <FaHome className="rooms-lsitings-cards-icons" />
                 {listing.propertyType}
               </p>
               <p className="rooms-listing-details-card">
-                <FaMapMarkerAlt
-                  width={20}
-                  height={20}
-                  className="rooms-lsitings-cards-icons"
-                />
+                <FaMapMarkerAlt className="rooms-lsitings-cards-icons" />
                 {`${listing.location.area} ${listing.location.city}`}
               </p>
               <p className="rooms-listing-details-card">
-                <FaRupeeSign
-                  width={20}
-                  height={20}
-                  className="rooms-lsitings-cards-icons"
-                />
+                <FaRupeeSign className="rooms-lsitings-cards-icons" />
                 {listing.pricePerMonth} / month
               </p>
 
-              {/* <p className='top-listing-details-card'><FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>{listing.description}</p> */}
               <p className="rooms-listing-details-card">
-                <FaInfoCircle
-                  width={20}
-                  height={20}
-                  className="rooms-lsitings-cards-icons"
-                />
+                <FaInfoCircle className="rooms-lsitings-cards-icons" />
                 {listing.description.length > 100
                   ? listing.description.slice(0, 85) + "..."
                   : listing.description}
               </p>
+
+              {/* <p className='top-listing-details-card'><FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>{listing.description}</p> */}
             </div>
           </div>
         ))}

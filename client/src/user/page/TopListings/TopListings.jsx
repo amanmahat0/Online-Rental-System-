@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import './TopListings.css';
 
 const agentListings = [
@@ -233,9 +233,13 @@ const TopListings = () => {
   const [filterStatus, setFilterStatus] = useState("All");
   const [sortOrder, setSortOrder] = useState("None");
   const [currentPage, setCurrentPage] = useState(1);
+  const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
+  const [hoveredItems, setHoveredItems] = useState(new Set());
   const listingsPerPage = 6;
 
   let listings = [...agentListings, ...ownerListings];
+
+  
 
   // Apply status filter
   if (filterStatus !== "All") {
@@ -254,6 +258,30 @@ const TopListings = () => {
   const indexOfLastListing = currentPage * listingsPerPage;
   const indexOfFirstListing = indexOfLastListing - listingsPerPage;
   const currentListings = listings.slice(indexOfFirstListing, indexOfLastListing);
+
+  const handleBookmarkClick = (id) => {
+    setBookmarkedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const handleBookmarkHover = (id, isHovering) => {
+    setHoveredItems(prev => {
+      const newSet = new Set(prev);
+      if (isHovering) {
+        newSet.add(id);
+      } else {
+        newSet.delete(id);
+      }
+      return newSet;
+    });
+  };
 
   // const handlePageChange = (pageNumber) => {
   //   setCurrentPage(pageNumber);
@@ -293,9 +321,19 @@ const TopListings = () => {
               
               <div className='top-listing-button-section'>
               <h2 className='top-lsiting-details-card-title'>{listing.title}</h2>
-              <button className='top-listing-save-button'>
-                {/* <img src='/bookmark.png' height={25} width={20}/> */}
+              <button className='top-listing-save-button'
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBookmarkClick(listing.id);
+              }}
+              onMouseEnter={() => handleBookmarkHover(listing.id, true)}
+              onMouseLeave={() => handleBookmarkHover(listing.id, false)}
+              >
+              {bookmarkedItems.has(listing.id) || hoveredItems.has(listing.id) ? (
                 <FaBookmark className='top-listing-bookmark-icons' />
+              ) : (
+                <FaRegBookmark className='top-listing-bookmark-icons' />
+              )}
               </button>
             </div>
               <p className='top-listing-details-card'><FaHome width={20} height={20} className='top-lsitings-cards-icons'/>{listing.propertyType}</p>

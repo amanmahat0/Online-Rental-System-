@@ -1,4 +1,4 @@
-/* OwnerProfile.css - Enhanced styling for My Profile Section */
+/* UserProfile.css - Enhanced styling for My Profile Section */
 
 .user-profile {
     padding: 30px;
@@ -10,8 +10,6 @@
 
 .user-profile-header {
     margin-bottom: 30px;
-    border-bottom: #7065f0 2px solid;
-    padding-bottom: 10px;
 }
 
 .user-profile-header h2 {
@@ -55,7 +53,7 @@
     }
 }
 
-.user-section-title {
+.user-profile-section-title {
     font-size: 18px;
     color: #333;
     margin-bottom: 20px;
@@ -70,12 +68,12 @@
     text-align: center;
 }
 
-.user-image-container {
+.user-profile-image-container {
     position: relative;
     margin-bottom: 15px;
 }
 
-.user-profile-image img {
+.user-profile-img {
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -103,7 +101,7 @@
     margin: 15px 0;
 }
 
-.user-upload-button {
+.user-profile-upload-button {
     position: absolute;
     bottom: 5px;
     right: 5px;
@@ -120,12 +118,12 @@
     transition: all 0.2s;
 }
 
-.user-upload-button:hover {
+.user-profile-upload-button:hover {
     background-color: #5749d1;
     transform: scale(1.05);
 }
 
-.user-upload-button input {
+.user-profile-file-input {
     display: none;
 }
 
@@ -139,7 +137,7 @@
     border-bottom: 1px solid #f0f0f0;
 }
 
-.user-field-label {
+.user-profile-field-label {
     display: flex;
     align-items: center;
     font-weight: bold;
@@ -147,19 +145,18 @@
     margin-bottom: 5px;
 }
 
-.user-field-icon {
+.user-profile-field-icon {
     margin-right: 10px;
     color: #7065f0;
-    margin-bottom: 8px;
 }
 
-.user-field-value {
+.user-profile-field-value {
     font-size: 16px;
     color: #333;
     padding: 5px 0;
 }
 
-.user-edit-input {
+.user-profile-edit-input {
     width: 100%;
     padding: 10px 12px;
     border-radius: 6px;
@@ -168,19 +165,20 @@
     transition: border 0.3s;
 }
 
-.user-edit-input:focus {
+.user-profile-edit-input:focus {
     border-color: #7065f0;
     outline: none;
     box-shadow: 0 0 0 3px rgba(112, 101, 240, 0.2);
 }
 
-.user-action-buttons {
+.user-profile-action-buttons {
     margin-top: 25px;
     display: flex;
     justify-content: flex-end;
 }
 
-.user-edit-button, .owner-save-button {
+.user-profile-edit-button,
+.user-profile-save-button {
     padding: 10px 20px;
     color: #fff;
     border: none;
@@ -194,25 +192,120 @@
     font-size: 15px;
 }
 
-.user-edit-button {
+.user-profile-edit-button {
     background-color: #7065f0;
 }
 
-.user-save-button {
-    background-color: #4CAF50;
+.user-profile-save-button {
+    background-color: #4caf50;
 }
 
-.user-edit-button:hover {
+.user-profile-edit-button:hover {
     background-color: #5749d1;
 }
 
-.user-save-button:hover {
+.user-profile-save-button:hover {
     background-color: #3d8b40;
 }
 
+/* Loading state */
+.user-profile-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+}
+
+.user-profile-spinner {
+    animation: spin 1s linear infinite;
+    font-size: 32px;
+    color: #7065f0;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Success and error messages */
+.user-profile-success-message {
+    background-color: #e6f7e6;
+    color: #2e7d32;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2e7d32;
+    animation: fadeIn 0.5s ease;
+}
+
+.user-profile-error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #c62828;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Error styling for form inputs */
+.user-profile-input-error {
+    border-color: #c62828 !important;
+    background-color: #ffebee;
+}
+
+.user-profile-error-text {
+    color: #c62828;
+    font-size: 12px;
+    margin-top: 5px;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Cancel button */
+.user-profile-cancel-button {
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #757575;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.user-profile-cancel-button:hover {
+    background-color: #616161;
+}
+
+/* Disabled button state */
+.user-profile-save-button:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+}
+
+/* Spinner animation inside button */
+.user-profile-spinner-button {
+    animation: spin 1s linear infinite;
+}
+
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideUp {

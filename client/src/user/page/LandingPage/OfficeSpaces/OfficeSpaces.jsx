@@ -6,12 +6,15 @@ import {
   FaRupeeSign,
   FaInfoCircle,
   FaBookmark,
+  FaRegBookmark,
 } from "react-icons/fa";
 import "./OfficeSpaces.css";
 
 const OfficeSpaces = () => {
   const navigate = useNavigate();
   const [listings, setListings] = useState([]);
+  const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
+  const [hoveredItems, setHoveredItems] = useState(new Set());
   const listingsPerPage = 6;
 
   const fetchListingsOfOffice = async () => {
@@ -38,6 +41,29 @@ const OfficeSpaces = () => {
   // Only show the first 6 listings
   const currentListings = listings.slice(0, listingsPerPage);
 
+  const handleBookmarkClick = (id) => {
+    setBookmarkedItems((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const handleBookmarkHover = (id, isHovering) => {
+    setHoveredItems((prev) => {
+      const newSet = new Set(prev);
+      if (isHovering) {
+        newSet.add(id);
+      } else {
+        newSet.delete(id);
+      }
+      return newSet;
+    });
+  };
   return (
     <div className="office-spaces-listings-container">
       <div className="office-spaces-header-section">
@@ -45,7 +71,7 @@ const OfficeSpaces = () => {
       </div>
 
       <div className="office-spaces-listings-grid">
-        {listings.map((listing) => (
+        {currentListings.map((listing) => (
           <div
             key={listing._id}
             className="office-spaces-listing-card"
@@ -75,8 +101,21 @@ const OfficeSpaces = () => {
                 <h2 className="office-spaces-lsiting-details-card-title">
                   {listing.title}
                 </h2>
-                <button className="office-spaces-listing-save-button">
-                  <FaBookmark className="office-spaces-listing-bookmark-icons" />
+                <button
+                  className="office-spaces-listing-save-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleBookmarkClick(listing._id);
+                  }}
+                  onMouseEnter={() => handleBookmarkHover(listing._id, true)}
+                  onMouseLeave={() => handleBookmarkHover(listing._id, false)}
+                >
+                  {bookmarkedItems.has(listing._id) ||
+                  hoveredItems.has(listing._id) ? (
+                    <FaBookmark className="office-spaces-listing-bookmark-icons" />
+                  ) : (
+                    <FaRegBookmark className="office-spaces-listing-bookmark-icons" />
+                  )}
                 </button>
               </div>
               <p className="office-spaces-listing-details-card">
@@ -93,7 +132,7 @@ const OfficeSpaces = () => {
                   height={20}
                   className="office-spaces-lsitings-cards-icons"
                 />
-                `${listing.location.city} ${listing.location.area}`
+                {`${listing.location.city} ${listing.location.area}`}
               </p>
               <p className="office-spaces-listing-details-card">
                 <FaRupeeSign
@@ -116,6 +155,42 @@ const OfficeSpaces = () => {
                   : listing.description}
               </p>
             </div>
+            <p className="office-spaces-listing-details-card">
+              <FaHome
+                width={20}
+                height={20}
+                className="office-spaces-lsitings-cards-icons"
+              />
+              {listing.propertyType}
+            </p>
+            <p className="office-spaces-listing-details-card">
+              <FaMapMarkerAlt
+                width={20}
+                height={20}
+                className="office-spaces-lsitings-cards-icons"
+              />
+              `${listing.location.city} ${listing.location.area}`
+            </p>
+            <p className="office-spaces-listing-details-card">
+              <FaRupeeSign
+                width={20}
+                height={20}
+                className="office-spaces-lsitings-cards-icons"
+              />
+              {listing.pricePerMonth} / month
+            </p>
+
+            {/* <p className='top-listing-details-card'><FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>{listing.description}</p> */}
+            <p className="office-spaces-listing-details-card">
+              <FaInfoCircle
+                width={20}
+                height={20}
+                className="office-spaces-lsitings-cards-icons"
+              />
+              {listing.description.length > 100
+                ? listing.description.slice(0, 85) + "..."
+                : listing.description}
+            </p>
           </div>
         ))}
       </div>

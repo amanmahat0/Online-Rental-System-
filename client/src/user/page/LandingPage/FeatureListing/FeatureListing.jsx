@@ -6,6 +6,7 @@ import {
   FaRupeeSign,
   FaInfoCircle,
   FaBookmark,
+  FaRegBookmark,
 } from "react-icons/fa";
 import "./FeatureListing.css";
 
@@ -16,6 +17,8 @@ import "./FeatureListing.css";
 const FeatureListing = () => {
   const [listings, setListings] = useState([]);
   const navigate = useNavigate();
+  const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
+  const [hoveredItems, setHoveredItems] = useState(new Set());
 
   const listingsPerPage = 6;
 
@@ -41,6 +44,56 @@ const FeatureListing = () => {
 
   // Only show the first 6 listings
   // const currentListings = listings.slice(0, listingsPerPage);
+
+  const handleBookmarkClick = async (id) => {
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      console.error("User not found in localStorage");
+      return;
+    }
+
+    const storedUserId = JSON.parse(storedUser).id; // Parse only if it exists
+    const sendedData = {
+      userId: storedUserId,
+      propertyId: id,
+    };
+
+    const storedRole = localStorage.getItem("role");
+    if (storedRole === "user") {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/user/saveProperties",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(sendedData),
+          }
+        );
+        if (!response.ok) {
+          console.error("Error saving property");
+          return;
+        }
+        const data = await response.json();
+        console.log("Property saved successfully:", data);
+      } catch (error) {
+        console.error("Error saving property:", error);
+      }
+    }
+  };
+
+  const handleBookmarkHover = (id, isHovering) => {
+    setHoveredItems((prev) => {
+      const newSet = new Set(prev);
+      if (isHovering) {
+        newSet.add(id);
+      } else {
+        newSet.delete(id);
+      }
+      return newSet;
+    });
+  };
 
   return (
     <div className="feature-listings-container">
@@ -78,8 +131,21 @@ const FeatureListing = () => {
                 <h2 className="feature-lsiting-details-card-title">
                   {listing.title}
                 </h2>
-                <button className="feature-listing-save-button">
-                  <FaBookmark className="feature-listing-bookmark-icons" />
+                <button
+                  className="feature-listing-save-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleBookmarkClick(listing._id);
+                  }}
+                  onMouseEnter={() => handleBookmarkHover(listing._id, true)}
+                  onMouseLeave={() => handleBookmarkHover(listing._id, false)}
+                >
+                  {bookmarkedItems.has(listing._id) ||
+                  hoveredItems.has(listing._id) ? (
+                    <FaBookmark className="feature-listing-bookmark-icons" />
+                  ) : (
+                    <FaRegBookmark className="feature-listing-bookmark-icons" />
+                  )}
                 </button>
               </div>
               <p className="feature-listing-details-card">

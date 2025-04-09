@@ -12,8 +12,8 @@ const LandingPage = () => {
       <main className="landing-main">
         <h3>Rent Your Properties</h3>
         <h3>Easily With Rent It</h3>
-        <p>A greate platform to rent your rooms, properties, apartments,</p>
-        <p>apartments.</p>
+        <p className="landing-page-small-description">A greate platform to rent your rooms, properties, apartments,</p>
+        <p className="landing-page-small-description">apartments.</p>
 
         <div className="data-container">
           <div className="data">
