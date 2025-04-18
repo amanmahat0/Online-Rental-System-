@@ -1,7 +1,7 @@
 const express = require("express");
-const router = express.Router();
 const multer = require("multer");
 const path = require("path");
+
 const {
   createProperty,
   getAllProperties,
@@ -13,30 +13,66 @@ const {
   getPropertyByType,
 } = require("../controller/propertyController");
 
-// Configure Multer for disk storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads")); // Save files to the "uploads" directory
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
-    cb(null, uniqueName); // Use a unique name for each file
-  },
-});
+class PropertyRoutes {
+  constructor() {
+    this.router = express.Router();
+    this.initializeMulter();
+    this.initializeRoutes();
+  }
 
-const upload = multer({
-  storage,
-  limits: { fileSize: 50 * 1024 * 1024 },
-});
+  // Initialize Multer for file uploads
+  initializeMulter() {
+    const storage = multer.diskStorage({
+      destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, "../uploads")); // Save files to the "uploads" directory
+      },
+      filename: (req, file, cb) => {
+        const uniqueName = `${Date.now()}-${file.originalname}`;
+        cb(null, uniqueName); // Use a unique name for each file
+      },
+    });
 
-// Routes
-router.post("/", upload.single("propertyImage"), createProperty); // Apply multer only to this route
-router.get("/", getAllProperties);
-router.get("/:id", getPropertyById);
-router.put("/:id", upload.single("propertyImage"), updateProperty); // Apply multer for updates if needed
-router.delete("/:id", deleteProperty);
-router.get("/owner/:ownerId", propertiesByOwnerId);
-router.post("/savedProperties", handleGetAllSavedProperties);
-router.get("/type/:propertyType", getPropertyByType);
+    this.upload = multer({
+      storage,
+      limits: { fileSize: 50 * 1024 * 1024 }, // 50MB file size limit
+    });
+  }
 
-module.exports = router;
+  // Initialize all routes
+  initializeRoutes() {
+    // Create a property (with image upload)
+    this.router.post("/", this.upload.single("propertyImage"), createProperty);
+
+    // Get all properties
+    this.router.get("/", getAllProperties);
+
+    // Get property by ID
+    this.router.get("/:id", getPropertyById);
+
+    // Update property (with image upload)
+    this.router.put(
+      "/:id",
+      this.upload.single("propertyImage"),
+      updateProperty
+    );
+
+    // Delete property
+    this.router.delete("/:id", deleteProperty);
+
+    // Get properties by owner ID
+    this.router.get("/owner/:ownerId", propertiesByOwnerId);
+
+    // Get all saved properties
+    this.router.post("/savedProperties", handleGetAllSavedProperties);
+
+    // Get properties by type
+    this.router.get("/type/:propertyType", getPropertyByType);
+  }
+
+  // Get the router instance
+  getRouter() {
+    return this.router;
+  }
+}
+
+module.exports = new PropertyRoutes().getRouter();

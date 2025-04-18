@@ -20,213 +20,206 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 },
 });
 
-// Create a new property with multiple image uploads
-const createProperty = async (req, res) => {
-  try {
-    console.log("Request Body:", req.body);
-    console.log("Uploaded File:", req.file);
+class PropertyController {
+  // Create a new property with multiple image uploads
+  async createProperty(req, res) {
+    try {
+      console.log("Request Body:", req.body);
+      console.log("Uploaded File:", req.file);
 
-    if (!req.file) {
-      return res
-        .status(400)
-        .json({ status: false, message: "No image uploaded." });
-    }
-
-    // Generate the URL for the uploaded file
-    const imageUrl = `/uploads/${req.file.filename}`;
-
-    // Create the property with the image URL
-    const propertyData = {
-      ...req.body,
-      images: imageUrl, // Store the file URL in the database
-    };
-
-    const property = await Property.create(propertyData);
-
-    const ownerId = req.body.owner; // Ensure this is passed from frontend
-    if (ownerId) {
-      await Owner.findByIdAndUpdate(ownerId, {
-        $push: { properties: property._id }, // Add the property ID to the owner's properties array
-      });
-    }
-    return res.status(201).json({ status: true, data: property });
-  } catch (error) {
-    console.error("Error in Try Block:", error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Failed to create property." });
-  }
-};
-
-// Get all properties
-const getAllProperties = async (req, res) => {
-  try {
-    const properties = await Property.find();
-    return res.status(200).json({ status: true, data: properties });
-  } catch (error) {
-    console.error("Error fetching properties:", error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Failed to fetch properties." });
-  }
-};
-
-// Get a single property by ID
-const getPropertyById = async (req, res) => {
-  try {
-    const property = await Property.findById(req.params.id);
-    if (!property) {
-      return res
-        .status(404)
-        .json({ status: false, message: "Property not found." });
-    }
-    return res.status(200).json({ status: true, data: property });
-  } catch (error) {
-    console.error("Error fetching property:", error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Failed to fetch property." });
-  }
-};
-
-// Update a property by ID
-const updateProperty = async (req, res) => {
-  try {
-    // console.log("Request Body:", req.body);
-    // console.log("Uploaded File:", req.file);
-
-    // Prepare the update data
-    const updateData = {
-      ...req.body,
-    };
-
-    // If a new image is uploaded, replace the existing image
-    if (req.file) {
-      const imageUrl = `/uploads/${req.file.filename}`;
-      updateData.images = imageUrl; // Update the image URL in the database
-    }
-
-    // Update the property in the database
-    const property = await Property.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      {
-        new: true, // Return the updated document
+      if (!req.file) {
+        return res
+          .status(400)
+          .json({ status: false, message: "No image uploaded." });
       }
-    );
 
-    if (!property) {
+      // Generate the URL for the uploaded file
+      const imageUrl = `/uploads/${req.file.filename}`;
+
+      // Create the property with the image URL
+      const propertyData = {
+        ...req.body,
+        images: imageUrl, // Store the file URL in the database
+      };
+
+      const property = await Property.create(propertyData);
+
+      const ownerId = req.body.owner; // Ensure this is passed from frontend
+      if (ownerId) {
+        await Owner.findByIdAndUpdate(ownerId, {
+          $push: { properties: property._id }, // Add the property ID to the owner's properties array
+        });
+      }
+      return res.status(201).json({ status: true, data: property });
+    } catch (error) {
+      console.error("Error in Try Block:", error);
       return res
-        .status(404)
-        .json({ status: false, message: "Property not found." });
+        .status(500)
+        .json({ status: false, message: "Failed to create property." });
     }
-
-    return res.status(200).json({ status: true, data: property });
-  } catch (error) {
-    console.error("Error updating property:", error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Failed to update property." });
   }
-};
 
-// Delete a property by ID
-const deleteProperty = async (req, res) => {
-  try {
-    const property = await Property.findByIdAndDelete(req.params.id);
-    if (!property) {
+  // Get all properties
+  async getAllProperties(req, res) {
+    try {
+      const properties = await Property.find();
+      return res.status(200).json({ status: true, data: properties });
+    } catch (error) {
+      console.error("Error fetching properties:", error);
       return res
-        .status(404)
-        .json({ status: false, message: "Property not found." });
+        .status(500)
+        .json({ status: false, message: "Failed to fetch properties." });
     }
-
-    if (property.owner) {
-      await Owner.findByIdAndUpdate(property.owner, {
-        $pull: { properties: property._id },
-      });
-    }
-
-    return res
-      .status(200)
-      .json({ status: true, message: "Property deleted successfully." });
-  } catch (error) {
-    console.error("Error deleting property:", error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Failed to delete property." });
   }
-};
 
-const propertiesByOwnerId = async (req, res) => {
-  try {
-    const ownerId = req.params.ownerId;
-    console.log("Owner ID:", ownerId);
-    const properties = await Property.find({ owner: ownerId });
-    console.log("Properties by Owner ID:", properties);
-    if (!properties || properties.length === 0) {
-      return res.status(404).json({
+  // Get a single property by ID
+  async getPropertyById(req, res) {
+    try {
+      const property = await Property.findById(req.params.id);
+      if (!property) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Property not found." });
+      }
+      return res.status(200).json({ status: true, data: property });
+    } catch (error) {
+      console.error("Error fetching property:", error);
+      return res
+        .status(500)
+        .json({ status: false, message: "Failed to fetch property." });
+    }
+  }
+
+  // Update a property by ID
+  async updateProperty(req, res) {
+    try {
+      // console.log("Request Body:", req.body);
+      // console.log("Uploaded File:", req.file);
+
+      // Prepare the update data
+      const updateData = {
+        ...req.body,
+      };
+
+      // If a new image is uploaded, replace the existing image
+      if (req.file) {
+        const imageUrl = `/uploads/${req.file.filename}`;
+        updateData.images = imageUrl; // Update the image URL in the database
+      }
+
+      // Update the property in the database
+      const property = await Property.findByIdAndUpdate(
+        req.params.id,
+        updateData,
+        {
+          new: true, // Return the updated document
+        }
+      );
+
+      if (!property) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Property not found." });
+      }
+
+      return res.status(200).json({ status: true, data: property });
+    } catch (error) {
+      console.error("Error updating property:", error);
+      return res
+        .status(500)
+        .json({ status: false, message: "Failed to update property." });
+    }
+  }
+
+  // Delete a property by ID
+  async deleteProperty(req, res) {
+    try {
+      const property = await Property.findByIdAndDelete(req.params.id);
+      if (!property) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Property not found." });
+      }
+
+      if (property.owner) {
+        await Owner.findByIdAndUpdate(property.owner, {
+          $pull: { properties: property._id },
+        });
+      }
+
+      return res
+        .status(200)
+        .json({ status: true, message: "Property deleted successfully." });
+    } catch (error) {
+      console.error("Error deleting property:", error);
+      return res
+        .status(500)
+        .json({ status: false, message: "Failed to delete property." });
+    }
+  }
+
+  async propertiesByOwnerId(req, res) {
+    try {
+      const ownerId = req.params.ownerId;
+      console.log("Owner ID:", ownerId);
+      const properties = await Property.find({ owner: ownerId });
+      console.log("Properties by Owner ID:", properties);
+      if (!properties || properties.length === 0) {
+        return res.status(404).json({
+          status: false,
+          message: "No properties found for this owner.",
+        });
+      }
+      return res.status(200).json({ status: true, data: properties });
+    } catch (error) {
+      console.error("Error fetching properties by owner ID:", error);
+      return res.status(500).json({
         status: false,
-        message: "No properties found for this owner.",
+        message: "Failed to fetch properties by owner Id.",
       });
     }
-    return res.status(200).json({ status: true, data: properties });
-  } catch (error) {
-    console.error("Error fetching properties by owner ID:", error);
-    return res.status(500).json({
-      status: false,
-      message: "Failed to fetch properties by owner Id.",
-    });
   }
-};
 
-const handleGetAllSavedProperties = async (req, res) => {
-  const propertiesId = req.body.propertiesId;
-  try {
-    const savedProperties = await Property.find({
-      _id: { $in: propertiesId },
-    });
-    if (!savedProperties || savedProperties.length === 0) {
-      return res.status(404).json({
+  async handleGetAllSavedProperties(req, res) {
+    const propertiesId = req.body.propertiesId;
+    try {
+      const savedProperties = await Property.find({
+        _id: { $in: propertiesId },
+      });
+      if (!savedProperties || savedProperties.length === 0) {
+        return res.status(404).json({
+          status: false,
+          message: "No saved properties found.",
+        });
+      }
+      return res.status(200).json({ status: true, data: savedProperties });
+    } catch (error) {
+      console.error("Error fetching saved properties:", error);
+      return res.status(500).json({
         status: false,
-        message: "No saved properties found.",
+        message: "Failed to fetch saved properties.",
       });
     }
-    return res.status(200).json({ status: true, data: savedProperties });
-  } catch (error) {
-    console.error("Error fetching saved properties:", error);
-    return res.status(500).json({
-      status: false,
-      message: "Failed to fetch saved properties.",
-    });
   }
-};
 
-const getPropertyByType = async (req, res) => {
-  try {
-    const property = await Property.find({
-      propertyType: req.params.propertyType,
-    });
-    if (!property) {
+  async getPropertyByType(req, res) {
+    try {
+      const property = await Property.find({
+        propertyType: req.params.propertyType,
+      });
+      if (!property) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Property not found." });
+      }
+      return res.status(200).json({ status: true, data: property });
+    } catch (error) {
+      console.error("Error fetching property:", error);
       return res
-        .status(404)
-        .json({ status: false, message: "Property not found." });
+        .status(500)
+        .json({ status: false, message: "Failed to fetch property." });
     }
-    return res.status(200).json({ status: true, data: property });
-  } catch (error) {
-    console.error("Error fetching property:", error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Failed to fetch property." });
   }
-};
+}
 
-module.exports = {
-  createProperty,
-  getAllProperties,
-  getPropertyById,
-  updateProperty,
-  deleteProperty,
-  propertiesByOwnerId,
-  handleGetAllSavedProperties,
-  getPropertyByType,
-};
+module.exports = new PropertyController();

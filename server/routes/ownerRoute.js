@@ -1,48 +1,69 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const app = express();
 
-const {
-  handelOwnerSignUp,
-  handelOwnerLogin,
-  handelGetAllOwner,
-  handelOwnerForgotPassword,
-  handelOwnerChangePassword,
-  handelOwnerById,
-  handelUpdateOwnerById,
-  handelDeleteOwnerById,
-} = require("../controller/ownerController");
+const ownerController = require("../controller/ownerController");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads/profileImage")); // Save files to the "uploads" directory
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
-    cb(null, uniqueName); // Use a unique name for each file
-  },
-});
+class OwnerRoutes {
+  constructor() {
+    this.router = express.Router();
+    this.initializeMulter();
+    this.initializeRoutes();
+  }
 
-const upload = multer({
-  storage,
-  limits: { fileSize: 50 * 1024 * 1024 },
-});
+  // Initialize Multer for file uploads
+  initializeMulter() {
+    const storage = multer.diskStorage({
+      destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, "../uploads/profileImage")); // Save files to the "uploads" directory
+      },
+      filename: (req, file, cb) => {
+        const uniqueName = `${Date.now()}-${file.originalname}`;
+        cb(null, uniqueName); // Use a unique name for each file
+      },
+    });
 
-app.post("/signup", handelOwnerSignUp);
+    this.upload = multer({
+      storage,
+      limits: { fileSize: 50 * 1024 * 1024 }, // 50MB file size limit
+    });
+  }
 
-app.post("/login", handelOwnerLogin);
+  // Initialize all routes
+  initializeRoutes() {
+    // Signup owner
+    this.router.post("/signup", ownerController.signUp);
 
-app.get("/", handelGetAllOwner);
+    // Login owner
+    this.router.post("/login", ownerController.login);
 
-app.get("/forgot-password", handelOwnerForgotPassword);
+    // Get all owners
+    this.router.get("/", ownerController.getAllOwner);
 
-app.post("/changePassword", handelOwnerChangePassword);
+    // Forgot password
+    this.router.get("/forgot-password", ownerController.forgotPassword);
 
-app.get("/:id", handelOwnerById);
+    // Change password
+    this.router.post("/changePassword", ownerController.changePassword);
 
-app.put("/:id", upload.single("profileImage"), handelUpdateOwnerById);
+    // Get owner by ID
+    this.router.get("/:id", ownerController.ownerById);
 
-app.delete("/:id", handelDeleteOwnerById);
+    // Update owner by ID (with profile image upload)
+    this.router.put(
+      "/:id",
+      this.upload.single("profileImage"),
+      ownerController.updateOwnerById
+    );
 
-module.exports = app;
+    // Delete owner by ID
+    this.router.delete("/:id", ownerController.deleteOwnerById);
+  }
+
+  // Get the router instance
+  getRouter() {
+    return this.router;
+  }
+}
+
+module.exports = new OwnerRoutes().getRouter();

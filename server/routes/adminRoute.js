@@ -1,24 +1,35 @@
 const express = require("express");
-const app = express();
 
-const {
-  handelGetAllAdmin,
-  handelAdminLogin,
-  handelAdminSignUp,
-  handelGetAdminById,
-  handelDeleteAdmin,
-} = require("../controller/adminController");
+const AdminController = require("../controller/adminController");
 
-// handle post request
-app.post("/signup", handelAdminSignUp);
+class AdminRoutes {
+  constructor() {
+    this.router = express.Router();
+    this.initializeRoutes();
+  }
 
-//login admin
-app.post("/login", handelAdminLogin);
+  // Initialize all routes
+  initializeRoutes() {
+    // Signup admin
+    this.router.post("/signup", AdminController.signUp);
 
-app.get("/", handelGetAllAdmin);
+    // Login admin
+    this.router.post("/login", AdminController.login);
 
-app.put("/:id", handelGetAdminById);
+    // Get all admins
+    this.router.get("/", AdminController.getAllAdmin);
 
-app.delete("/:id", handelDeleteAdmin);
+    // Get admin by ID
+    this.router.put("/:id", AdminController.getAdminById);
 
-module.exports = app;
+    // Delete admin by ID
+    this.router.delete("/:id", AdminController.deleteAdmin);
+  }
+
+  // Get the router instance
+  getRouter() {
+    return this.router;
+  }
+}
+
+module.exports = new AdminRoutes().getRouter();

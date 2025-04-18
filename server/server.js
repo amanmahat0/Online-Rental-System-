@@ -1,12 +1,3 @@
-//---------------------IMPORTANT NOTE----------------------
-// This is the core file of the server
-// This file is responsible for starting the server
-// This file is responsible for handling all the requests
-// Do not change the file name or the location of the file
-// Do not remove the required modules
-// Do not remove the database connection code
-// Don't remove routes it is required for the server to work
-
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -23,24 +14,47 @@ const adminRoute = require("./routes/adminRoute");
 const ownerRoute = require("./routes/ownerRoute");
 const propertyRoute = require("./routes/propertyRoute");
 
-// Middleware to parse JSON and URL-encoded data
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+class Server {
+  constructor() {
+    this.app = express();
+    this.port = 5000;
+    this.configureMiddleware();
+    this.configureRoutes();
+    this.connectDatabase();
+  }
 
-// Enable CORS
-app.use(cors());
+  configureMiddleware() {
+    this.app.use(express.json({ limit: "10mb" }));
+    this.app.use(express.urlencoded({ limit: "10mb", extended: true }));
+    this.app.use(bodyParser.json({ limit: "50mb" }));
+    this.app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+    this.app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+    this.app.use(cors());
+  }
 
-// Routes
-app.use("/api/user", userRoute);
-app.use("/api/agent", agentRoute);
-app.use("/api/admin", adminRoute);
-app.use("/api/owner", ownerRoute);
-app.use("/api/properties", propertyRoute);
+  configureRoutes() {
+    this.app.use("/api/user", userRoute);
+    this.app.use("/api/agent", agentRoute);
+    this.app.use("/api/admin", adminRoute);
+    this.app.use("/api/owner", ownerRoute);
+    this.app.use("/api/properties", propertyRoute);
+  }
 
-// Start server
-app.listen(5000, () => {
-  console.log("server started on port 5000");
-});
+  async connectDatabase() {
+    try {
+      await database.connect();
+      const mongoosesInstance = database.getMongooseInstance();
+    } catch (error) {
+      console.log("Failed to connect to the database:", error);
+    }
+  }
+
+  start() {
+    this.app.listen(this.port, () => {
+      console.log(`server started on port ${this.port}`);
+    });
+  }
+}
+
+const server = new Server();
+server.start();
