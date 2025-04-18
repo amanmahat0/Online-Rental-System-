@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 import "./LandingPage.css";
 import FeatureListing from "./FeatureListing/FeatureListing";
 import Rooms from "./Rooms/Rooms";
 import OfficeSpaces from "./OfficeSpaces/OfficeSpaces";
+import {FaFilter} from "react-icons/fa";
+import FilterModal from "./FilterModal/FilterModal";
 
 const LandingPage = () => {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [setFilters] = useState({
+    location: '',
+    propertyType: '',
+    minPrice: '',
+    maxPrice: ''
+  });
+
+  const handleFilterClick = () => {
+    setIsFilterOpen(true);
+  };
+
+  const handleCloseFilter = () => {
+    setIsFilterOpen(false);
+  };
+
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+    // Here you would typically make an API call to filter the properties
+    console.log('Applied filters:', newFilters);
+  };
+
   return (
     <>
     <div className="landing-container">
@@ -32,6 +56,7 @@ const LandingPage = () => {
         <div className="home-search-bar">
           <div className="search-input-container">
             <input type="text" placeholder="Search" className="search-input" />
+            <button className="landing-page-filter-btn" onClick={handleFilterClick}><FaFilter className="landing-page-search-filter-icon"/></button>
             <button className="search-btn">Browse Properties</button>
           </div>
         </div>
@@ -49,6 +74,12 @@ const LandingPage = () => {
     <div>
       <OfficeSpaces />
     </div>
+
+    <FilterModal
+      isOpen={isFilterOpen}
+      onClose={handleCloseFilter}
+      onApplyFilters={handleApplyFilters}
+    />
     </>
     
   );
