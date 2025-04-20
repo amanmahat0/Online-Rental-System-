@@ -2,16 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 
-const {
-  createProperty,
-  getAllProperties,
-  getPropertyById,
-  updateProperty,
-  deleteProperty,
-  propertiesByOwnerId,
-  handleGetAllSavedProperties,
-  getPropertyByType,
-} = require("../controller/propertyController");
+const propertiesController = require("../controller/propertyController");
 
 class PropertyRoutes {
   constructor() {
@@ -41,32 +32,45 @@ class PropertyRoutes {
   // Initialize all routes
   initializeRoutes() {
     // Create a property (with image upload)
-    this.router.post("/", this.upload.single("propertyImage"), createProperty);
+    this.router.post(
+      "/",
+      this.upload.single("propertyImage"),
+      propertiesController.createProperty
+    );
 
     // Get all properties
-    this.router.get("/", getAllProperties);
+    this.router.get("/", propertiesController.getAllProperties);
 
     // Get property by ID
-    this.router.get("/:id", getPropertyById);
+    this.router.get("/:id", propertiesController.getPropertyById);
 
     // Update property (with image upload)
     this.router.put(
       "/:id",
       this.upload.single("propertyImage"),
-      updateProperty
+      propertiesController.updateProperty
     );
 
     // Delete property
-    this.router.delete("/:id", deleteProperty);
+    this.router.delete("/:id", propertiesController.deleteProperty);
 
     // Get properties by owner ID
-    this.router.get("/owner/:ownerId", propertiesByOwnerId);
+    this.router.get(
+      "/owner/:ownerId",
+      propertiesController.propertiesByOwnerId
+    );
 
     // Get all saved properties
-    this.router.post("/savedProperties", handleGetAllSavedProperties);
+    this.router.post(
+      "/savedProperties",
+      propertiesController.handleGetAllSavedProperties
+    );
 
     // Get properties by type
-    this.router.get("/type/:propertyType", getPropertyByType);
+    this.router.get(
+      "/type/:propertyType",
+      propertiesController.getPropertyByType
+    );
   }
 
   // Get the router instance
