@@ -42,6 +42,18 @@ const OfficeSpaces = () => {
   const currentListings = listings.slice(0, listingsPerPage);
 
   const handleBookmarkClick = async (id) => {
+    // Update UI state immediately
+    setBookmarkedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+
+    // Handle backend API call
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
       console.error("User not found in localStorage");
@@ -73,7 +85,7 @@ const OfficeSpaces = () => {
         }
         const data = await response.json();
         // console.log("Property saved successfully:", data);
-        alert(data.message);
+        // alert(data.message);
         localStorage.setItem(
           "savedProperties",
           JSON.stringify(data.data.saveProperties)
@@ -186,42 +198,6 @@ const OfficeSpaces = () => {
                   : listing.description}
               </p>
             </div>
-            <p className="office-spaces-listing-details-card">
-              <FaHome
-                width={20}
-                height={20}
-                className="office-spaces-lsitings-cards-icons"
-              />
-              {listing.propertyType}
-            </p>
-            <p className="office-spaces-listing-details-card">
-              <FaMapMarkerAlt
-                width={20}
-                height={20}
-                className="office-spaces-lsitings-cards-icons"
-              />
-              `${listing.location.city} ${listing.location.area}`
-            </p>
-            <p className="office-spaces-listing-details-card">
-              <FaRupeeSign
-                width={20}
-                height={20}
-                className="office-spaces-lsitings-cards-icons"
-              />
-              {listing.pricePerMonth} / month
-            </p>
-
-            {/* <p className='top-listing-details-card'><FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>{listing.description}</p> */}
-            <p className="office-spaces-listing-details-card">
-              <FaInfoCircle
-                width={20}
-                height={20}
-                className="office-spaces-lsitings-cards-icons"
-              />
-              {listing.description.length > 100
-                ? listing.description.slice(0, 85) + "..."
-                : listing.description}
-            </p>
           </div>
         ))}
       </div>

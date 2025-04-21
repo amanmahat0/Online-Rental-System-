@@ -46,13 +46,25 @@ const FeatureListing = () => {
   // const currentListings = listings.slice(0, listingsPerPage);
 
   const handleBookmarkClick = async (id) => {
+    // Update local state
+    setBookmarkedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+
+    // Handle backend saving
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
       console.error("User not found in localStorage");
       return;
     }
 
-    const storedUserId = JSON.parse(storedUser).id; // Parse only if it exists
+    const storedUserId = JSON.parse(storedUser).id;
     const sendedData = {
       userId: storedUserId,
       propertyId: id,
@@ -76,8 +88,6 @@ const FeatureListing = () => {
           return;
         }
         const data = await response.json();
-        // console.log("Property saved successfully:", data);
-        alert(data.message);
         localStorage.setItem(
           "savedProperties",
           JSON.stringify(data.data.saveProperties)
