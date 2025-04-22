@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark, FaRegBookmark, FaFilter, FaTimes } from 'react-icons/fa';
 import './TopListings.css';
 
 const agentListings = [
@@ -231,26 +231,54 @@ const ownerListings = [
 const TopListings = () => {
   const navigate = useNavigate();
   const [filterStatus, setFilterStatus] = useState("All");
-  const [sortOrder, setSortOrder] = useState("None");
   const [currentPage, setCurrentPage] = useState(1);
   const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
   const [hoveredItems, setHoveredItems] = useState(new Set());
   const listingsPerPage = 6;
+  
+  // New state variables for filter modal
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [locationFilter, setLocationFilter] = useState("");
+  const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  
+  // Get unique property types for filter dropdowns
+  const allListings = [...agentListings, ...ownerListings];
+  const uniquePropertyTypes = [...new Set(allListings.map(listing => listing.propertyType))];
 
   let listings = [...agentListings, ...ownerListings];
-
-  
 
   // Apply status filter
   if (filterStatus !== "All") {
     listings = listings.filter(listing => listing.status === filterStatus);
   }
 
-  // Apply sorting
-  if (sortOrder === "High to Low") {
-    listings.sort((a, b) => parseFloat(b.price.replace(/\D/g, '')) - parseFloat(a.price.replace(/\D/g, '')));
-  } else if (sortOrder === "Low to High") {
-    listings.sort((a, b) => parseFloat(a.price.replace(/\D/g, '')) - parseFloat(b.price.replace(/\D/g, '')));
+  // Apply location filter
+  if (locationFilter) {
+    listings = listings.filter(listing => 
+      listing.location.toLowerCase().includes(locationFilter.toLowerCase())
+    );
+  }
+
+  // Apply property type filter
+  if (propertyTypeFilter) {
+    listings = listings.filter(listing => listing.propertyType === propertyTypeFilter);
+  }
+
+  // Apply price range filter
+  if (minPrice) {
+    listings = listings.filter(listing => {
+      const price = parseFloat(listing.price.replace(/\D/g, ''));
+      return price >= parseFloat(minPrice);
+    });
+  }
+
+  if (maxPrice) {
+    listings = listings.filter(listing => {
+      const price = parseFloat(listing.price.replace(/\D/g, ''));
+      return price <= parseFloat(maxPrice);
+    });
   }
 
   // Pagination Logic
@@ -283,6 +311,21 @@ const TopListings = () => {
     });
   };
 
+  // Reset filters
+  const resetFilters = () => {
+    setLocationFilter("");
+    setPropertyTypeFilter("");
+    setMinPrice("");
+    setMaxPrice("");
+    setCurrentPage(1);
+  };
+
+  // Apply filters
+  const applyFilters = () => {
+    setCurrentPage(1);
+    setShowFilterModal(false);
+  };
+
   // const handlePageChange = (pageNumber) => {
   //   setCurrentPage(pageNumber);
   // };
@@ -299,13 +342,103 @@ const TopListings = () => {
             <option value="Available">Available</option>
             <option value="Booked">Booked</option>
           </select>
-          <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-            <option value="None">Sort By</option>
-            <option value="High to Low">High Price to Low Price</option>
-            <option value="Low to High">Low Price to High Price</option>
-          </select>
+          <button 
+            className='top-listing-filter-btn'
+            onClick={() => setShowFilterModal(true)}
+          >
+            <FaFilter className='top-listing-filter-btn-icon'/>
+          </button>
         </div>
       </div>
+
+      {/* Filter Modal */}
+      {showFilterModal && (
+        <div className="filter-modal-overlay">
+          <div className="filter-modal">
+            <div className="filter-modal-header">
+              <h2>Filter Properties</h2>
+              <button 
+                className="close-filter-btn"
+                onClick={() => setShowFilterModal(false)}
+              >
+                <FaTimes />
+              </button>
+            </div>
+            
+            <div className="filter-modal-body">
+              <div className="filter-group">
+                <label>Location</label>
+                <input 
+                  type="text" 
+                  placeholder="Enter location (e.g., Kathmandu, Pokhara)" 
+                  value={locationFilter}
+                  onChange={(e) => setLocationFilter(e.target.value)}
+                  className="location-input"
+                />
+              </div>
+              
+              <div className="filter-group">
+                <label>Property Type</label>
+                <select 
+                  value={propertyTypeFilter} 
+                  onChange={(e) => setPropertyTypeFilter(e.target.value)}
+                >
+                  <option value="">All Property Types</option>
+                  {uniquePropertyTypes.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="filter-group">
+                <label>Price Range</label>
+                <div className="price-range-inputs">
+                  <input 
+                    type="text" 
+                    placeholder="Min Price" 
+                    value={minPrice}
+                    onChange={(e) => {
+                      // Only allow numbers
+                      const value = e.target.value.replace(/[^0-9]/g, '');
+                      setMinPrice(value);
+                    }}
+                    pattern="[0-9]*"
+                    inputMode="numeric"
+                  />
+                  <span>to</span>
+                  <input 
+                    type="text" 
+                    placeholder="Max Price" 
+                    value={maxPrice}
+                    onChange={(e) => {
+                      // Only allow numbers
+                      const value = e.target.value.replace(/[^0-9]/g, '');
+                      setMaxPrice(value);
+                    }}
+                    pattern="[0-9]*"
+                    inputMode="numeric"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div className="filter-modal-footer">
+              <button 
+                className="reset-filter-btn"
+                onClick={resetFilters}
+              >
+                Reset
+              </button>
+              <button 
+                className="apply-filter-btn"
+                onClick={applyFilters}
+              >
+                Apply Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="top-listings-grid">
         {currentListings.map((listing) => (
@@ -340,7 +473,6 @@ const TopListings = () => {
               <p className='top-listing-details-card'><FaMapMarkerAlt width={20} height={20} className='top-lsitings-cards-icons'/>{listing.location}</p>
               <p className='top-listing-details-card'><FaRupeeSign width={20} height={20} className='top-lsitings-cards-icons'/>{listing.price}</p>
               
-              {/* <p className='top-listing-details-card'><FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>{listing.description}</p> */}
               <p className='top-listing-details-card'>
                   <FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>
                   {listing.description.length > 100 
