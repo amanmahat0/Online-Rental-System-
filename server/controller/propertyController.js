@@ -220,6 +220,48 @@ const getPropertyByType = async (req, res) => {
   }
 };
 
+const filterProperties = async (req, res) => {
+  console.log("Filter Properties Request:", req.query);
+  try {
+    const { minPrice, maxPrice, location, propertyType } = req.query;
+    console.log("Filter Query:", req.query);
+    // Build the query object dynamically
+    const query = {};
+
+    if (minPrice || maxPrice) {
+      query.pricePerMonth = {};
+      if (minPrice) query.pricePerMonth.$gte = parseFloat(minPrice);
+      if (maxPrice) query.pricePerMonth.$lte = parseFloat(maxPrice);
+    }
+
+    if (location) {
+      query["location.city"] = location; // Assuming `location.city` is the field in the schema
+    }
+
+    if (propertyType) {
+      query.propertyType = propertyType;
+    }
+
+    // Fetch properties based on the query
+    const properties = await Property.find(query);
+
+    if (!properties || properties.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "No properties found matching the criteria.",
+      });
+    }
+
+    return res.status(200).json({ status: true, data: properties });
+  } catch (error) {
+    console.error("Error filtering properties:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Failed to filter properties.",
+    });
+  }
+};
+
 module.exports = {
   createProperty,
   getAllProperties,
@@ -229,4 +271,5 @@ module.exports = {
   propertiesByOwnerId,
   handleGetAllSavedProperties,
   getPropertyByType,
+  filterProperties,
 };

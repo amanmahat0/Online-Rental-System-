@@ -11,6 +11,7 @@ const {
   propertiesByOwnerId,
   handleGetAllSavedProperties,
   getPropertyByType,
+  filterProperties,
 } = require("../controller/propertyController");
 
 // Configure Multer for disk storage
@@ -38,5 +39,5 @@ router.delete("/:id", deleteProperty);
 router.get("/owner/:ownerId", propertiesByOwnerId);
 router.post("/savedProperties", handleGetAllSavedProperties);
 router.get("/type/:propertyType", getPropertyByType);
-
+router.get("/filter", filterProperties);
 module.exports = router;
