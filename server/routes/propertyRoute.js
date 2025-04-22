@@ -33,11 +33,11 @@ const upload = multer({
 // Routes
 router.post("/", upload.single("propertyImage"), createProperty); // Apply multer only to this route
 router.get("/", getAllProperties);
+router.get("/filter/", filterProperties);
 router.get("/:id", getPropertyById);
 router.put("/:id", upload.single("propertyImage"), updateProperty); // Apply multer for updates if needed
 router.delete("/:id", deleteProperty);
 router.get("/owner/:ownerId", propertiesByOwnerId);
 router.post("/savedProperties", handleGetAllSavedProperties);
 router.get("/type/:propertyType", getPropertyByType);
-router.get("/filter", filterProperties);
 module.exports = router;
