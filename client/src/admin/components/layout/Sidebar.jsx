@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { 
   FaBars, 
-  FaUserFriends, 
   FaUsers, 
   FaBuilding, 
   FaUser, 
@@ -45,7 +44,7 @@ const Sidebar = () => {
               {isOpen && <span>Dashboard</span>}
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink 
               to="/admin/manage-team" 
               className={({ isActive }) => (isActive ? "active" : "")}
@@ -53,7 +52,7 @@ const Sidebar = () => {
               <FaUserFriends className="icon" />
               {isOpen && <span>Manage Team</span>}
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink 
               to="/admin/users" 
