@@ -1,9 +1,5 @@
-.agents-container {
-  background: linear-gradient(
-    145deg,
-    #7065f0,
-    #b0b0b0
-  ); /* Purple-blue blending into soft gray */
+.admin-agent-container {
+  background: linear-gradient(145deg, #7065f0, #b0b0b0); /* Purple-blue blending into soft gray */
   color: #f5f5f5;
   min-height: 100vh;
   padding: 30px;
@@ -12,7 +8,7 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.agents-title {
+.admin-agent-title {
   font-size: 2.8rem;
   text-align: center;
   margin-bottom: 40px;
@@ -20,14 +16,34 @@
   text-shadow: 2px 2px 15px rgba(255, 255, 255, 0.3);
 }
 
-.filter-container {
+.admin-agent-error-message {
+  background: rgba(255, 99, 71, 0.2);
+  color: #ff6347;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-agent-error-message button {
+  background: transparent;
+  border: 1px solid #ff6347;
+  color: #ff6347;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.admin-agent-search-container {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.filter-container input,
-.filter-container select {
+.admin-agent-search-input {
+  width: 100%;
   padding: 10px;
   font-size: 16px;
   border: none;
@@ -38,23 +54,22 @@
   transition: 0.3s;
 }
 
-.filter-container input::placeholder {
+.admin-agent-search-input::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.filter-container input:focus,
-.filter-container select:focus {
+.admin-agent-search-input:focus {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.agents-grid {
+.admin-agent-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
   animation: fadeIn 0.8s ease-out;
 }
 
-.agent-card {
+.admin-agent-card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border-radius: 20px;
@@ -65,33 +80,31 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.agent-card:hover {
+.admin-agent-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3); /* Softer glow */
   border-color: rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.12);
 }
 
-.agent-icon {
+.admin-agent-icon {
   font-size: 2.5rem;
   margin-bottom: 15px;
   color: #ffffff;
-  filter: drop-shadow(
-    0 0 8px rgba(255, 255, 255, 0.4)
-  ); /* Enhanced light effect */
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4)); /* Enhanced light effect */
 }
 
-.agent-info h3 {
+.admin-agent-info h3 {
   font-size: 1.8rem;
   margin-bottom: 15px;
   color: #ffffff;
 }
 
-.agent-details {
+.admin-agent-details {
   margin: 15px 0;
 }
 
-.agent-details p {
+.admin-agent-details p {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -99,69 +112,306 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-.agent-status {
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-transform: uppercase;
+.admin-agent-no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 30px;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.agent-status.active {
-  background: rgba(46, 213, 115, 0.2);
-  color: #2ed573;
-}
-
-.agent-status.inactive {
-  background: rgba(255, 99, 71, 0.2);
-  color: #ff6347;
-}
-
-.agent-actions {
+.admin-agent-action-buttons {
   display: flex;
-  justify-content: space-around;
-  margin-top: 15px;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 15px;
 }
 
-.agent-actions button {
+.admin-agent-action-buttons button {
+  flex: 1;
   border: none;
-  padding: 8px 18px;
+  padding: 10px 18px;
   border-radius: 8px;
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
   border: solid 2px #eceaea;
   color: #eceaea;
   background-color: transparent;
+  text-align: center;
 }
 
-.agent-actions button:nth-child(1):hover {
+.admin-agent-edit-btn:hover {
   background-color: #6ebd4cca;
-  border: #6ebd4cca;
+  border-color: #6ebd4cca;
+  color: white;
+  transform: translateY(-3px);
 }
 
-.agent-actions button:nth-child(2):hover {
+.admin-agent-delete-btn:hover {
   background-color: #ca2b2bed;
-  border: #ca2b2bed;
+  border-color: #ca2b2bed;
+  color: white;
+  transform: translateY(-3px);
 }
 
-.agent-actions button:hover {
+/* Modal styles with admin-agent prefix */
+.admin-agent-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 15px;
+}
+
+.admin-agent-edit-modal,
+.admin-agent-delete-modal {
+  background: linear-gradient(145deg, #5a52c4, #9595a8);
+  border-radius: 16px;
+  padding: 25px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.admin-agent-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  /* background: transparent; */
+  z-index: 1;
+}
+
+.admin-agent-modal-header h2 {
+  color: white;
+  margin: 0;
+}
+
+.admin-agent-close-modal {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-agent-close-modal:hover {
+  color: #ff6347;
   transform: scale(1.1);
-  filter: brightness(1.2);
+}
+
+.admin-agent-form-group {
+  margin-bottom: 20px;
+}
+
+.admin-agent-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.admin-agent-input-wrapper {
+  position: relative;
+}
+
+.admin-agent-form-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+}
+
+.admin-agent-field-error {
+  color: #ff6347;
+  font-size: 14px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.admin-agent-field-warning {
+  color: #ffd700;
+  font-size: 14px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.admin-agent-delete-content {
+  margin: 20px 0;
+}
+
+.admin-agent-delete-name {
+  font-weight: bold;
+  font-size: 18px;
+  color: #ff6347;
+  margin: 10px 0;
+}
+
+.admin-agent-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  position: sticky;
+  bottom: 0;
+  /* background: #2a2a2a; */
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-agent-cancel-btn,
+.admin-agent-save-btn,
+.admin-agent-confirm-delete-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  text-align: center;
+  min-width: 120px;
+}
+
+.admin-agent-cancel-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.admin-agent-cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-agent-save-btn {
+  background: #5ccf6d;
+  border: none;
+  color: white;
+}
+
+.admin-agent-save-btn:hover {
+  background: #4ecb5f;
+  transform: translateY(-2px);
+}
+
+.admin-agent-confirm-delete-btn {
+  background: #ca2b2bed;
+  border: none;
+  color: white;
+}
+
+.admin-agent-confirm-delete-btn:hover {
+  background: #e63946;
+  transform: translateY(-2px);
+}
+
+.admin-agent-save-btn:disabled,
+.admin-agent-cancel-btn:disabled,
+.admin-agent-confirm-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .admin-agent-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
-  .agents-container {
+  .admin-agent-container {
+    padding: 20px;
+    margin-left: 0;
+  }
+  
+  .admin-agent-title {
+    font-size: 2rem;
+    margin-bottom: 25px;
+  }
+  
+  .admin-agent-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .admin-agent-card {
     padding: 20px;
   }
-
-  .agents-title {
-    font-size: 2rem;
+  
+  .admin-agent-edit-modal,
+  .admin-agent-delete-modal {
+    padding: 15px;
+    border-radius: 12px;
   }
+  
+  .admin-agent-modal-actions {
+    flex-direction: column;
+  }
+  
+  .admin-agent-cancel-btn,
+  .admin-agent-save-btn,
+  .admin-agent-confirm-delete-btn {
+    width: 100%;
+  }
+}
 
-  .agents-grid {
-    grid-template-columns: 1fr;
+@media (max-width: 480px) {
+  .admin-agent-container {
+    padding: 15px;
+  }
+  
+  .admin-agent-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .admin-agent-info h3 {
+    font-size: 1.5rem;
+  }
+  
+  .admin-agent-action-buttons {
+    flex-direction: column;
+  }
+  
+  .admin-agent-action-buttons button {
+    width: 100%;
   }
 }
 

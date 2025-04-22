@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
+  FaSearch,
   FaUser,
   FaEnvelope,
   FaCalendar,
@@ -9,6 +10,7 @@ import {
   FaPhone,
   FaTimes,
   FaCheckCircle,
+  FaExclamationTriangle
 } from "react-icons/fa";
 import { UserDataContext } from "../../adminContext/AdminContext";
 import "./users.css";
@@ -21,6 +23,10 @@ const Users = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [contactError, setContactError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   // Handle opening the edit modal with user data
   const handleEditUser = (user) => {
@@ -56,6 +62,21 @@ const Users = () => {
         [name]: value,
       }));
     }
+  };
+
+  const handleSearch = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    
+    if (!userData?.data) return;
+    
+    const filtered = userData.data.filter(user => 
+      user.name.toLowerCase().includes(term) ||
+      user.email.toLowerCase().includes(term) ||
+      user.contact.includes(term)
+    );
+    
+    setFilteredUsers(filtered);
   };
 
   // Handle form submission for editing a user
@@ -116,19 +137,23 @@ const Users = () => {
     }
   };
 
-  // Handle deleting a user
-  const handleDeleteUser = async (userId) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) {
-      return;
-    }
+  // Show delete confirmation dialog
+  const confirmDeleteUser = (user) => {
+    setUserToDelete(user);
+    setShowDeleteConfirm(true);
+  };
 
+  // Handle deleting a user after confirmation
+  const handleDeleteUser = async () => {
+    if (!userToDelete) return;
+    
     setIsLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
 
     try {
       // Make API call to delete user
-      const response = await fetch(`http://localhost:5000/api/user/${userId}`, {
+      const response = await fetch(`http://localhost:5000/api/user/${userToDelete._id}`, {
         method: "DELETE",
       });
 
@@ -139,11 +164,15 @@ const Users = () => {
       // Update state to remove deleted user
       setUserData({
         ...userData,
-        data: userData.data.filter((user) => user._id !== userId),
+        data: userData.data.filter((user) => user._id !== userToDelete._id),
       });
       
       // Show success message
-      setSuccessMessage("User successfully deleted!");
+      setSuccessMessage(`User ${userToDelete.name} successfully deleted!`);
+      
+      // Clear delete confirmation
+      setShowDeleteConfirm(false);
+      setUserToDelete(null);
       
       // Clear success message after 3 seconds
       setTimeout(() => {
@@ -158,8 +187,18 @@ const Users = () => {
     }
   };
 
-  // Check if userData exists and has data property
-  const users = userData?.data || [];
+  // Cancel delete operation
+  const cancelDelete = () => {
+    setShowDeleteConfirm(false);
+    setUserToDelete(null);
+  };
+
+  // Initialize filteredUsers when userData changes
+  useEffect(() => {
+    if (userData?.data) {
+      setFilteredUsers(userData.data);
+    }
+  }, [userData]);
 
   const fetchUserData = async () => {
     try {
@@ -205,6 +244,9 @@ const Users = () => {
     }
   }, [errorMessage, successMessage]);
 
+  // Determine which users to display based on search
+  const displayUsers = searchTerm ? filteredUsers : userData?.data || [];
+
   return (
     <div className="admin-user-container">
       <motion.h1
@@ -235,11 +277,43 @@ const Users = () => {
         </div>
       )}
 
+      {/* Search Bar - Added with unique class names */}
+      <div className="user-search-container">
+        <div className="user-search-input-wrapper">
+          <FaSearch className="user-search-icon" />
+          <input
+            type="text"
+            className="user-search-input"
+            placeholder="Search by name, email or contact..."
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          {searchTerm && (
+            <button 
+              className="user-search-clear-btn" 
+              onClick={() => {
+                setSearchTerm('');
+                setFilteredUsers(userData?.data || []);
+              }}
+            >
+              <FaTimes />
+            </button>
+          )}
+        </div>
+        {searchTerm && (
+          <div className="user-search-results-info">
+            Found {filteredUsers.length} {filteredUsers.length === 1 ? 'user' : 'users'}
+          </div>
+        )}
+      </div>
+
       <div className="admin-user-table-container">
         {isLoading && <div className="admin-user-loading-overlay">Processing...</div>}
 
-        {users.length === 0 ? (
-          <p>No users found</p>
+        {displayUsers.length === 0 ? (
+          <p className="user-search-no-results">
+            {searchTerm ? "No users found matching your search" : "No users found"}
+          </p>
         ) : (
           <table className="admin-user-table">
             <thead>
@@ -252,7 +326,7 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {displayUsers.map((user) => (
                 <motion.tr
                   key={user._id}
                   initial={{ opacity: 0 }}
@@ -286,7 +360,7 @@ const Users = () => {
                     </button>
                     <button
                       className="admin-user-action-btn admin-user-delete"
-                      onClick={() => handleDeleteUser(user._id)}
+                      onClick={() => confirmDeleteUser(user)}
                       aria-label="Delete user"
                       disabled={isLoading}
                     >
@@ -384,6 +458,62 @@ const Users = () => {
                 </div>
               )}
             </form>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && userToDelete && (
+        <div className="admin-user-modal-overlay">
+          <motion.div
+            className="admin-user-delete-modal"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="admin-user-modal-header admin-user-delete-header">
+              <h2>Confirm Delete</h2>
+              <button
+                className="admin-user-close-modal"
+                onClick={cancelDelete}
+              >
+                <FaTimes />
+              </button>
+            </div>
+            
+            <div className="admin-user-delete-content">
+              <div className="admin-user-delete-warning">
+                <FaExclamationTriangle className="admin-user-warning-icon" />
+                <p>Are you sure you want to delete this user?</p>
+              </div>
+              
+              <div className="admin-user-delete-user-info">
+                <p><strong>Name:</strong> {userToDelete.name}</p>
+                <p><strong>Email:</strong> {userToDelete.email}</p>
+                <p><strong>Contact:</strong> {userToDelete.contact}</p>
+              </div>
+              
+              <p className="admin-user-delete-note">This action cannot be undone.</p>
+              
+              <div className="admin-user-modal-actions">
+                <button
+                  type="button"
+                  className="admin-user-cancel-btn"
+                  onClick={cancelDelete}
+                  disabled={isLoading}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="button" 
+                  className="admin-user-delete-btn" 
+                  onClick={handleDeleteUser}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Deleting..." : "Delete User"}
+                </button>
+              </div>
+            </div>
           </motion.div>
         </div>
       )}
