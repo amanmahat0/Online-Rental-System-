@@ -13,7 +13,6 @@ import TopListings from "../user/page/TopListings/TopListings";
 import AboutUs from "../user/page/AboutUs/AboutUs";
 import UserSidebar from "../user/page/UserDashBoard/Sidebar/UserSidebar";
 import UserDashboard from "../user/page/UserDashBoard/Routes/UserDashboard";
-import Agent from "../agent/Agent";
 import OwnerSidebar from "../owners/Sidebar/OwnerSidebar";
 import PropertyDetails from "../user/page/TopListings/PropertyDetails";
 import UserProfile from "../user/page/UserDashBoard/MyProfile/UserProfile";
