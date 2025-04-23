@@ -45,7 +45,7 @@ const OwnerSchema = new mongoose.Schema(
     },
     properties: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Property",
         default: [],
       },
