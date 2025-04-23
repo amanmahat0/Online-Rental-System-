@@ -36,7 +36,6 @@ const AppRoutes = () => {
       {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
       <Route path="/toplistings" element={<TopListings />} />
       <Route path="/aboutus" element={<AboutUs />} />
-      <Route path="/agent" element={<Agent />} />
       <Route path="/owner" element={<OwnerSidebar />} />
       <Route path="/TopListings/:id" element={<PropertyDetails />} />
       {/* <Route path="/userdashboard" element={<UserDashboard />} /> */}
