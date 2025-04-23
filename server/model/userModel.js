@@ -41,7 +41,21 @@ const UserSchema = mongoose.Schema(
       max: 255,
     },
     saveProperties: {
-      type: [String],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Property",
+        },
+      ],
+      default: [],
+    },
+    bookedProperties: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Property",
+        },
+      ],
       default: [],
     },
     resetToken: {
