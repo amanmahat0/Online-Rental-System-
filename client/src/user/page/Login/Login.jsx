@@ -7,7 +7,7 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    role: "user", // Default role
+    role: "User", // Default role
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -53,11 +53,11 @@ const Login = () => {
         localStorage.setItem("role", formData.role);
         setUser(data.data);
         setRole(formData.role);
-        if (formData.role === "user") {
+        if (formData.role === "User") {
           return navigate("/");
-        } else if (formData.role === "agent") {
+        } else if (formData.role === "Agent") {
           return navigate("/agent/profile");
-        } else if (formData.role === "owner") {
+        } else if (formData.role === "Owner") {
           return navigate("/owner/profile");
         }
       } else {
@@ -87,8 +87,8 @@ const Login = () => {
                   type="radio"
                   id="role-user"
                   name="role"
-                  value="user"
-                  checked={formData.role === "user"}
+                  value="User"
+                  checked={formData.role === "User"}
                   onChange={handleChange}
                 />
                 <label htmlFor="role-user">User</label>
@@ -98,8 +98,8 @@ const Login = () => {
                   type="radio"
                   id="role-agent"
                   name="role"
-                  value="agent"
-                  checked={formData.role === "agent"}
+                  value="Agent"
+                  checked={formData.role === "Agent"}
                   onChange={handleChange}
                 />
                 <label htmlFor="role-agent">Agent</label>
@@ -109,8 +109,8 @@ const Login = () => {
                   type="radio"
                   id="role-owner"
                   name="role"
-                  value="owner"
-                  checked={formData.role === "owner"}
+                  value="Owner"
+                  checked={formData.role === "Owner"}
                   onChange={handleChange}
                 />
                 <label htmlFor="role-owner">Owner</label>
