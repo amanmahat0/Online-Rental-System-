@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark, FaTimes } from 'react-icons/fa';
 import './AgentBookings.css';
 
 const listing = [
   { 
     id: 1, 
-    title: 'Luxury Apartment in Downtown', 
+    title: 'Luxury Apartment', 
     propertyType: 'Apartment', 
-    price: '$1200/month', 
+    price: '42200/month', 
     location: 'Downtown', 
     imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
     description: 'This is the best apartment in the world. It has 1 million rooms, 10 million toilets, 100 million kitchens.', 
@@ -19,7 +19,7 @@ const listing = [
     id: 2, 
     title: 'Modern Villa with Pool', 
     propertyType: 'Villa', 
-    price: '$5000/month', 
+    price: '45000/month', 
     location: 'Beverly Hills', 
     imageUrl: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg', 
     description: 'A beautiful villa with a private pool and stunning ocean views.', 
@@ -30,7 +30,7 @@ const listing = [
     id: 3, 
     title: 'Cozy Studio Apartment', 
     propertyType: 'Apartment', 
-    price: '$800/month', 
+    price: '48800/month', 
     location: 'New York City', 
     imageUrl: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg', 
     description: 'A compact and stylish studio in the heart of NYC.', 
@@ -41,7 +41,7 @@ const listing = [
     id: 4, 
     title: 'Spacious Family Home', 
     propertyType: 'House', 
-    price: '$2500/month', 
+    price: '42500/month', 
     location: 'Los Angeles', 
     imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
     description: 'Perfect for families, with a large backyard and modern amenities.', 
@@ -52,7 +52,7 @@ const listing = [
     id: 5, 
     title: 'Penthouse with City View', 
     propertyType: 'Penthouse', 
-    price: '$7000/month', 
+    price: '47000/month', 
     location: 'Chicago', 
     imageUrl: 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg', 
     description: 'An exclusive penthouse with a breathtaking skyline view.', 
@@ -63,7 +63,7 @@ const listing = [
     id: 6, 
     title: 'Countryside Cottage', 
     propertyType: 'Cottage', 
-    price: '$1500/month', 
+    price: '51500/month', 
     location: 'Colorado', 
     imageUrl: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg', 
     description: 'A peaceful cottage surrounded by nature and fresh air.', 
@@ -74,7 +74,7 @@ const listing = [
     id: 7, 
     title: 'Beachfront Bungalow', 
     propertyType: 'Bungalow', 
-    price: '$3000/month', 
+    price: '53000/month', 
     location: 'Miami', 
     imageUrl: 'https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg', 
     description: 'A perfect vacation home right on the beach.', 
@@ -85,7 +85,7 @@ const listing = [
     id: 8, 
     title: 'Urban Loft in Downtown', 
     propertyType: 'Loft', 
-    price: '$2200/month', 
+    price: '42200/month', 
     location: 'San Francisco', 
     imageUrl: 'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg', 
     description: 'A trendy loft with high ceilings and modern decor.', 
@@ -96,7 +96,7 @@ const listing = [
     id: 9, 
     title: 'Farmhouse Retreat', 
     propertyType: 'Farmhouse', 
-    price: '$2000/month', 
+    price: '52000/month', 
     location: 'Texas', 
     imageUrl: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg', 
     description: 'A spacious farmhouse with land for gardening and animals.', 
@@ -107,7 +107,7 @@ const listing = [
     id: 10, 
     title: 'Luxury Mansion', 
     propertyType: 'Mansion', 
-    price: '$15000/month', 
+    price: '115000/month', 
     location: 'Beverly Hills', 
     imageUrl: 'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg', 
     description: 'A stunning luxury mansion with private security and a pool.', 
@@ -118,12 +118,49 @@ const listing = [
 
 const AgentBookings = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [listings, setListings] = useState([...listing]);
-  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Get the initial page from URL or sessionStorage, or default to 1
+  const getInitialPage = () => {
+    const queryParams = new URLSearchParams(location.search);
+    const urlPage = parseInt(queryParams.get('page'), 10);
+    
+    if (!isNaN(urlPage) && urlPage > 0) {
+      return urlPage;
+    }
+    
+    const storedPage = parseInt(sessionStorage.getItem('agentBookingsPage'), 10);
+    return !isNaN(storedPage) && storedPage > 0 ? storedPage : 1;
+  };
+  
+  const [currentPage, setCurrentPage] = useState(getInitialPage);
   const [savedProperties, setSavedProperties] = useState([]);
   const listingsPerPage = 6;
 
   const totalPages = Math.ceil(listings.length / listingsPerPage);
+  
+  // Ensure current page is valid based on available listings
+  useEffect(() => {
+    const maxValidPage = Math.max(1, Math.ceil(listings.length / listingsPerPage));
+    if (currentPage > maxValidPage) {
+      setCurrentPage(maxValidPage);
+    }
+  }, [listings, currentPage]);
+  
+  // Update URL and store page in sessionStorage when page changes
+  useEffect(() => {
+    // Update URL with current page
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.set('page', currentPage.toString());
+    
+    // Replace state instead of push to avoid creating new history entries for pagination
+    navigate(`${location.pathname}?${queryParams.toString()}`, { replace: true });
+    
+    // Store current page in sessionStorage
+    sessionStorage.setItem('agentBookingsPage', currentPage.toString());
+  }, [currentPage, navigate, location.pathname, location.search]);
+
   const indexOfLastListing = currentPage * listingsPerPage;
   const indexOfFirstListing = indexOfLastListing - listingsPerPage;
   const currentListings = listings.slice(indexOfFirstListing, indexOfLastListing);
@@ -131,8 +168,11 @@ const AgentBookings = () => {
   const cancelBooking = (id) => {
     const updated = listings.filter((listing) => listing.id !== id);
     setListings(updated);
-    if (currentPage > Math.ceil(updated.length / listingsPerPage)) {
-      setCurrentPage((prev) => Math.max(1, prev - 1));
+    
+    // If current page would be empty after deletion, go to previous page
+    const newTotalPages = Math.ceil(updated.length / listingsPerPage);
+    if (currentPage > newTotalPages) {
+      setCurrentPage(Math.max(1, newTotalPages));
     }
   };
 
@@ -142,6 +182,13 @@ const AgentBookings = () => {
       setSavedProperties(savedProperties.filter(propId => propId !== id));
     } else {
       setSavedProperties([...savedProperties, id]);
+    }
+  };
+
+  const changePage = (newPage) => {
+    // Validate page number
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
     }
   };
 
@@ -183,7 +230,10 @@ const AgentBookings = () => {
                   <FaInfoCircle className="agent-bookings-icon" />
                   {listing.description.length > 100 ? listing.description.slice(0, 85) + "..." : listing.description}
                 </p>
-                
+              </div>
+              
+              {/* Button container to push button to bottom */}
+              <div className="agent-bookings-button-container">
                 <button
                   className="agent-bookings-cancel-button"
                   onClick={(e) => {
@@ -207,10 +257,11 @@ const AgentBookings = () => {
       )}
 
       {listings.length > 0 && (
-        <div className="agent-bookings-pagination">
+        <div className="agent-bookings-pagination" data-max-pages={totalPages}>
           <button
             className="agent-bookings-pagination-button"
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            data-action="prev"
+            onClick={() => changePage(currentPage - 1)}
             disabled={currentPage === 1}
           >
             Previous
@@ -219,8 +270,9 @@ const AgentBookings = () => {
           {[...Array(totalPages)].map((_, index) => (
             <button
               key={index + 1}
+              data-page={index + 1}
               className={`agent-bookings-pagination-number ${currentPage === index + 1 ? 'active' : ''}`}
-              onClick={() => setCurrentPage(index + 1)}
+              onClick={() => changePage(index + 1)}
             >
               {index + 1}
             </button>
@@ -228,7 +280,8 @@ const AgentBookings = () => {
 
           <button
             className="agent-bookings-pagination-button"
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            data-action="next"
+            onClick={() => changePage(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
             Next
