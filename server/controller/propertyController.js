@@ -153,24 +153,72 @@ const deleteProperty = async (req, res) => {
   }
 };
 
-const propertiesByOwnerId = async (req, res) => {
+// const propertiesByOwnerOrAgentId = async (req, res) => {
+//   try {
+//     const { role, Id } = req.params;
+
+//     if (!Id || !role) {
+//       return res.status(400).json({
+//         status: false,
+//         message: "Owner ID and role are required.",
+//       });
+//     }
+
+//     console.log("Owner/Agent ID:", Id, "Role:", role);
+
+//     // Fetch properties based on owner/agent ID and role
+//     const properties = await Property.find({ owner: Id, role });
+
+//     console.log("Properties by Owner/Agent ID:", properties);
+
+//     if (!properties || properties.length === 0) {
+//       return res.status(404).json({
+//         status: false,
+//         message: `No properties found for this ${role}.`,
+//       });
+//     }
+
+//     return res.status(200).json({ status: true, data: properties });
+//   } catch (error) {
+//     console.error("Error fetching properties by owner/agent ID:", error);
+//     return res.status(500).json({
+//       status: false,
+//       message: "Failed to fetch properties by owner/agent ID.",
+//     });
+//   }
+// };
+
+const propertiesByOwnersId = async (req, res) => {
   try {
-    const ownerId = req.params.ownerId;
-    console.log("Owner ID:", ownerId);
-    const properties = await Property.find({ owner: ownerId });
-    console.log("Properties by Owner ID:", properties);
+    const { Id } = req.params;
+
+    if (!Id) {
+      return res.status(400).json({
+        status: false,
+        message: "Owner ID are required.",
+      });
+    }
+
+    console.log("Fetching properties for Owner/Agent  ID:", Id);
+
+    // Fetch properties based on owner/agent ID and role
+    const properties = await Property.find({ owner: Id });
+
+    console.log("Properties by Owner/Agent ID:", properties);
+
     if (!properties || properties.length === 0) {
       return res.status(404).json({
         status: false,
-        message: "No properties found for this owner.",
+        message: `No properties found for this Owner/Agent.`,
       });
     }
+
     return res.status(200).json({ status: true, data: properties });
   } catch (error) {
-    console.error("Error fetching properties by owner ID:", error);
+    console.error("Error fetching properties by owner/agent ID:", error);
     return res.status(500).json({
       status: false,
-      message: "Failed to fetch properties by owner Id.",
+      message: "Failed to fetch properties by owner/agent ID.",
     });
   }
 };
@@ -231,7 +279,10 @@ const filterProperties = async (req, res) => {
     }
 
     if (location) {
-      query["location.city"] = location; // Assuming `location.city` is the field in the schema
+      query.$or = [
+        { "location.city": location },
+        { "location.area": location },
+      ];
     }
 
     if (propertyType) {
@@ -414,7 +465,7 @@ module.exports = {
   getPropertyById,
   updateProperty,
   deleteProperty,
-  propertiesByOwnerId,
+  propertiesByOwnersId,
   handleGetAllSavedProperties,
   getPropertyByType,
   filterProperties,
