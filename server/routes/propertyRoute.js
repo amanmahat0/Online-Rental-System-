@@ -8,7 +8,7 @@ const {
   getPropertyById,
   updateProperty,
   deleteProperty,
-  propertiesByOwnerId,
+  propertiesByOwnersId,
   handleGetAllSavedProperties,
   getPropertyByType,
   filterProperties,
@@ -42,7 +42,7 @@ router.post("/savedProperties", handleGetAllSavedProperties);
 router.get("/:id", getPropertyById);
 router.put("/:id", upload.single("propertyImage"), updateProperty);
 router.delete("/:id", deleteProperty);
-router.get("/owner/:ownerId", propertiesByOwnerId);
+router.get("/owner/:Id", propertiesByOwnersId);
 router.get("/type/:propertyType", getPropertyByType);
 
 module.exports = router;
