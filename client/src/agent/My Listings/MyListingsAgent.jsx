@@ -23,7 +23,7 @@ const MyListingsAgent = () => {
 
       console.log(`${storedRole} ${storedUser.id}`);
       const response = await fetch(
-        `http://localhost:5000/api/properties/${storedRole}/${storedUser.id}`,
+        `http://localhost:5000/api/properties/owner/${storedUser.id}`,
         {
           method: "GET",
           headers: {
