@@ -12,7 +12,7 @@ const PropertyDetails = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   
   // Destructure the data passed via navigation
-  const { title, price, location: propertyLocation, imageUrl, description, propertyType, status, contact } = location.state || {};
+  const { title, price, location: propertyLocation, images, description, propertyType, status, contact } = location.state || {};
 
   useEffect(() => {
     // Simulate loading state
@@ -78,9 +78,9 @@ const PropertyDetails = () => {
       <div className="property-details-content">
         <div className="property-details-main">
           <div className="property-details-image-container">
-            {imageUrl ? (
+            {images ? (
               <img 
-                src={imageUrl} 
+                src={`http://localhost:5000${images}`} 
                 alt={title || 'Property image'} 
                 className="details-property-image"
                 loading="lazy"
@@ -109,7 +109,7 @@ const PropertyDetails = () => {
               <h3>Contact Information</h3>
               <div className="contact-details">
                 {contact && <p><strong>Phone:</strong> {contact}</p>}
-                <p><strong>Email:</strong> sample@example.com</p>
+                
               </div>
             </div>
           </div>

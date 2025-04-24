@@ -242,6 +242,8 @@ const TopListings = () => {
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  // Add state for search input
+  const [searchInput, setSearchInput] = useState("");
   
   // Get unique property types for filter dropdowns
   const allListings = [...agentListings, ...ownerListings];
@@ -334,7 +336,30 @@ const TopListings = () => {
     <div className="top-listings-container">
       <div className="top-header-section">
         <h1>Properties</h1>
-        <div className='top-listing-search-btn-section'><input type="text" className='top-listing-search-input' placeholder='search...'/><button className='top-listing-search-btn'>Search</button></div>
+        <div className='top-listing-search-btn-section'>
+          <input 
+            type="text" 
+            className='top-listing-search-input' 
+            placeholder='search...'
+            value={searchInput}
+            onChange={e => setSearchInput(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                setLocationFilter(searchInput);
+                setCurrentPage(1);
+              }
+            }}
+          />
+          <button 
+            className='top-listing-search-btn'
+            onClick={() => {
+              setLocationFilter(searchInput);
+              setCurrentPage(1);
+            }}
+          >
+            Search
+          </button>
+        </div>
         
         <div className="top-listing-filters">
           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>

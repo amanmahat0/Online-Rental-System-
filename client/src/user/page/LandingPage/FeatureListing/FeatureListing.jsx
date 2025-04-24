@@ -127,7 +127,7 @@ const FeatureListing = () => {
                   title: listing.title,
                   price: listing.pricePerMonth,
                   location: `${listing.location.area} ${listing.location.city}`,
-                  imageUrl: listing.images,
+                  images: listing.images,
                   propertyType: listing.propertyType,
                   status: listing.availabilityStatus,
                   contact: listing.contactNumber,
