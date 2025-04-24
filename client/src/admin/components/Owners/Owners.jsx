@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
-import { FaUser, FaPhone, FaEnvelope, FaHome } from "react-icons/fa";
+import { FaUser, FaPhone, FaEnvelope, FaHome, FaTimes } from "react-icons/fa";
 import { OwnerDataContext } from "../../adminContext/AdminContext";
 import "./Owners.css";
 
@@ -11,6 +11,11 @@ const Owners = () => {
   const [message, setMessage] = useState({ text: "", type: "" });
   const [isEditing, setIsEditing] = useState(false);
   const [editingOwner, setEditingOwner] = useState(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    isOpen: false,
+    ownerId: null,
+    ownerName: ""
+  });
 
   const fetchOwnerData = async () => {
     try {
@@ -72,6 +77,24 @@ const Owners = () => {
     setEditingOwner(null);
   };
 
+  // Open delete confirmation modal
+  const openDeleteConfirmation = (owner) => {
+    setDeleteConfirmation({
+      isOpen: true,
+      ownerId: owner._id,
+      ownerName: owner.name
+    });
+  };
+
+  // Close delete confirmation modal
+  const closeDeleteConfirmation = () => {
+    setDeleteConfirmation({
+      isOpen: false,
+      ownerId: null,
+      ownerName: ""
+    });
+  };
+
   // Save owner changes
   const saveOwner = async () => {
     try {
@@ -116,10 +139,9 @@ const Owners = () => {
   };
 
   // Delete an owner
-  const deleteOwner = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this owner?")) {
-      return;
-    }
+  const deleteOwner = async () => {
+    const id = deleteConfirmation.ownerId;
+    if (!id) return;
 
     setIsDeleting(true);
     try {
@@ -142,13 +164,14 @@ const Owners = () => {
       showMessage("Failed to delete owner", "error");
     } finally {
       setIsDeleting(false);
+      closeDeleteConfirmation();
     }
   };
 
   return (
-    <div className="owners-container">
+    <div className="admin-owner-container">
       <motion.h1
-        className="owners-title"
+        className="admin-owner-title"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -158,11 +181,11 @@ const Owners = () => {
 
       {/* Message display */}
       {message.text && (
-        <div className={`message ${message.type}`}>{message.text}</div>
+        <div className={`admin-owner-message ${message.type}`}>{message.text}</div>
       )}
 
       {/* Search and Filter Section */}
-      <div className="filter-container">
+      <div className="admin-owner-filter-container">
         <input
           type="text"
           placeholder="Search owners..."
@@ -173,8 +196,8 @@ const Owners = () => {
 
       {/* Edit Owner Modal */}
       {isEditing && (
-        <div className="edit-modal">
-          <div className="edit-modal-content">
+        <div className="admin-owner-edit-modal">
+          <div className="admin-owner-edit-modal-content">
             <h2>Edit Owner</h2>
             <div className="admin-owner-form-group">
               <label>Name:</label>
@@ -205,12 +228,7 @@ const Owners = () => {
               />
               <small>Numbers only, max 10 digits</small>
             </div>
-            {/* <div className="admin-owner-form-group">
-              <label>Properties:</label>
-              <div className="non-editable-field">{editingOwner.properties}</div>
-              <small className="info-text">Properties count cannot be edited directly</small>
-            </div> */}
-            <div className="edit-actions">
+            <div className="admin-owner-edit-actions">
               <button onClick={cancelEdit}>Cancel</button>
               <button onClick={saveOwner}>Save</button>
             </div>
@@ -218,22 +236,61 @@ const Owners = () => {
         </div>
       )}
 
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmation.isOpen && (
+        <div className="admin-owner-modal-overlay">
+          <div className="admin-owner-delete-modal">
+            <div className="admin-owner-modal-header">
+              <h2>Confirm Deletion</h2>
+              <button className="admin-owner-close-modal" onClick={closeDeleteConfirmation}>
+                <FaTimes />
+              </button>
+            </div>
+            
+            <div className="admin-owner-delete-content">
+              {/* Changed order: name first, then warning text */}
+              <div className="admin-owner-delete-name">{deleteConfirmation.ownerName}</div>
+              <p className="admin-owner-delete-warning">
+                Are you sure you want to delete this owner? This action cannot be undone.
+              </p>
+            </div>
+            
+            <div className="admin-owner-modal-actions">
+              <button 
+                className="admin-owner-cancel-btn" 
+                onClick={closeDeleteConfirmation}
+                disabled={isDeleting}
+              >
+                Cancel
+              </button>
+              <button 
+                className="admin-owner-confirm-delete-btn" 
+                onClick={deleteOwner}
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Deleting..." : "Delete Owner"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Owners List */}
-      <div className="owners-grid">
+      <div className="admin-owner-grid">
         {filteredOwner?.map((owner) => (
           <motion.div
             key={owner._id}
-            className="owner-card"
+            className="admin-owner-card"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="owner-icon">
+            <div className="admin-owner-icon">
               <FaUser />
             </div>
-            <div className="owner-info">
+            <div className="admin-owner-info">
               <h3>{owner.name}</h3>
-              <div className="owner-details">
+              <div className="admin-owner-details">
                 <p>
                   <FaEnvelope /> {owner.email}
                 </p>
@@ -244,10 +301,10 @@ const Owners = () => {
                   <FaHome /> Number of Properties: {owner.properties.length}
                 </p>
               </div>
-              <div className="owner-actions">
+              <div className="admin-owner-actions">
                 <button onClick={() => editOwner(owner)}>Edit</button>
-                <button onClick={() => deleteOwner(owner._id)}>
-                  {isDeleting ? "Deleting..." : "Delete"}
+                <button onClick={() => openDeleteConfirmation(owner)}>
+                  Delete
                 </button>
               </div>
             </div>
