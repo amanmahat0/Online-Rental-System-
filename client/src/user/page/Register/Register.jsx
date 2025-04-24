@@ -10,7 +10,7 @@ const Register = () => {
     password: "",
     contact: "",
     confirmPassword: "",
-    userType: "user", // Default to 'user'
+    userType: "User", // Default to 'user'
     companyName: "", // Only used if userType is 'agent'
     address: "",
   });
@@ -33,14 +33,14 @@ const Register = () => {
       setError("");
       // Prepare form data based on user type
       const formBody =
-        formData.userType === "user"
+        formData.userType === "User"
           ? {
               name: formData.name,
               email: formData.email,
               password: formData.password,
               contact: formData.contact,
             }
-          : formData.userType === "agent"
+          : formData.userType === "Agent"
           ? {
               name: formData.name,
               email: formData.email,
@@ -108,8 +108,8 @@ const Register = () => {
                   type="radio"
                   id="role-user"
                   name="userType"
-                  value="user"
-                  checked={formData.userType === "user"}
+                  value="User"
+                  checked={formData.userType === "User"}
                   onChange={handleChange}
                 />
                 <label htmlFor="role-user">User</label>
@@ -119,8 +119,8 @@ const Register = () => {
                   type="radio"
                   id="role-agent"
                   name="userType"
-                  value="agent"
-                  checked={formData.userType === "agent"}
+                  value="Agent"
+                  checked={formData.userType === "Agent"}
                   onChange={handleChange}
                 />
                 <label htmlFor="role-agent">Agent</label>
@@ -130,8 +130,8 @@ const Register = () => {
                   type="radio"
                   id="role-owner"
                   name="userType"
-                  value="owner"
-                  checked={formData.userType === "owner"}
+                  value="Owner"
+                  checked={formData.userType === "Owner"}
                   onChange={handleChange}
                 />
                 <label htmlFor="role-owner">Owner</label>

@@ -1,0 +1,47 @@
+.agent-dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+  
+.agent-sidebar {
+    flex-shrink: 0;
+}
+  
+.agent-dashboard-main-content {
+    flex-grow: 1;
+    padding: 20px;
+    /* margin-left: 15px; */
+    transition: all 0.3s ease;
+}
+  
+@media screen and (max-width: 768px) {
+    .agent-sidebar {
+        position: absolute;
+        left: -240px;
+        transition: all 0.3s ease;
+    }
+  
+    .agent-sidebar.active {
+        left: 0;
+    }
+  
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+}
+  
+.agent-dashboard-toggle-button {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+  
+@media screen and (max-width: 768px) {
+    .agent-dashboard-toggle-button {
+        display: block;
+    }
+}

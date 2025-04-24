@@ -10,6 +10,7 @@ import { UserProvider } from "./user/Context/UserContext";
 import { AdminDataProvider } from "./admin/adminContext/AdminContext";
 import UserDashboard from "./user/page/UserDashBoard/Routes/UserDashboard";
 import OwnerDashboard from "./owners/Routes/OwnerDashboard";
+import AgentDashboard from "./agent/Routes/AgentDashboard"; // Import AgentDashboard
 
 const AppWithLocation = () => {
   const location = useLocation(); // Get the current route
@@ -23,6 +24,7 @@ const AppWithLocation = () => {
   const isAdminLoginPage = location.pathname === "/admin"; // Check if the current route is admin login
   const isUserRoute = location.pathname.startsWith("/user");
   const isOwnerRoute = location.pathname.startsWith("/owner"); // Check if the current route is owner
+  const isAgentRoute = location.pathname.startsWith("/agent"); // Check if the current route is agent
 
   return isAdminRoute ? (
     <div className="App">
@@ -38,15 +40,25 @@ const AppWithLocation = () => {
     <div className="app-container">
       {!hideHeaderFooter && <Header />} {/* Conditionally render Header */}
       <main className="app-main">
-        <UserDashboard /> {/* Owner-specific dashboard */}
+        <UserDashboard /> {/* User-specific dashboard */}
       </main>
       {!hideHeaderFooter && <Footer />} {/* Conditionally render Footer */}
     </div>
   ) : isOwnerRoute ? (
     <div className="app-container">
+      {!hideHeaderFooter && <Header />} {/* Conditionally render Header */}
       <main className="app-main">
         <OwnerDashboard /> {/* Owner-specific dashboard */}
       </main>
+      {!hideHeaderFooter && <Footer />} {/* Conditionally render Footer */}
+    </div>
+  ) : isAgentRoute ? (
+    <div className="app-container">
+      {!hideHeaderFooter && <Header />} {/* Conditionally render Header */}
+      <main className="app-main">
+        <AgentDashboard /> {/* Agent-specific dashboard */}
+      </main>
+      {!hideHeaderFooter && <Footer />} {/* Conditionally render Footer */}
     </div>
   ) : (
     <div className="app-container">
