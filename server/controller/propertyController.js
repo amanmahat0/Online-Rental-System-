@@ -267,7 +267,7 @@ const getPropertyByType = async (req, res) => {
 const filterProperties = async (req, res) => {
   console.log("Filter Properties Request:", req.query);
   try {
-    const { minPrice, maxPrice, location, propertyType } = req.query;
+    const { minPrice, maxPrice, location, propertyType, status } = req.query;
     console.log("Filter Query:", req.query);
     // Build the query object dynamically
     const query = {};
@@ -276,6 +276,10 @@ const filterProperties = async (req, res) => {
       query.pricePerMonth = {};
       if (minPrice) query.pricePerMonth.$gte = parseFloat(minPrice);
       if (maxPrice) query.pricePerMonth.$lte = parseFloat(maxPrice);
+    }
+
+    if (status) {
+      query.availabilityStatus = status;
     }
 
     if (location) {
