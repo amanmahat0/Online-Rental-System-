@@ -410,6 +410,10 @@ const approveOrRejectRequest = async (req, res) => {
 
     if (action === "approve") {
       // Approve the request
+      const removedCustomers = property.customerId.filter(
+        (cust) => cust.customer._id.toString() !== customerId
+      );
+
       property.acceptedCustomerId = customerId;
       property.customerId = []; // Clear other requests
       property.availabilityStatus = false;
@@ -422,6 +426,15 @@ const approveOrRejectRequest = async (req, res) => {
         text: `Dear ${customer.customer.name},\n\nYour booking request for the property "${property.title}" has been approved.\n\nThank you!`,
       };
       await transporter.sendMail(mailOptions);
+
+      for (const removedCustomer of removedCustomers) {
+        const rejectionMailOptions = {
+          to: removedCustomer.customer.email,
+          subject: "Booking Request Rejected",
+          text: `Dear ${removedCustomer.customer.name},\n\nYour booking request for the property "${property.title}" has been rejected as another customer has been approved.\n\nThank you!`,
+        };
+        await transporter.sendMail(rejectionMailOptions);
+      }
 
       return res.status(200).json({
         status: true,
