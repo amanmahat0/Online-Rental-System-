@@ -196,6 +196,7 @@ const MyListingsAgent = () => {
       if (formData.image) {
         formDataToSend.append("propertyImage", formData.image);
       }
+      console.log(formDataToSend);
       let response;
       if (editingId) {
         response = await fetch(
@@ -304,7 +305,7 @@ const MyListingsAgent = () => {
                     listing.availabilityStatus ? "available" : "unavailable"
                   }`}
                 >
-                  {listing.availabilityStatus ? "Available" : "Rented"}
+                  {listing.availabilityStatus ? "Available" : "Booked"}
                 </div>
               </div>
 
