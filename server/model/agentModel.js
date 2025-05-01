@@ -31,12 +31,6 @@ const AgentSchema = mongoose.Schema(
       min: 6,
       max: 1024,
     },
-    // address: {
-    //   type: String,
-    //   required: true,
-    //   min: 6,
-    //   max: 255,
-    // },
     contact: {
       type: String,
       required: true,
@@ -50,11 +44,20 @@ const AgentSchema = mongoose.Schema(
     },
     properties: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Property",
         default: [],
       },
     ],
+    bookedProperties: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Property",
+        },
+      ],
+      default: [],
+    },
     resetToken: {
       type: String,
       default: null,

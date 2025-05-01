@@ -14,7 +14,6 @@ import BookingPage from "../user/page/Booking/BookingPage";
 import AboutUs from "../user/page/AboutUs/AboutUs";
 import UserSidebar from "../user/page/UserDashBoard/Sidebar/UserSidebar";
 import UserDashboard from "../user/page/UserDashBoard/Routes/UserDashboard";
-import Agent from "../agent/Agent";
 import OwnerSidebar from "../owners/Sidebar/OwnerSidebar";
 import PropertyDetails from "../user/page/TopListings/PropertyDetails";
 import UserProfile from "../user/page/UserDashBoard/MyProfile/UserProfile";
@@ -37,7 +36,6 @@ const AppRoutes = () => {
       {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
       <Route path="/toplistings" element={<TopListings />} />
       <Route path="/aboutus" element={<AboutUs />} />
-      <Route path="/agent" element={<Agent />} />
       <Route path="/owner" element={<OwnerSidebar />} />
       <Route path="/TopListings/:id" element={<PropertyDetails />} />
       <Route path="/booking/:id" element={<BookingPage />} />

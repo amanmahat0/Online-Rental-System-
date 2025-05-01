@@ -1,4 +1,4 @@
-.properties-container {
+.admin-property-container {
   background: linear-gradient(145deg, #7065f0, #b0b0b0);
   color: #f5f5f5;
   min-height: 100vh;
@@ -8,7 +8,7 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.properties-title {
+.admin-property-title {
   font-size: 2.8rem;
   text-align: center;
   margin-bottom: 40px;
@@ -16,7 +16,162 @@
   text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
 }
 
-.properties-grid {
+/* Search and Filter Styles */
+.admin-property-search-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  justify-content: center;
+  align-items: stretch;  /* Changed from center to stretch */
+  padding: 0 20px;
+}
+
+.admin-property-search-bar {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 10px 20px;
+  flex: 1;
+  min-width: 250px;
+  max-width: 500px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 44px;  /* Set consistent height */
+}
+
+.admin-property-search-icon {
+  color: rgba(255, 255, 255, 0.7);
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.admin-property-search-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  width: 100%;
+  outline: none;
+}
+
+.admin-property-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.admin-property-filter-dropdown {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 10px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 44px;  /* Set consistent height */
+  position: relative; /* For custom dropdown arrow */
+}
+
+.admin-property-filter-icon {
+  color: rgba(255, 255, 255, 0.7);
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+/* Fix for the square highlight when dropdown is clicked */
+.admin-property-filter-select {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  width: 100%;
+  outline: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  -webkit-appearance: none;  /* Safari and Chrome */
+  -moz-appearance: none;     /* Firefox */
+  appearance: none;          /* Standard */
+  background-image: none;    /* Remove any background images */
+  min-width: 180px;
+  /* Remove the highlight on selection/focus */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Create a custom dropdown arrow using pseudo-element */
+.admin-property-filter-dropdown::after {
+  content: "\25BC";  /* Unicode for down arrow */
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;  /* Ensures clicks pass through to the select element */
+}
+
+/* Style the focus state properly */
+.admin-property-filter-select:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+/* Override selection background */
+.admin-property-filter-select option:checked,
+.admin-property-filter-select:focus option:checked {
+  background-color: rgba(112, 101, 240, 0.8);
+  color: white;
+}
+
+.admin-property-filter-select option {
+  background-color: #7065f0;  /* This matches the gradient background */
+  color: #fff;
+  padding: 8px;  /* Add padding inside options */
+}
+
+.admin-property-clear-filters-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0 20px;  /* Changed padding to match other elements */
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;  /* Ensure minimum height matches others */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+}
+
+.admin-property-clear-filters-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.admin-property-results-count {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.admin-property-no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.admin-property-no-results p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.admin-property-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 30px;
@@ -41,19 +196,19 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
-.property-image {
+.admin-property-image {
   position: relative;
   height: 200px;
   overflow: hidden;
 }
 
-.property-image img {
+.admin-property-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.property-status {
+.admin-property-status {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -63,14 +218,16 @@
   font-size: 0.9rem;
   font-weight: 500;
 }
-.property-status.available {
+
+.admin-property-status.available {
   background-color: rgba(46, 213, 115, 0.9);
 }
-.property-status.booked {
+
+.admin-property-status.booked {
   background-color: rgba(213, 46, 46, 0.9);
 }
 
-.property-details {
+.admin-property-details {
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -78,13 +235,13 @@
   position: relative;
 }
 
-.property-details h3 {
+.admin-property-details h3 {
   font-size: 1.5rem;
   margin-bottom: 10px;
   color: #ffffff;
 }
 
-.property-location {
+.admin-property-location {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -92,7 +249,7 @@
   margin-bottom: 15px;
 }
 
-.property-specs {
+.admin-property-specs {
   display: flex;
   justify-content: space-between;
   padding: 15px 0;
@@ -102,14 +259,14 @@
   flex: 1;
 }
 
-.property-specs span {
+.admin-property-specs span {
   display: flex;
   align-items: center;
   gap: 8px;
   color: rgba(255, 255, 255, 0.9);
 }
 
-.property-price {
+.admin-property-price {
   font-size: 1.8rem;
   font-weight: 600;
   color: #ffffff;
@@ -119,7 +276,7 @@
   margin: 15px 0;
 }
 
-.property-agent {
+.admin-property-agent {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -127,17 +284,17 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.property-agent svg {
+.admin-property-agent svg {
   font-size: 1.5rem;
   color: rgba(255, 255, 255, 0.8);
 }
 
-.property-agent p {
+.admin-property-agent p {
   margin: 0;
   font-weight: 500;
 }
 
-.property-agent small {
+.admin-property-agent small {
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -162,6 +319,7 @@
   transition: all 0.3s ease;
   background-color: transparent;
   color: #fff;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
 }
 
 .admin-property-edit-btn:hover {
@@ -226,6 +384,7 @@
   background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
   font-size: 1rem;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
 }
 
 .admin-property-form-group textarea {
@@ -249,6 +408,7 @@
   transition: all 0.3s ease;
   background-color: transparent;
   color: #fff;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
 }
 
 .admin-property-modal-actions button[type="button"]:hover {
@@ -262,16 +422,27 @@
 }
 
 @media (max-width: 768px) {
-  .properties-container {
+  .admin-property-container {
     padding: 20px;
   }
 
-  .properties-title {
+  .admin-property-title {
     font-size: 2rem;
   }
 
-  .properties-grid {
+  .admin-property-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .admin-property-search-filter-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .admin-property-search-bar,
+  .admin-property-filter-dropdown {
+    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -302,7 +473,7 @@
   color: white;
 }
 
-.close-message-btn {
+.admin-property-close-message-btn {
   background: none;
   border: none;
   color: white;
@@ -316,11 +487,11 @@
   transition: opacity 0.2s ease;
 }
 
-.close-message-btn:hover {
+.admin-property-close-message-btn:hover {
   opacity: 1;
 }
 
-.property-type {
+.admin-property-type {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -329,6 +500,6 @@
   font-size: 0.9rem;
 }
 
-.property-type svg {
+.admin-property-type svg {
   color: rgba(255, 255, 255, 0.6);
 }

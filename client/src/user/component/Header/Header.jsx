@@ -41,7 +41,7 @@ const Header = () => {
             </nav>
           </div>
         ) : (
-          <Link to={`/${storedRole}`} className="name-profile">
+          <Link to={`/${storedRole.toLowerCase()}`} className="name-profile">
             {storedUser.name}
           </Link>
         )}

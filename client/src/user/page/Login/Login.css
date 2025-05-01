@@ -152,13 +152,13 @@ option {
   background-color: #7065f0;
   transition: all 0.5s ease;
 }
-.agent-selected {
+.Agent-selected {
   transform: translateX(100%);
 }
-.user-selected {
+.User-selected {
   transform: translateX(0px);
 }
-.owner-selected {
+.Owner-selected {
   transform: translate(200%);
 }
 /* Styling for the labels */

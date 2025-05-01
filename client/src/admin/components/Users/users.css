@@ -123,46 +123,21 @@
 }
 
 .admin-user-table th {
-  text-align: left;
+  text-align: center; /* Center the headers */
   padding: 10px 20px;
   color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
 }
 
-
-/* Modified to remove the background from individual cells */
-.admin-user-table td {
-  padding: 12px 15px;
-  text-align: left;
-  vertical-align: middle;
-}
-
-/* Apply background to entire row instead of individual cells */
+/* Updated table row and cell styling for proper rounded corners */
 .admin-user-table tbody tr {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  transition: all 0.2s ease;
-}
-
-/* Add hover effect for better UX */
-.admin-user-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-.users-table tbody tr {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
   position: relative;
+  transition: all 0.2s ease;
   overflow: hidden;
 }
 
-.users-table td {
-  padding: 15px 20px;
-  position: relative;
-  background: none;
-}
-
-/* Apply the background to a pseudo-element of the row */
-.users-table tbody tr::before {
+/* Add pseudo-element for background with rounded corners */
+.admin-user-table tbody tr::before {
   content: '';
   position: absolute;
   top: 0;
@@ -174,53 +149,40 @@
   z-index: 1;
 }
 
-/* Ensure content stays above the background */
-.users-table td {
+/* Ensure content stays above the background and is centered horizontally */
+.admin-user-table td {
   position: relative;
   z-index: 2;
-}
-
-/* First and last cell styling */
-.users-table tr td:first-child {
-  padding-left: 25px;
-}
-
-.users-table tr td:last-child {
-  padding-right: 25px;
+  padding: 12px 15px;
+  text-align: center; /* Center the text horizontally */
+  vertical-align: middle;
+  background: transparent; /* Ensure no background on individual cells */
 }
 
 /* Hover effect */
-.users-table tbody tr:hover::before {
+.admin-user-table tbody tr:hover::before {
   background: rgba(255, 255, 255, 0.12);
 }
 
-.users-table tbody tr {
-  transition: all 0.2s ease;
-}
-
-.users-table tbody tr:hover {
+.admin-user-table tbody tr:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Ensure first and last cells have proper border radius */
+/* Ensure first and last cells have proper padding */
 .admin-user-table tbody tr td:first-child {
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
   padding-left: 20px; /* Add a bit more padding for visual balance */
 }
 
 .admin-user-table tbody tr td:last-child {
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
   padding-right: 20px; /* Add a bit more padding for visual balance */
 }
+
 /* Actions styling */
 .actions {
   display: flex;
   gap: 15px;
-  justify-content: flex-end;
+  justify-content: center; /* Center the actions horizontally */
 }
 
 /* User info styling */
@@ -228,10 +190,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-
+  justify-content: center; /* Center content horizontally */
 }
 
-/* Icons styling */
+/* Icons styling - center horizontally */
 .admin-user-icon,
 .admin-user-email-icon,
 .admin-user-date-icon,
@@ -239,14 +201,16 @@
   color: rgba(255, 255, 255, 0.6);
   margin-right: 6px;
   vertical-align: middle;
+  display: inline-flex; /* Use inline-flex for better alignment */
+  align-items: center;
 }
-
 
 /* Restore user-info class for proper icon alignment */
 .admin-user-info {
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: center; /* Center content horizontally */
 }
 
 /* Empty state message */
@@ -257,15 +221,13 @@
 }
 
 /* Actions (edit, delete) */
-
 .admin-user-actions {
   display: flex;
   gap: 15px;
-  justify-content: flex-start;
+  justify-content: center; /* Center horizontally */
 }
 
 .admin-user-action-btn {
-
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.7);
@@ -359,19 +321,14 @@ form {
 }
 
 .admin-user-form-group label {
-
-
   display: block;
   margin-bottom: 5px;
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.9rem;
 }
 
-
 .admin-user-form-group input,
 .admin-user-form-group select {
-
-
   width: 100%;
   padding: 10px 12px;
   background: rgba(255, 255, 255, 0.1);
@@ -384,7 +341,6 @@ form {
 
 .admin-user-form-group input:focus,
 .admin-user-form-group select:focus {
-
   outline: none;
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.15);
@@ -496,4 +452,202 @@ form {
   .admin-user-save-btn {
     font-size: 0.9rem;
   }
+}
+
+/* Search functionality styles that match existing theme */
+.user-search-container {
+  margin: 20px 0;
+  width: 100%;
+}
+
+.user-search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%; /* Full width to match table */
+  margin-bottom: 15px;
+}
+
+.user-search-icon {
+  position: absolute;
+  left: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+}
+
+.user-search-input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.user-search-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.user-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.user-search-clear-btn {
+  position: absolute;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.user-search-clear-btn:hover {
+  color: #ff4757;
+  transform: rotate(90deg);
+}
+
+.user-search-results-info {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 15px;
+  padding-left: 5px;
+}
+
+.user-search-no-results {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 30px 0;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+/* Delete Modal Styles */
+.admin-user-delete-modal {
+  background: linear-gradient(145deg, #4a3ee0, #8b8b8b);
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-user-delete-header {
+  background: rgba(255, 71, 87, 0.2);
+  border-bottom: 1px solid rgba(255, 71, 87, 0.3);
+}
+
+.admin-user-delete-content {
+  padding: 20px;
+}
+
+.admin-user-delete-warning {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.admin-user-warning-icon {
+  font-size: 24px;
+  color: #ff4757;
+  margin-right: 15px;
+}
+
+.admin-user-delete-user-info {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.admin-user-delete-user-info p {
+  margin: 8px 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.admin-user-delete-note {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.admin-user-delete-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #ff4757;
+  color: white;
+}
+
+.admin-user-delete-btn:hover {
+  background: #ff2b3d;
+  transform: translateY(-2px);
+}
+
+.admin-user-delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Media queries for search responsiveness */
+@media (max-width: 768px) {
+  .user-search-input {
+    padding: 10px 15px 10px 40px;
+    font-size: 0.9rem;
+  }
+  
+  .user-search-icon {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-search-input-wrapper {
+    max-width: 100%;
+  }
+  
+  .user-search-input {
+    padding: 8px 30px 8px 35px;
+  }
+  
+  .user-search-results-info {
+    font-size: 0.8rem;
+  }
+  
+  .admin-user-delete-warning {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .admin-user-warning-icon {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+/* Additional fix for icon and text alignment in rows */
+.admin-user-table td span,
+.admin-user-table td a,
+.admin-user-table td div {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }

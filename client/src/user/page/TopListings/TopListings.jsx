@@ -1,296 +1,89 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaHome, FaMapMarkerAlt, FaRupeeSign, FaInfoCircle, FaBookmark, FaRegBookmark, FaFilter, FaTimes } from 'react-icons/fa';
-import './TopListings.css';
-
-const agentListings = [
-  { 
-    id: 1, 
-    title: 'Luxury Apartment in Downtown', 
-    propertyType: 'Apartment', 
-    price: '1200/month', 
-    location: 'Downtown', 
-    imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
-    description: 'This is the best apartment in the world. It has 1 million rooms, 10 million toilets, 100 million kitchens.', 
-    status: 'Booked', 
-    contact: '1234567890' 
-  },
-  { 
-    id: 2, 
-    title: 'Modern Villa with Pool', 
-    propertyType: 'Villa', 
-    price: '5000/month', 
-    location: 'Beverly Hills', 
-    imageUrl: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg', 
-    description: 'A beautiful villa with a private pool and stunning ocean views.', 
-    status: 'Available', 
-    contact: '9876543210' 
-  },
-  { 
-    id: 3, 
-    title: 'Cozy Studio Apartment', 
-    propertyType: 'Apartment', 
-    price: '800/month', 
-    location: 'New York City', 
-    imageUrl: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg', 
-    description: 'A compact and stylish studio in the heart of NYC.', 
-    status: 'Available', 
-    contact: '1122334455' 
-  },
-  { 
-    id: 4, 
-    title: 'Spacious Family Home', 
-    propertyType: 'House', 
-    price: '2500/month', 
-    location: 'Los Angeles', 
-    imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
-    description: 'Perfect for families, with a large backyard and modern amenities.', 
-    status: 'Booked', 
-    contact: '2233445566' 
-  },
-  { 
-    id: 5, 
-    title: 'Penthouse with City View', 
-    propertyType: 'Penthouse', 
-    price: '7000/month', 
-    location: 'Chicago', 
-    imageUrl: 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg', 
-    description: 'An exclusive penthouse with a breathtaking skyline view.', 
-    status: 'Available', 
-    contact: '3344556677' 
-  },
-  { 
-    id: 6, 
-    title: 'Countryside Cottage', 
-    propertyType: 'Cottage', 
-    price: '1500/month', 
-    location: 'Colorado', 
-    imageUrl: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg', 
-    description: 'A peaceful cottage surrounded by nature and fresh air.', 
-    status: 'Booked', 
-    contact: '4455667788' 
-  },
-  { 
-    id: 7, 
-    title: 'Beachfront Bungalow', 
-    propertyType: 'Bungalow', 
-    price: '3000/month', 
-    location: 'Miami', 
-    imageUrl: 'https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg', 
-    description: 'A perfect vacation home right on the beach.', 
-    status: 'Available', 
-    contact: '5566778899' 
-  },
-  { 
-    id: 8, 
-    title: 'Urban Loft in Downtown', 
-    propertyType: 'Loft', 
-    price: '2200/month', 
-    location: 'San Francisco', 
-    imageUrl: 'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg', 
-    description: 'A trendy loft with high ceilings and modern decor.', 
-    status: 'Available', 
-    contact: '6677889900' 
-  },
-  { 
-    id: 9, 
-    title: 'Farmhouse Retreat', 
-    propertyType: 'Farmhouse', 
-    price: '2000/month', 
-    location: 'Texas', 
-    imageUrl: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg', 
-    description: 'A spacious farmhouse with land for gardening and animals.', 
-    status: 'Booked', 
-    contact: '7788990011' 
-  },
-  { 
-    id: 10, 
-    title: 'Luxury Mansion', 
-    propertyType: 'Mansion', 
-    price: '15000/month', 
-    location: 'Beverly Hills', 
-    imageUrl: 'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg', 
-    description: 'A stunning luxury mansion with private security and a pool.', 
-    status: 'Available', 
-    contact: '8899001122' 
-  }
- ];
-const ownerListings = [ 
-  { 
-    id: 11, 
-    title: 'Charming Suburban Home', 
-    propertyType: 'House', 
-    price: '1800/month', 
-    location: 'Seattle', 
-    imageUrl: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg', 
-    description: 'A cozy home with a beautiful garden and quiet neighborhood.', 
-    status: 'Available', 
-    contact: '9001122334' 
-  },
-  { 
-    id: 12, 
-    title: 'Luxury Condo with Lake View', 
-    propertyType: 'Condo', 
-    price: '3200/month', 
-    location: 'Toronto', 
-    imageUrl: 'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg', 
-    description: 'A high-end condo with breathtaking views of the lake.', 
-    status: 'Booked', 
-    contact: '9112233445' 
-  },
-  { 
-    id: 13, 
-    title: 'Rustic Mountain Cabin', 
-    propertyType: 'Cabin', 
-    price: '1700/month', 
-    location: 'Aspen', 
-    imageUrl: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg', 
-    description: 'A charming wooden cabin perfect for nature lovers.', 
-    status: 'Available', 
-    contact: '9223344556' 
-  },
-  { 
-    id: 14, 
-    title: 'Modern Smart Home', 
-    propertyType: 'House', 
-    price: '4500/month', 
-    location: 'San Diego', 
-    imageUrl: 'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg', 
-    description: 'A fully automated smart home with state-of-the-art security.', 
-    status: 'Available', 
-    contact: '9334455667' 
-  },
-  { 
-    id: 15, 
-    title: 'Luxury Lakehouse', 
-    propertyType: 'Villa', 
-    price: '8000/month', 
-    location: 'Lake Tahoe', 
-    imageUrl: 'https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg', 
-    description: 'A magnificent villa with private lake access.', 
-    status: 'Booked', 
-    contact: '9445566778' 
-  },
-  { 
-    id: 16, 
-    title: 'Downtown Office Space', 
-    propertyType: 'Commercial', 
-    price: '6000/month', 
-    location: 'New York City', 
-    imageUrl: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg', 
-    description: 'A spacious office space in a prime business district.', 
-    status: 'Available', 
-    contact: '9556677889' 
-  },
-  { 
-    id: 17, 
-    title: 'Seaside Villa with Infinity Pool', 
-    propertyType: 'Villa', 
-    price: '10000/month', 
-    location: 'Malibu', 
-    imageUrl: 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg', 
-    description: 'An elegant villa with stunning ocean views and a large pool.', 
-    status: 'Booked', 
-    contact: '9667788990' 
-  },
-  { 
-    id: 18, 
-    title: 'Minimalist Loft', 
-    propertyType: 'Loft', 
-    price: '2700/month', 
-    location: 'Brooklyn', 
-    imageUrl: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg', 
-    description: 'A sleek, open-space loft with modern design.', 
-    status: 'Available', 
-    contact: '9778899001' 
-  },
-  { 
-    id: 19, 
-    title: 'Historic Brownstone', 
-    propertyType: 'Townhouse', 
-    price: '5000/month', 
-    location: 'Boston', 
-    imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
-    description: 'A classic brownstone with beautiful architectural details.', 
-    status: 'Available', 
-    contact: '9889900112' 
-  },
-  { 
-    id: 20, 
-    title: 'Modern Glass House', 
-    propertyType: 'House', 
-    price: '9000/month', 
-    location: 'Los Angeles', 
-    imageUrl: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg', 
-    description: 'A futuristic home with floor-to-ceiling glass walls.', 
-    status: 'Booked', 
-    contact: '9990011223' 
-  }
-];
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  FaHome,
+  FaMapMarkerAlt,
+  FaRupeeSign,
+  FaInfoCircle,
+  FaBookmark,
+  FaRegBookmark,
+  FaFilter,
+  FaTimes,
+} from "react-icons/fa";
+import "./TopListings.css";
 
 const TopListings = () => {
   const navigate = useNavigate();
-  const [filterStatus, setFilterStatus] = useState("All");
+  const [listings, setListings] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
   const [hoveredItems, setHoveredItems] = useState(new Set());
   const listingsPerPage = 6;
-  
+
   // New state variables for filter modal
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [locationFilter, setLocationFilter] = useState("");
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  // Add state for search input
-  const [searchInput, setSearchInput] = useState("");
-  
+
+  const handleFetch = async () => {
+    try {
+      // Construct query parameters dynamically
+      const queryParams = new URLSearchParams();
+
+      if (searchQuery) queryParams.append("location", searchQuery);
+      if (propertyTypeFilter)
+        queryParams.append("propertyType", propertyTypeFilter);
+      if (filterStatus === "Available" || filterStatus === "Booked") {
+        queryParams.append("status", filterStatus === "Available");
+      }
+      if (minPrice) queryParams.append("minPrice", minPrice);
+      if (maxPrice) queryParams.append("maxPrice", maxPrice);
+
+      // Fetch filtered properties from the backend
+      const response = await fetch(
+        `http://localhost:5000/api/properties/filter?${queryParams.toString()}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch properties");
+      }
+
+      const data = await response.json();
+      console.log("Fetched Data: ", data.data);
+      setListings(data.data); // Update the listings state with filtered data
+    } catch (error) {
+      console.error("Error fetching properties:", error);
+    }
+  };
+
+  useEffect(() => {
+    handleFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Get unique property types for filter dropdowns
-  const allListings = [...agentListings, ...ownerListings];
-  const uniquePropertyTypes = [...new Set(allListings.map(listing => listing.propertyType))];
-
-  let listings = [...agentListings, ...ownerListings];
-
-  // Apply status filter
-  if (filterStatus !== "All") {
-    listings = listings.filter(listing => listing.status === filterStatus);
-  }
-
-  // Apply location filter
-  if (locationFilter) {
-    listings = listings.filter(listing => 
-      listing.location.toLowerCase().includes(locationFilter.toLowerCase())
-    );
-  }
-
-  // Apply property type filter
-  if (propertyTypeFilter) {
-    listings = listings.filter(listing => listing.propertyType === propertyTypeFilter);
-  }
-
-  // Apply price range filter
-  if (minPrice) {
-    listings = listings.filter(listing => {
-      const price = parseFloat(listing.price.replace(/\D/g, ''));
-      return price >= parseFloat(minPrice);
-    });
-  }
-
-  if (maxPrice) {
-    listings = listings.filter(listing => {
-      const price = parseFloat(listing.price.replace(/\D/g, ''));
-      return price <= parseFloat(maxPrice);
-    });
-  }
+  const uniquePropertyTypes = [
+    "Apartment",
+    "House",
+    "Room",
+    "Commercial",
+    "Office",
+  ];
 
   // Pagination Logic
   const totalPages = Math.ceil(listings.length / listingsPerPage);
   const indexOfLastListing = currentPage * listingsPerPage;
   const indexOfFirstListing = indexOfLastListing - listingsPerPage;
-  const currentListings = listings.slice(indexOfFirstListing, indexOfLastListing);
+  const currentListings = listings.slice(
+    indexOfFirstListing,
+    indexOfLastListing
+  );
 
   const handleBookmarkClick = (id) => {
-    setBookmarkedItems(prev => {
+    setBookmarkedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -302,7 +95,7 @@ const TopListings = () => {
   };
 
   const handleBookmarkHover = (id, isHovering) => {
-    setHoveredItems(prev => {
+    setHoveredItems((prev) => {
       const newSet = new Set(prev);
       if (isHovering) {
         newSet.add(id);
@@ -317,6 +110,7 @@ const TopListings = () => {
   const resetFilters = () => {
     setLocationFilter("");
     setPropertyTypeFilter("");
+    setFilterStatus("All");
     setMinPrice("");
     setMaxPrice("");
     setCurrentPage(1);
@@ -324,6 +118,7 @@ const TopListings = () => {
 
   // Apply filters
   const applyFilters = () => {
+    handleFetch();
     setCurrentPage(1);
     setShowFilterModal(false);
   };
@@ -336,42 +131,29 @@ const TopListings = () => {
     <div className="top-listings-container">
       <div className="top-header-section">
         <h1>Properties</h1>
-        <div className='top-listing-search-btn-section'>
-          <input 
-            type="text" 
-            className='top-listing-search-input' 
-            placeholder='search...'
-            value={searchInput}
-            onChange={e => setSearchInput(e.target.value)}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                setLocationFilter(searchInput);
-                setCurrentPage(1);
-              }
-            }}
+        <div className="top-listing-search-btn-section">
+          <input
+            type="text"
+            className="top-listing-search-input"
+            placeholder="search..."
+            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
           />
-          <button 
-            className='top-listing-search-btn'
+          <button
+            className="top-listing-search-btn"
             onClick={() => {
-              setLocationFilter(searchInput);
-              setCurrentPage(1);
+              handleFetch();
             }}
           >
             Search
           </button>
         </div>
-        
         <div className="top-listing-filters">
-          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-            <option value="All">All</option>
-            <option value="Available">Available</option>
-            <option value="Booked">Booked</option>
-          </select>
-          <button 
-            className='top-listing-filter-btn'
+          <button
+            className="top-listing-filter-btn"
             onClick={() => setShowFilterModal(true)}
           >
-            <FaFilter className='top-listing-filter-btn-icon'/>
+            <FaFilter className="top-listing-filter-btn-icon" />
           </button>
         </div>
       </div>
@@ -382,62 +164,67 @@ const TopListings = () => {
           <div className="filter-modal">
             <div className="filter-modal-header">
               <h2>Filter Properties</h2>
-              <button 
+              <button
                 className="close-filter-btn"
                 onClick={() => setShowFilterModal(false)}
               >
                 <FaTimes />
               </button>
             </div>
-            
+
             <div className="filter-modal-body">
               <div className="filter-group">
-                <label>Location</label>
-                <input 
-                  type="text" 
-                  placeholder="Enter location (e.g., Kathmandu, Pokhara)" 
-                  value={locationFilter}
-                  onChange={(e) => setLocationFilter(e.target.value)}
-                  className="location-input"
-                />
+                <label>Status</label>
+                <select
+                  value={filterStatus}
+                  onChange={(e) => {
+                    setFilterStatus(e.target.value);
+                  }}
+                >
+                  <option>All</option>
+                  <option>Available</option>
+                  <option>Booked</option>
+                </select>
               </div>
-              
+
               <div className="filter-group">
                 <label>Property Type</label>
-                <select 
-                  value={propertyTypeFilter} 
+                <select
+                  value={propertyTypeFilter}
                   onChange={(e) => setPropertyTypeFilter(e.target.value)}
                 >
                   <option value="">All Property Types</option>
-                  {uniquePropertyTypes.map(type => (
-                    <option key={type} value={type}>{type}</option>
+                  {uniquePropertyTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
                   ))}
                 </select>
               </div>
-              
+
               <div className="filter-group">
                 <label>Price Range</label>
                 <div className="price-range-inputs">
-                  <input 
-                    type="text" 
-                    placeholder="Min Price" 
+                  <input
+                    type="text"
+                    placeholder="Min Price"
                     value={minPrice}
                     onChange={(e) => {
                       // Only allow numbers
-                      const value = e.target.value.replace(/[^0-9]/g, '');
+                      const value = e.target.value.replace(/[^0-9]/g, "");
                       setMinPrice(value);
                     }}
                     pattern="[0-9]*"
                     inputMode="numeric"
                   />
                   <span>to</span>
-                  <input 
-                    type="text" 
-                    placeholder="Max Price" 
+                  <input
+                    type="text"
+                    placeholder="Max Price"
                     value={maxPrice}
                     onChange={(e) => {
                       // Only allow numbers
-                      const value = e.target.value.replace(/[^0-9]/g, '');
+                      const value = e.target.value.replace(/[^0-9]/g, "");
                       setMaxPrice(value);
                     }}
                     pattern="[0-9]*"
@@ -446,18 +233,12 @@ const TopListings = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="filter-modal-footer">
-              <button 
-                className="reset-filter-btn"
-                onClick={resetFilters}
-              >
+              <button className="reset-filter-btn" onClick={resetFilters}>
                 Reset
               </button>
-              <button 
-                className="apply-filter-btn"
-                onClick={applyFilters}
-              >
+              <button className="apply-filter-btn" onClick={applyFilters}>
                 Apply Filters
               </button>
             </div>
@@ -468,43 +249,86 @@ const TopListings = () => {
       <div className="top-listings-grid">
         {currentListings.map((listing) => (
           <div
+            key={listing._id}
             className="top-listing-card"
             onClick={() => {
-              navigate(`/topListings/${listing.id}`, { state: { description: listing.description, title: listing.title, price: listing.price, location: listing.location, imageUrl: listing.imageUrl, propertyType: listing.propertyType, status: listing.status, contact: listing.contact } });
+              navigate(`/topListings/${listing._id}`, {
+                state: {
+                  description: listing.description,
+                  title: listing.title,
+                  price: listing.pricePerMonth,
+                  location: `${listing.location.area}, ${listing.location.city}`,
+                  imageUrl: listing.images,
+                  propertyType: listing.propertyType,
+                  status: listing.status,
+                  contact: listing.contact,
+                },
+              });
             }}
             style={{ cursor: "pointer" }}
           >
-            <img src={listing.imageUrl} alt={listing.title} className="top-listing-image" />
+            <img
+              src={`http://localhost:5000${listing.images}`}
+              alt={listing.title}
+              className="top-listing-image"
+            />
             <div className="top-listing-details">
-              
-              <div className='top-listing-button-section'>
-              <h2 className='top-lsiting-details-card-title'>{listing.title}</h2>
-              <button className='top-listing-save-button'
-              onClick={(e) => {
-                e.stopPropagation();
-                handleBookmarkClick(listing.id);
-              }}
-              onMouseEnter={() => handleBookmarkHover(listing.id, true)}
-              onMouseLeave={() => handleBookmarkHover(listing.id, false)}
-              >
-              {bookmarkedItems.has(listing.id) || hoveredItems.has(listing.id) ? (
-                <FaBookmark className='top-listing-bookmark-icons' />
-              ) : (
-                <FaRegBookmark className='top-listing-bookmark-icons' />
-              )}
-              </button>
-            </div>
-              <p className='top-listing-details-card'><FaHome width={20} height={20} className='top-lsitings-cards-icons'/>{listing.propertyType}</p>
-              <p className='top-listing-details-card'><FaMapMarkerAlt width={20} height={20} className='top-lsitings-cards-icons'/>{listing.location}</p>
-              <p className='top-listing-details-card'><FaRupeeSign width={20} height={20} className='top-lsitings-cards-icons'/>{listing.price}</p>
-              
-              <p className='top-listing-details-card'>
-                  <FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>
-                  {listing.description.length > 100 
-                    ? listing.description.slice(0, 85) + "..." 
-                    : listing.description}
+              <div className="top-listing-button-section">
+                <h2 className="top-lsiting-details-card-title">
+                  {listing.title}
+                </h2>
+                <button
+                  className="top-listing-save-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleBookmarkClick(listing.id);
+                  }}
+                  onMouseEnter={() => handleBookmarkHover(listing._id, true)}
+                  onMouseLeave={() => handleBookmarkHover(listing._id, false)}
+                >
+                  {bookmarkedItems.has(listing._id) ||
+                  hoveredItems.has(listing._id) ? (
+                    <FaBookmark className="top-listing-bookmark-icons" />
+                  ) : (
+                    <FaRegBookmark className="top-listing-bookmark-icons" />
+                  )}
+                </button>
+              </div>
+              <p className="top-listing-details-card">
+                <FaHome
+                  width={20}
+                  height={20}
+                  className="top-lsitings-cards-icons"
+                />
+                {listing.propertyType}
+              </p>
+              <p className="top-listing-details-card">
+                <FaMapMarkerAlt
+                  width={20}
+                  height={20}
+                  className="top-lsitings-cards-icons"
+                />
+                {listing.location.area}, {listing.location.city}
+              </p>
+              <p className="top-listing-details-card">
+                <FaRupeeSign
+                  width={20}
+                  height={20}
+                  className="top-lsitings-cards-icons"
+                />
+                {listing.pricePerMonth} / month
               </p>
 
+              <p className="top-listing-details-card">
+                <FaInfoCircle
+                  width={20}
+                  height={20}
+                  className="top-lsitings-cards-icons"
+                />
+                {listing.description.length > 100
+                  ? listing.description.slice(0, 85) + "..."
+                  : listing.description}
+              </p>
             </div>
           </div>
         ))}
@@ -523,7 +347,9 @@ const TopListings = () => {
         {[...Array(totalPages)].map((_, index) => (
           <button
             key={index + 1}
-            className={`toplisting-pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
+            className={`toplisting-pagination-button ${
+              currentPage === index + 1 ? "active" : ""
+            }`}
             onClick={() => setCurrentPage(index + 1)}
           >
             {index + 1}
@@ -532,7 +358,9 @@ const TopListings = () => {
 
         <button
           className="toplisting-pagination-button"
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
           disabled={currentPage === totalPages}
         >
           Next

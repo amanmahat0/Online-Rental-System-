@@ -8,9 +8,12 @@ const {
   getPropertyById,
   updateProperty,
   deleteProperty,
-  propertiesByOwnerId,
+  propertiesByOwnersId,
   handleGetAllSavedProperties,
   getPropertyByType,
+  filterProperties,
+  requestProperty,
+  approveOrRejectRequest,
 } = require("../controller/propertyController");
 
 // Configure Multer for disk storage
@@ -30,13 +33,16 @@ const upload = multer({
 });
 
 // Routes
-router.post("/", upload.single("propertyImage"), createProperty); // Apply multer only to this route
+router.post("/", upload.single("propertyImage"), createProperty);
 router.get("/", getAllProperties);
-router.get("/:id", getPropertyById);
-router.put("/:id", upload.single("propertyImage"), updateProperty); // Apply multer for updates if needed
-router.delete("/:id", deleteProperty);
-router.get("/owner/:ownerId", propertiesByOwnerId);
+router.get("/filter/", filterProperties);
+router.post("/request", requestProperty);
+router.post("/approveOrReject", approveOrRejectRequest);
 router.post("/savedProperties", handleGetAllSavedProperties);
+router.get("/:id", getPropertyById);
+router.put("/:id", upload.single("propertyImage"), updateProperty);
+router.delete("/:id", deleteProperty);
+router.get("/owner/:Id", propertiesByOwnersId);
 router.get("/type/:propertyType", getPropertyByType);
 
 module.exports = router;
