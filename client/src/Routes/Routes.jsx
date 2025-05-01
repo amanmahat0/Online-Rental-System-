@@ -20,6 +20,13 @@ import TermAndCondition from "../user/component/Footer/TermsAndCondition/TermsAn
 import PrivacyPolicy from "../user/component/Footer/PrivacyPolicy/PrivacyPolicy";
 import Contact from "../user/component/Footer/Contact/Contact";
 
+// Payment Routes
+import PaymentGateway from "../Payment/PaymentGateway";
+import SuccessModal from "../Payment/modals/SuccessModal";
+import FailureModal from "../Payment/modals/FailureModal";
+import Receipt from "../Payment/Receipt";
+
+
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -44,6 +51,14 @@ const AppRoutes = () => {
       <Route path="/termsAndCondition" element={<TermAndCondition />} />
       <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
       <Route path="/contact" element={<Contact />} />
+
+      {/* Payment Routes */}
+      <Route path="/payment" element={<PaymentGateway />} />
+      <Route path="/payment/success" element={<SuccessModal />} />
+      <Route path="/payment/failure" element={<FailureModal />} />
+      <Route path="/payment/receipt" element={<Receipt />} />
+
+      {/* User Dashboard Routes */}
 
 
       {/* <Route path="/Owner" element={<OwnerSidebar />} /> */}
