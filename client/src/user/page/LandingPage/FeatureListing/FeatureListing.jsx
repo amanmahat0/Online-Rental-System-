@@ -46,8 +46,9 @@ const FeatureListing = () => {
   // const currentListings = listings.slice(0, listingsPerPage);
 
   const handleBookmarkClick = async (id) => {
+    console.log("Bookmark clicked for ID:", id);
     // Update local state
-    setBookmarkedItems(prev => {
+    setBookmarkedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -71,10 +72,10 @@ const FeatureListing = () => {
     };
 
     const storedRole = localStorage.getItem("role");
-    if (storedRole === "user") {
+    if (storedRole === "User" || storedRole === "Agent") {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/user/saveProperties",
+          `http://localhost:5000/api/${storedRole.toLowerCase()}/saveProperties`,
           {
             method: "POST",
             headers: {
@@ -89,7 +90,7 @@ const FeatureListing = () => {
         }
         const data = await response.json();
         localStorage.setItem(
-          "savedProperties",
+          "saveProperties",
           JSON.stringify(data.data.saveProperties)
         );
       } catch (error) {

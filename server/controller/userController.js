@@ -247,7 +247,7 @@ const handleSaveAndUnsaveProperties = async (req, res) => {
     if (isPropertySaved) {
       // If the property is already saved, remove it (unsave)
       user.saveProperties = user.saveProperties.filter(
-        (id) => id !== propertyId
+        (id) => id.toString() !== propertyId
       );
       await user.save();
       return res.status(200).json({

@@ -135,7 +135,7 @@ const TopListings = () => {
           <input
             type="text"
             className="top-listing-search-input"
-            placeholder="search..."
+            placeholder="search by Location"
             onChange={(e) => setSearchQuery(e.target.value)}
             value={searchQuery}
           />

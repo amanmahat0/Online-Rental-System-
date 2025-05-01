@@ -49,6 +49,15 @@ const AgentSchema = mongoose.Schema(
         default: [],
       },
     ],
+    saveProperties: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Property",
+        },
+      ],
+      default: [],
+    },
     bookedProperties: {
       type: [
         {
