@@ -148,7 +148,6 @@ const TopListings = () => {
             Search
           </button>
         </div>
-
         <div className="top-listing-filters">
           <button
             className="top-listing-filter-btn"

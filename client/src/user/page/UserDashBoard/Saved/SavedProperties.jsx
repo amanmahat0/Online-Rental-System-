@@ -241,7 +241,18 @@ const SavedProperties = () => {
                 className="saved-properties-listing-book-button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  alert(`Booking property: ${listing.title}`);
+                  navigate(`/booking/${listing._id}`, {
+                    state: {
+                      propertyId: listing._id,
+                      title: listing.title,
+                      price: listing.pricePerMonth,
+                      location: `${listing.location.area} ${listing.location.city}`,
+                      imageUrl: listing.images,
+                      propertyType: listing.propertyType,
+                      status: listing.status,
+                      contact: listing.contactNumber,
+                    },
+                  });
                 }}
               >
                 Book Now
