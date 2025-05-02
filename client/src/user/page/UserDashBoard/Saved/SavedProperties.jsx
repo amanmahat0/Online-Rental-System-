@@ -138,7 +138,9 @@ const SavedProperties = () => {
 
   const filteredProperties = savedProperties.filter((property) => {
     if (filter === "All") return true;
-    return property.status === filter;
+    if (filter === "Available") return property.availabilityStatus === true;
+    if (filter === "Booked") return property.availabilityStatus === false;
+    return false;
   });
 
   const totalPages = Math.ceil(filteredProperties.length / listingsPerPage);
@@ -199,11 +201,16 @@ const SavedProperties = () => {
             }}
             style={{ cursor: "pointer" }}
           >
-            <img
-              src={`http://localhost:5000${listing.images}`}
-              alt={listing.title}
-              className="saved-properties-listing-image"
-            />
+            <div className="saved-properties-image-container">
+              <img
+                src={`http://localhost:5000${listing.images}`}
+                alt={listing.title}
+                className="saved-properties-listing-image"
+              />
+              <div className={`saved-properties-status-badge ${listing.availabilityStatus ? 'available' : 'booked'}`}>
+                {listing.availabilityStatus ? 'Available' : 'Booked'}
+              </div>
+            </div>
             <div className="saved-properties-listing-details">
               <div className="saved-properties-listing-button-section">
                 <h2 className="saved-properties-lsiting-details-card-title">

@@ -272,6 +272,9 @@ const TopListings = () => {
               alt={listing.title}
               className="top-listing-image"
             />
+            <div className={`top-listing-properties-status-badge ${listing.availabilityStatus ? 'available' : 'booked'}`}>
+                {listing.availabilityStatus ? 'Available' : 'Booked'}
+              </div>
             <div className="top-listing-details">
               <div className="top-listing-button-section">
                 <h2 className="top-lsiting-details-card-title">

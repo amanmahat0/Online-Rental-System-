@@ -134,11 +134,17 @@ const OfficeSpaces = () => {
             }}
             style={{ cursor: "pointer" }}
           >
+            <div className="office-spaces-listing-image-container">
             <img
               src={`http://localhost:5000${listing.images}`}
               alt={listing.title}
               className="office-spaces-listing-image"
             />
+            <div className={`office-spaces-status-badge ${listing.availabilityStatus ? 'available' : 'booked'}`}>
+                {listing.availabilityStatus ? 'Available' : 'Booked'}
+              </div>
+            </div>
+            
             <div className="office-spaces-listing-details">
               <div className="office-spaces-listing-button-section">
                 <h2 className="office-spaces-lsiting-details-card-title">

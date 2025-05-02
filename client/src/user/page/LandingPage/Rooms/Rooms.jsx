@@ -141,11 +141,17 @@ const Rooms = () => {
               }}
               style={{ cursor: "pointer" }}
             >
+              <div className="rooms-listing-image-container">
               <img
                 src={`http://localhost:5000/${listing.images}`}
                 alt={listing.title}
                 className="rooms-listing-image"
               />
+              <div className={`rooms-status-badge ${listing.availabilityStatus ? 'available' : 'booked'}`}>
+                {listing.availabilityStatus ? 'Available' : 'Booked'}
+              </div>
+              </div>
+              
               <div className="rooms-listing-details">
                 <div className="rooms-listing-button-section">
                   <h2 className="rooms-lsiting-details-card-title">
