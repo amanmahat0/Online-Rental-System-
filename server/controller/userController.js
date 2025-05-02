@@ -19,7 +19,7 @@ async function handleUserSignUp(req, res) {
       .json({ status: true, data: { id: user._id, name: user.name } });
   } catch (error) {
     console.error("Error in handleSignUp:", error);
-    return res.json({ status: false, message: error });
+    return res.status(500).json({ status: false, message: error });
   }
 }
 
