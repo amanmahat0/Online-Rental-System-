@@ -136,11 +136,16 @@ const FeatureListing = () => {
             }}
             style={{ cursor: "pointer" }}
           >
-            <img
-              src={`http://localhost:5000${listing.images}`}
-              alt={listing.title}
-              className="feature-listing-image"
-            />
+            <div className="feature-listing-image-container">
+              <img
+                src={`http://localhost:5000${listing.images}`}
+                alt={listing.title}
+                className="feature-listing-image"
+              />
+              <div className={`feature-listing-properties-status-badge ${listing.availabilityStatus ? 'available' : 'booked'}`}>
+                {listing.availabilityStatus ? 'Available' : 'Booked'}
+              </div>
+            </div>
             <div className="feature-listing-details">
               <div className="feature-listing-button-section">
                 <h2 className="feature-lsiting-details-card-title">

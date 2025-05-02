@@ -284,4 +284,31 @@
     font-weight: bold;
   }
   
+.saved-properties-image-container {
+  position: relative;
+  width: 100%;
+}
+
+.saved-properties-status-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 11px;
+    color: white;
+    z-index: 10;
+    min-width: 60px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.saved-properties-status-badge.booked {
+  background-color: #ff4444;
+}
+
+.saved-properties-status-badge.available {
+  background-color: #00C851;
+}
 
