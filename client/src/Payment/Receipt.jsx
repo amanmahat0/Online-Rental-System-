@@ -1,10 +1,11 @@
-// src/user/Payment/Receipt.js
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 import html2canvas from 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js';
 import './styles/Receipt.css';
 
-const Receipt = ({ receiptData, onClose }) => {
+const Receipt = ({ receiptData }) => {
   const receiptRef = useRef(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const downloadReceipt = async () => {
     const receiptElement = receiptRef.current;
@@ -24,8 +25,18 @@ const Receipt = ({ receiptData, onClose }) => {
   };
 
   const printReceipt = () => {
-    window.print();
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Receipt</title></head><body>');
+    printWindow.document.write(receiptRef.current.innerHTML);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
   };
+
+  // Ensure receiptData.amount is treated as a number
+  const amount = parseFloat(receiptData.amount) || 0; // Default to 0 if amount is invalid
+  const bookingFee = amount * 0.1; // Calculate 10% booking fee
+  const totalAmount = amount + bookingFee; // Total amount including booking fee
 
   return (
     <div className="receipt-page">
@@ -104,19 +115,15 @@ const Receipt = ({ receiptData, onClose }) => {
             <h4>Payment Details</h4>
             <div className="payment-item">
               <span className="payment-description">{receiptData.purpose}</span>
-              <span className="payment-amount">NPR {parseFloat(receiptData.amount).toLocaleString()}</span>
+              <span className="payment-amount">NPR {amount.toLocaleString()}</span>
             </div>
-            <div className="payment-subtotal">
-              <span>Subtotal</span>
-              <span>NPR {parseFloat(receiptData.amount).toLocaleString()}</span>
-            </div>
-            <div className="payment-tax">
-              <span>Transaction Fee</span>
-              <span>NPR 0.00</span>
+            <div className="payment-item">
+              <span className="payment-description">Booking Fee (10%)</span>
+              <span className="payment-amount">NPR {bookingFee.toLocaleString()}</span>
             </div>
             <div className="payment-total">
-              <span>Total</span>
-              <span>NPR {parseFloat(receiptData.amount).toLocaleString()}</span>
+              <span>Total (Including Booking Fee)</span>
+              <span>NPR {totalAmount.toLocaleString()}</span>
             </div>
           </div>
 
@@ -149,7 +156,7 @@ const Receipt = ({ receiptData, onClose }) => {
         <button className="download-btn" onClick={downloadReceipt}>
           <i className="fas fa-download"></i> Download Receipt
         </button>
-        <button className="close-btn" onClick={onClose}>
+        <button className="close-btn" onClick={() => navigate('/')}>
           <i className="fas fa-times"></i> Close
         </button>
       </div>
