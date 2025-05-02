@@ -1,0 +1,342 @@
+/* General Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-container {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Arial', sans-serif;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modal-header h3 {
+    font-size: 1.5rem;
+    color: #333333;
+    margin: 0;
+  }
+  
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #666666;
+    cursor: pointer;
+  }
+  
+  .modal-close:hover {
+    color: #333333;
+  }
+  
+  .modal-body {
+    margin-bottom: 1.5rem;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  .modal-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-btn.secondary {
+    background-color: #f1f1f1;
+    color: #666666;
+  }
+  
+  .modal-btn.secondary:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .modal-btn {
+    background-color: #7065f0;
+    color: #ffffff;
+  }
+  
+  .modal-btn:hover {
+    background-color: #5a4dcf;
+  }
+  
+  /* TermsModal Specific Styling */
+  .terms-modal .terms-content h4 {
+    font-size: 1.2rem;
+    color: #444444;
+    margin-top: 1rem;
+  }
+  
+  .terms-modal .terms-content p,
+  .terms-modal .terms-content ul {
+    font-size: 0.95rem;
+    color: #666666;
+    line-height: 1.6;
+  }
+  
+  .terms-modal .terms-content ul {
+    margin-left: 1.5rem;
+    list-style-type: disc;
+  }
+  
+  /* FailureModal Specific Styling */
+  .failure-modal .failure-animation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .failure-modal .failure-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #e74c3c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .failure-modal .failure-circle i {
+    font-size: 2rem;
+    color: #ffffff;
+  }
+  
+  .failure-modal .failure-message h4 {
+    font-size: 1.2rem;
+    color: #e74c3c;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .failure-modal .failure-message p {
+    font-size: 0.95rem;
+    color: #666666;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .failure-modal .possible-reasons ul {
+    margin-left: 1.5rem;
+    list-style-type: disc;
+    color: #666666;
+    font-size: 0.9rem;
+  }
+  
+  .failure-modal .failure-note {
+    font-size: 0.9rem;
+    color: #444444;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  /* SuccessModal Specific Styling */
+  .success-modal .success-animation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .success-modal .checkmark-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #27ae60;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .success-modal .checkmark-circle i {
+    font-size: 2rem;
+    color: #ffffff;
+  }
+  
+  .success-modal .success-message h4 {
+    font-size: 1.2rem;
+    color: #27ae60;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .success-modal .success-message p {
+    font-size: 0.95rem;
+    color: #666666;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .success-modal .transaction-details p {
+    font-size: 0.9rem;
+    color: #444444;
+    text-align: center;
+  }
+  
+  .success-modal .transaction-details span {
+    font-weight: 600;
+    color: #333333;
+  }
+  
+  .success-modal .success-note {
+    font-size: 0.9rem;
+    color: #444444;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  /* General Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: hidden; /* Prevent scrolling outside the modal */
+}
+
+.modal-container {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90%; /* Limit the height of the modal */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
+  animation: fadeIn 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  position: sticky; /* Keep the header fixed */
+  top: 0;
+  background: #ffffff;
+  z-index: 10;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h3 {
+  font-size: 1.5rem;
+  color: #333333;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #666666;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: #333333;
+}
+
+.modal-body {
+  flex: 1; /* Allow the body to take up remaining space */
+  overflow-y: auto; /* Make the body scrollable */
+  padding-right: 1rem; /* Add padding for scrollbar */
+  margin-bottom: 1rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  background: #ffffff;
+  position: sticky; /* Keep the footer fixed */
+  bottom: 0;
+  z-index: 10;
+}
+
+.modal-btn {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-btn.secondary {
+  background-color: #f1f1f1;
+  color: #666666;
+}
+
+.modal-btn.secondary:hover {
+  background-color: #e0e0e0;
+}
+
+.modal-btn {
+  background-color: #7065f0;
+  color: #ffffff;
+}
+
+.modal-btn:hover {
+  background-color: #5a4dcf;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
