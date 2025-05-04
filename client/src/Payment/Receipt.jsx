@@ -1,7 +1,7 @@
 // src/user/Payment/Receipt.js
-import React, { useRef } from 'react';
-import html2canvas from 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js';
-import './styles/Receipt.css';
+import React, { useEffect, useRef } from "react";
+import html2canvas from "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js";
+import "./styles/Receipt.css";
 
 const Receipt = ({ receiptData, onClose }) => {
   const receiptRef = useRef(null);
@@ -12,14 +12,14 @@ const Receipt = ({ receiptData, onClose }) => {
 
     try {
       const canvas = await html2canvas(receiptElement);
-      const image = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
+      const image = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
       link.href = image;
       link.download = `Payment_Receipt_${receiptData.transactionId}.png`;
       link.click();
     } catch (error) {
-      console.error('Error generating receipt:', error);
-      alert('Failed to download receipt. Please try again.');
+      console.error("Error generating receipt:", error);
+      alert("Failed to download receipt. Please try again.");
     }
   };
 
@@ -27,6 +27,47 @@ const Receipt = ({ receiptData, onClose }) => {
     window.print();
   };
 
+  const saveReceipt = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/process", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: receiptData.fullName,
+          email: receiptData.email,
+          contact: receiptData.phone,
+          address: receiptData.address,
+          propertyId: receiptData.propertyId,
+          amount: receiptData.amount,
+          paymentMethod: receiptData.paymentMethod,
+          transactionId: receiptData.transactionId,
+          to: receiptData.to,
+          toModel: receiptData.toModel,
+          from: receiptData.from,
+          fromModel: receiptData.fromModel,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to save receipt data.");
+      }
+      const data = await response.json();
+      if (data.status) {
+        console.log("Receipt saved successfully:", data.data);
+      } else {
+        console.error("Failed to save receipt:", data.message);
+        alert("Failed to save receipt. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error saving receipt:", error);
+      alert("Failed to save receipt. Please try again.");
+    }
+  };
+  useEffect(() => {
+    saveReceipt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="receipt-page">
       <div className="receipt-container" ref={receiptRef}>
@@ -55,19 +96,19 @@ const Receipt = ({ receiptData, onClose }) => {
               <div className="info-item">
                 <span className="info-label">Payment Method:</span>
                 <span className="info-value payment-method">
-                  {receiptData.paymentMethod === 'esewa' && (
+                  {receiptData.paymentMethod === "esewa" && (
                     <>
                       <i className="fas fa-wallet esewa-color"></i>
                       eSewa
                     </>
                   )}
-                  {receiptData.paymentMethod === 'khalti' && (
+                  {receiptData.paymentMethod === "khalti" && (
                     <>
                       <i className="fas fa-wallet khalti-color"></i>
                       Khalti
                     </>
                   )}
-                  {receiptData.paymentMethod === 'bank' && (
+                  {receiptData.paymentMethod === "bank" && (
                     <>
                       <i className="fas fa-university"></i>
                       Bank Transfer
@@ -104,7 +145,9 @@ const Receipt = ({ receiptData, onClose }) => {
             <h4>Payment Details</h4>
             <div className="payment-item">
               <span className="payment-description">{receiptData.purpose}</span>
-              <span className="payment-amount">NPR {parseFloat(receiptData.amount).toLocaleString()}</span>
+              <span className="payment-amount">
+                NPR {parseFloat(receiptData.amount).toLocaleString()}
+              </span>
             </div>
             <div className="payment-subtotal">
               <span>Subtotal</span>
@@ -126,7 +169,10 @@ const Receipt = ({ receiptData, onClose }) => {
                 <i className="fas fa-heart"></i>
                 <p>Thank you for your payment!</p>
               </div>
-              <p className="note">This is an electronically generated receipt and does not require a signature.</p>
+              <p className="note">
+                This is an electronically generated receipt and does not require
+                a signature.
+              </p>
             </div>
           </div>
         </div>
