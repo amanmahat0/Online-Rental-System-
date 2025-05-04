@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
     name: {
       type: String,
       required: true,
@@ -37,11 +32,6 @@ const paymentSchema = new mongoose.Schema(
       enum: ["esewa", "khalti", "bank"],
       required: true,
     },
-    paymentStatus: {
-      type: String,
-      enum: ["Pending", "Completed", "Failed"],
-      default: "Pending",
-    },
     transactionId: {
       type: String,
       required: true,
@@ -50,6 +40,26 @@ const paymentSchema = new mongoose.Schema(
     paymentDate: {
       type: Date,
       default: Date.now,
+    },
+    to: {
+      type: mongoose.Schema.Types.ObjectId,
+      refPath: "toModel",
+      required: true,
+    },
+    toModel: {
+      type: String,
+      enum: ["Owner", "Agent"],
+      required: true,
+    },
+    from: {
+      type: mongoose.Schema.Types.ObjectId,
+      refPath: "fromModel",
+      required: true,
+    },
+    fromModel: {
+      type: String,
+      enum: ["User", "Agent"],
+      required: true,
     },
   },
   { timestamps: true }

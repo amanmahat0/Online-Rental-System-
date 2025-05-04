@@ -22,6 +22,7 @@ const agentRoute = require("./routes/agentRoute");
 const adminRoute = require("./routes/adminRoute");
 const ownerRoute = require("./routes/ownerRoute");
 const propertyRoute = require("./routes/propertyRoute");
+const paymentRoute = require("./routes/paymentRoute");
 
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json({ limit: "10mb" }));
@@ -39,6 +40,7 @@ app.use("/api/agent", agentRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/owner", ownerRoute);
 app.use("/api/properties", propertyRoute);
+app.use("/api/payment", paymentRoute);
 
 // Start server
 app.listen(5000, () => {
