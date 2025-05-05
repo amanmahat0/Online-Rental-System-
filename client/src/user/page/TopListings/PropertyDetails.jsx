@@ -23,7 +23,7 @@ const PropertyDetails = () => {
   });
 
   // Destructure the data passed via navigation
-  const { title, price, location: propertyLocation, images, description, propertyType, status, contact } = location.state || {};
+  const { title, price, location: propertyLocation, images, description, propertyType, availabilityStatus, contact } = location.state || {};
 
   useEffect(() => {
     // Simulate loading state
@@ -98,30 +98,27 @@ const PropertyDetails = () => {
           </div>
 
           <div className="property-details-info">
-            <div className="property-details-section">
+            <div className="property-title-contact-row">
               <h2 className="property-title">{title}</h2>
+              <div className="property-contact-inline">
+                {contact && <span><strong>Phone:</strong> {contact}</span>}
+              </div>
+            </div>
+            <div className="property-details-section">
               <div className="property-meta">
                 <span className="property-details-price">${price}</span>
                 <span className="property-details-type">{propertyType}</span>
-                <span className="property-status">{status}</span>
+                <span className={`property-status ${availabilityStatus?"available":"booked"}`}>{availabilityStatus?"Available":"Booked"}</span>
               </div>
               <p className="property-location">
                 <FaMapMarkerAlt className="location-icon" /> {propertyLocation}
               </p>
             </div>
-
-            <div className="property-contact-section">
-              <h3>Contact Information</h3>
-              <div className="contact-details">
-                {contact && <p><strong>Phone:</strong> {contact}</p>}
-                
-              </div>
-            </div>
           </div>
         </div>
 
         <div className="property-description-section">
-          <h3>Description</h3>
+          <h3 className="agreement-heading">Description</h3>
           <p className="property-description">
             {description || 'No description available for this property.'}
           </p>
