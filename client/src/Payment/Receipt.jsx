@@ -1,6 +1,5 @@
-
 // src/user/Payment/Receipt.js
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useNavigate } from "react";
 import html2canvas from "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js";
 import "./styles/Receipt.css";
 
@@ -26,15 +25,18 @@ const Receipt = ({ receiptData }) => {
   };
 
   const printReceipt = () => {
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write('<html><head><title>Receipt</title></head><body>');
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(
+      "<html><head><title>Receipt</title></head><body>"
+    );
     printWindow.document.write(receiptRef.current.innerHTML);
-    printWindow.document.write('</body></html>');
+    printWindow.document.write("</body></html>");
     printWindow.document.close();
     printWindow.print();
   };
 
-
+  const bookingFee = parseFloat(receiptData.amount) * 0.1; // 10% booking fee
+  const totalAmount = parseFloat(receiptData.amount) + bookingFee; // Total amount including booking fee
   const saveReceipt = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/process", {
@@ -163,7 +165,9 @@ const Receipt = ({ receiptData }) => {
             </div>
             <div className="payment-item">
               <span className="payment-description">Booking Fee (10%)</span>
-              <span className="payment-amount">NPR {bookingFee.toLocaleString()}</span>
+              <span className="payment-amount">
+                NPR {bookingFee.toLocaleString()}
+              </span>
             </div>
             <div className="payment-total">
               <span>Total (Including Booking Fee)</span>
@@ -203,7 +207,7 @@ const Receipt = ({ receiptData }) => {
         <button className="download-btn" onClick={downloadReceipt}>
           <i className="fas fa-download"></i> Download Receipt
         </button>
-        <button className="close-btn" onClick={() => navigate('/')}>
+        <button className="close-btn" onClick={() => navigate("/")}>
           <i className="fas fa-times"></i> Close
         </button>
       </div>
