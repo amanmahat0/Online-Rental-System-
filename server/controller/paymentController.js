@@ -138,39 +138,87 @@ const processPayment = async (req, res) => {
   }
 };
 
+// const searchPayments = async (req, res) => {
+//   try {
+//     const { to, toModel, from, fromModel } = req.query;
+
+//     // Build the query object dynamically
+//     const query = {};
+
+//     if (to) {
+//       query.to = to;
+//     }
+
+//     if (toModel) {
+//       if (!["Owner", "Agent"].includes(toModel)) {
+//         return res.status(400).json({
+//           status: false,
+//           message: "Invalid toModel. Must be 'Owner' or 'Agent'.",
+//         });
+//       }
+//       query.toModel = toModel;
+//     }
+
+//     if (from) {
+//       query.from = from;
+//     }
+
+//     if (fromModel) {
+//       if (!["User", "Agent"].includes(fromModel)) {
+//         return res.status(400).json({
+//           status: false,
+//           message: "Invalid fromModel. Must be 'User' or 'Agent'.",
+//         });
+//       }
+//       query.fromModel = fromModel;
+//     }
+
+//     // Search payments based on the query
+//     const payments = await Payment.find(query).populate("to from propertyId");
+
+//     if (!payments || payments.length === 0) {
+//       return res.status(404).json({
+//         status: false,
+//         message: "No payments found matching the criteria.",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       status: true,
+//       data: payments,
+//     });
+//   } catch (error) {
+//     console.error("Error searching payments:", error);
+//     return res.status(500).json({
+//       status: false,
+//       message: "An error occurred while searching for payments.",
+//     });
+//   }
+// };
+
 const searchPayments = async (req, res) => {
   try {
-    const { to, toModel, from, fromModel } = req.query;
+    const { to, from } = req.query;
 
-    // Build the query object dynamically
-    const query = {};
-
-    if (to) {
-      query.to = to;
+    // Validate input
+    if (!to && !from) {
+      return res.status(400).json({
+        status: false,
+        message: "At least one of 'to' or 'from' must be provided.",
+      });
     }
 
-    if (toModel) {
-      if (!["Owner", "Agent"].includes(toModel)) {
-        return res.status(400).json({
-          status: false,
-          message: "Invalid toModel. Must be 'Owner' or 'Agent'.",
-        });
-      }
-      query.toModel = toModel;
+    // Build the query object
+    const query = {
+      $or: [],
+    };
+
+    if (to) {
+      query.$or.push({ to });
     }
 
     if (from) {
-      query.from = from;
-    }
-
-    if (fromModel) {
-      if (!["User", "Agent"].includes(fromModel)) {
-        return res.status(400).json({
-          status: false,
-          message: "Invalid fromModel. Must be 'User' or 'Agent'.",
-        });
-      }
-      query.fromModel = fromModel;
+      query.$or.push({ from });
     }
 
     // Search payments based on the query
@@ -195,7 +243,6 @@ const searchPayments = async (req, res) => {
     });
   }
 };
-
 module.exports = {
   processPayment,
   searchPayments,
