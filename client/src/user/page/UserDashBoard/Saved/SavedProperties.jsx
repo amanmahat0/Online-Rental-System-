@@ -16,24 +16,70 @@ const SavedProperties = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const listingsPerPage = 6;
 
+  // const fetchSavedProperties = async () => {
+  //   try {
+  //     const storedSaveProperties = localStorage.getItem("saveProperties");
+  //     if (!storedSaveProperties) {
+  //       console.error("User not found in localStorage");
+  //       return;
+  //     }
+
+  //     const savePropertiesData = JSON.parse(storedSaveProperties);
+
+  //     if (!savePropertiesData || savePropertiesData.length === 0) {
+  //       console.log("No saved properties found for the user");
+  //       return;
+  //     }
+  //     console.log(
+  //       "Saved Properties Data:",
+  //       JSON.stringify({ propertiesId: savePropertiesData })
+  //     );
+
+  //     // Make the POST request to fetch saved properties
+  //     const response = await fetch(
+  //       "http://localhost:5000/api/properties/savedProperties",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ propertiesId: savePropertiesData }),
+  //       }
+  //     );
+
+  //     // Handle the response
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch saved properties");
+  //     }
+
+  //     const data = await response.json();
+  //     // console.log("Fetched saved properties:", data);
+  //     setSavedProperties(data.data);
+  //   } catch (error) {
+  //     console.error("Error fetching saved properties:", error);
+  //   }
+  // };
+
   const fetchSavedProperties = async () => {
     try {
-      const storedSaveProperties = localStorage.getItem("saveProperties");
-      if (!storedSaveProperties) {
-        console.error("User not found in localStorage");
+      // Retrieve user and role from localStorage
+      const storedUser = localStorage.getItem("user");
+      const storedRole = localStorage.getItem("role");
+
+      if (!storedUser || !storedRole) {
+        console.error("User or role not found in localStorage");
         return;
       }
 
-      const savePropertiesData = JSON.parse(storedSaveProperties);
+      const { id: userId } = JSON.parse(storedUser);
 
-      if (!savePropertiesData || savePropertiesData.length === 0) {
-        console.log("No saved properties found for the user");
-        return;
-      }
-      console.log(
-        "Saved Properties Data:",
-        JSON.stringify({ propertiesId: savePropertiesData })
-      );
+      // Prepare the request body
+      const requestBody = {
+        id: userId,
+        role: storedRole, // Ensure role is in lowercase (e.g., "user", "agent")
+      };
+
+      console.log("Request Body:", requestBody);
 
       // Make the POST request to fetch saved properties
       const response = await fetch(
@@ -43,7 +89,7 @@ const SavedProperties = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ propertiesId: savePropertiesData }),
+          body: JSON.stringify(requestBody),
         }
       );
 
@@ -53,12 +99,15 @@ const SavedProperties = () => {
       }
 
       const data = await response.json();
-      // console.log("Fetched saved properties:", data);
+      console.log("Fetched saved properties:", data);
+
+      // Update the saved properties state
       setSavedProperties(data.data);
     } catch (error) {
       console.error("Error fetching saved properties:", error);
     }
   };
+
   useEffect(() => {
     fetchSavedProperties();
     // Cleanup function to avoid memory lreaks
@@ -80,14 +129,14 @@ const SavedProperties = () => {
       };
 
       const storedRole = localStorage.getItem("role");
-      if (storedRole !== "user") {
+      if (storedRole !== "User" && storedRole !== "Agent") {
         console.error("Invalid role or role is not 'user'");
         return;
       }
 
       // Make the POST request to save/unsave the property
       const response = await fetch(
-        "http://localhost:5000/api/user/saveProperties",
+        `http://localhost:5000/api/${storedRole.toLowerCase()}/saveProperties`,
         {
           method: "POST",
           headers: {

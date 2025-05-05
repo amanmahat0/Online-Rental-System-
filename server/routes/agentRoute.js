@@ -13,6 +13,7 @@ const {
   handelAgentById,
   handelUpdateAgentById,
   handelDeleteAgentById,
+  handleSaveAndUnsaveProperties,
 } = require("../controller/agentController");
 
 const storage = multer.diskStorage({
@@ -50,5 +51,7 @@ app.get("/:id", handelAgentById);
 app.put("/:id", upload.single("profileImage"), handelUpdateAgentById);
 
 app.delete("/:id", handelDeleteAgentById);
+
+app.post("/saveProperties", handleSaveAndUnsaveProperties);
 
 module.exports = app;

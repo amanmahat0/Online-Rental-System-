@@ -223,18 +223,66 @@ const propertiesByOwnersId = async (req, res) => {
   }
 };
 
+// const handleGetAllSavedProperties = async (req, res) => {
+//   const propertiesId = req.body.propertiesId;
+//   try {
+//     const savedProperties = await Property.find({
+//       _id: { $in: propertiesId },
+//     });
+//     if (!savedProperties || savedProperties.length === 0) {
+//       return res.status(404).json({
+//         status: false,
+//         message: "No saved properties found.",
+//       });
+//     }
+//     return res.status(200).json({ status: true, data: savedProperties });
+//   } catch (error) {
+//     console.error("Error fetching saved properties:", error);
+//     return res.status(500).json({
+//       status: false,
+//       message: "Failed to fetch saved properties.",
+//     });
+//   }
+// };
+
 const handleGetAllSavedProperties = async (req, res) => {
-  const propertiesId = req.body.propertiesId;
+  const { id, role } = req.body; // Extract `id` and `role` from the request body
+  console.log("Fetching saved properties for ID:", id, "Role:", role);
   try {
-    const savedProperties = await Property.find({
-      _id: { $in: propertiesId },
-    });
-    if (!savedProperties || savedProperties.length === 0) {
-      return res.status(404).json({
+    let savedProperties = [];
+
+    if (role === "User") {
+      // Fetch saved properties for a user
+      const user = await User.findById(id).populate("saveProperties");
+      if (!user || !user.saveProperties || user.saveProperties.length === 0) {
+        return res.status(404).json({
+          status: false,
+          message: "No saved properties found for this user.",
+        });
+      }
+      savedProperties = user.saveProperties;
+    } else if (role === "Agent") {
+      // Fetch saved properties for an agent
+      const agent = await Agent.findById(id).populate("saveProperties");
+      if (
+        !agent ||
+        !agent.saveProperties ||
+        agent.saveProperties.length === 0
+      ) {
+        return res.status(404).json({
+          status: false,
+          message: "No saved properties found for this agent.",
+        });
+      }
+      savedProperties = agent.saveProperties;
+    } else {
+      return res.status(400).json({
         status: false,
-        message: "No saved properties found.",
+        message: "Invalid role. Role must be 'user' or 'agent'.",
       });
     }
+    console.log("Saved Properties:", savedProperties);
+    // Return the saved properties
     return res.status(200).json({ status: true, data: savedProperties });
   } catch (error) {
     console.error("Error fetching saved properties:", error);
