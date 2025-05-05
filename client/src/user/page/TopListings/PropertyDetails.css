@@ -432,4 +432,118 @@
     height: 60px;
     width: 60px;
   }
-  
+
+/* Agreement section */
+.property-agreement-section {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 24px 20px 16px 20px;
+  margin-top: 32px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.agreement-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #2d3748;
+}
+
+.agreement-content {
+  max-height: 220px;
+  overflow-y: auto;
+  background: #f9f9f9;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 16px;
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.agreement-content p {
+  margin-bottom: 12px;
+}
+
+.agreement-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: #333;
+  margin-top: 8px;
+}
+
+.agreement-radio {
+  accent-color: #007bff;
+  width: 18px;
+  height: 18px;
+}
+
+/* Booking modal popup */
+.booking-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30, 41, 59, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  transition: background 0.3s;
+}
+
+.booking-modal {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(30,41,59,0.25), 0 1.5px 8px rgba(0,0,0,0.08);
+  padding: 40px 32px 28px 32px;
+  max-width: 420px;
+  width: 92%;
+  text-align: center;
+  animation: popupScaleIn 0.32s cubic-bezier(.23,1.01,.32,1);
+  position: relative;
+}
+
+@keyframes popupScaleIn {
+  0% { opacity: 0; transform: scale(0.92) translateY(40px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.booking-modal h2 {
+  margin-bottom: 18px;
+  color: #1e293b;
+  font-size: 1.6em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.booking-modal p {
+  color: #374151;
+  font-size: 1.09em;
+  margin-bottom: 0;
+}
+
+.booking-modal-ok-btn {
+  margin-top: 32px;
+  padding: 12px 44px;
+  background: linear-gradient(90deg, #2563eb 60%, #1e40af 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.08em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 12px rgba(37,99,235,0.10);
+  letter-spacing: 0.01em;
+}
+
+.booking-modal-ok-btn:hover {
+  background: linear-gradient(90deg, #1e40af 60%, #2563eb 100%);
+  box-shadow: 0 4px 18px rgba(30,64,175,0.13);
+}
