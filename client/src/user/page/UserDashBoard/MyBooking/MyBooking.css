@@ -203,7 +203,7 @@
     color: red;
     padding: 10px;
     border: 1px solid red;
-    border-radius: 0 0 10px 10px;
+    border-radius:10px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
@@ -212,9 +212,17 @@
     bottom: 0; /* Ensures button stays at the bottom */
     left: 5%;
     margin-bottom: 10px;
-    
+}
 
-    
+.mybooking-cancel-booking-button.pay-now {
+    background-color: #7065f0;
+    color: #fff;
+    border: 1px solid #7065f0;
+}
+
+.mybooking-cancel-booking-button.pay-now:hover {
+    background-color: #5749d1;
+    color: #fff;
 }
 
 .mybooking-cancel-booking-button:hover {
@@ -266,10 +274,37 @@
     color: white;
     font-weight: bold;
 }
-
-
-
-
-
+.mybooking-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+  }
+.mybooking-status-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 11px;
+    color: white;
+    z-index: 10;
+    min-width: 60px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
   
+  .mybooking-status-badge.pending {
+    background-color: #ff4444;
+  }
+  
+  .mybooking-status-badge.approved {
+    background-color: #00C851;
+  }
+
+
+
+
+
+
 

@@ -8,6 +8,7 @@ import AgentBookings from '../MyBookings/AgentBookings';
 import BookingRequest from '../BookingRequest/BookingRequest';
 // import Saved from '../Saved/Saved';
 import './AgentDashboard.css';
+import MyBooking from '../../user/page/UserDashBoard/MyBooking/MyBooking';
 
 const AgentDashboard = () => {
     const [sidebarActive, setSidebarActive] = useState(false);
@@ -29,7 +30,7 @@ const AgentDashboard = () => {
                     <Route path="/agent/" element={<Navigate to="/agent/profile" replace />} />
                     <Route path="/agent/profile" element={<AgentProfile />} />
                     <Route path="/agent/listings" element={<MyListingsAgent />} />
-                    <Route path="/agent/bookings" element={<AgentBookings />} />
+                    <Route path="/agent/bookings" element={<MyBooking />} />
                     <Route path="/agent/booking-request" element={<BookingRequest />} />
                     {/* <Route path="/agent/saved" element={<Saved />} /> */}
                     {/* Add any additional agent-specific routes below as needed */}
