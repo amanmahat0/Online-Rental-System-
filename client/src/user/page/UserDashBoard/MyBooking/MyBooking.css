@@ -199,10 +199,10 @@
   
   .mybooking-cancel-booking-button {
     width: 90%;
-    background-color: #7065f0;
-    color: white;
+    background-color: #ffffff;
+    color: red;
     padding: 10px;
-    border: none;
+    border: 1px solid red;
     border-radius: 0 0 10px 10px;
     font-size: 1rem;
     font-weight: bold;
@@ -218,7 +218,8 @@
 }
 
 .mybooking-cancel-booking-button:hover {
-    background-color: #5a4bd7;
+    background-color: red;
+    color: white;
 }
 
 .mybooking-bookmark-icons{

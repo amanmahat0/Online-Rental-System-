@@ -46,8 +46,9 @@ const FeatureListing = () => {
   // const currentListings = listings.slice(0, listingsPerPage);
 
   const handleBookmarkClick = async (id) => {
+    console.log("Bookmark clicked for ID:", id);
     // Update local state
-    setBookmarkedItems(prev => {
+    setBookmarkedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -71,10 +72,10 @@ const FeatureListing = () => {
     };
 
     const storedRole = localStorage.getItem("role");
-    if (storedRole === "user") {
+    if (storedRole === "User" || storedRole === "Agent") {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/user/saveProperties",
+          `http://localhost:5000/api/${storedRole.toLowerCase()}/saveProperties`,
           {
             method: "POST",
             headers: {
@@ -89,7 +90,7 @@ const FeatureListing = () => {
         }
         const data = await response.json();
         localStorage.setItem(
-          "savedProperties",
+          "saveProperties",
           JSON.stringify(data.data.saveProperties)
         );
       } catch (error) {
@@ -127,7 +128,7 @@ const FeatureListing = () => {
                   title: listing.title,
                   price: listing.pricePerMonth,
                   location: `${listing.location.area} ${listing.location.city}`,
-                  imageUrl: listing.images,
+                  images: listing.images,
                   propertyType: listing.propertyType,
                   status: listing.availabilityStatus,
                   contact: listing.contactNumber,
@@ -136,11 +137,16 @@ const FeatureListing = () => {
             }}
             style={{ cursor: "pointer" }}
           >
-            <img
-              src={`http://localhost:5000${listing.images}`}
-              alt={listing.title}
-              className="feature-listing-image"
-            />
+            <div className="feature-listing-image-container">
+              <img
+                src={`http://localhost:5000${listing.images}`}
+                alt={listing.title}
+                className="feature-listing-image"
+              />
+              <div className={`feature-listing-properties-status-badge ${listing.availabilityStatus ? 'available' : 'booked'}`}>
+                {listing.availabilityStatus ? 'Available' : 'Booked'}
+              </div>
+            </div>
             <div className="feature-listing-details">
               <div className="feature-listing-button-section">
                 <h2 className="feature-lsiting-details-card-title">

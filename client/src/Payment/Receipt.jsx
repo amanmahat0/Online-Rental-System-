@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
-import html2canvas from 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js';
-import './styles/Receipt.css';
+
+// src/user/Payment/Receipt.js
+import React, { useEffect, useRef } from "react";
+import html2canvas from "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js";
+import "./styles/Receipt.css";
 
 const Receipt = ({ receiptData }) => {
   const receiptRef = useRef(null);
@@ -13,14 +14,14 @@ const Receipt = ({ receiptData }) => {
 
     try {
       const canvas = await html2canvas(receiptElement);
-      const image = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
+      const image = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
       link.href = image;
       link.download = `Payment_Receipt_${receiptData.transactionId}.png`;
       link.click();
     } catch (error) {
-      console.error('Error generating receipt:', error);
-      alert('Failed to download receipt. Please try again.');
+      console.error("Error generating receipt:", error);
+      alert("Failed to download receipt. Please try again.");
     }
   };
 
@@ -33,11 +34,48 @@ const Receipt = ({ receiptData }) => {
     printWindow.print();
   };
 
-  // Ensure receiptData.amount is treated as a number
-  const amount = parseFloat(receiptData.amount) || 0; // Default to 0 if amount is invalid
-  const bookingFee = amount * 0.1; // Calculate 10% booking fee
-  const totalAmount = amount + bookingFee; // Total amount including booking fee
 
+  const saveReceipt = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/process", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: receiptData.fullName,
+          email: receiptData.email,
+          contact: receiptData.phone,
+          address: receiptData.address,
+          propertyId: receiptData.propertyId,
+          amount: receiptData.amount,
+          paymentMethod: receiptData.paymentMethod,
+          transactionId: receiptData.transactionId,
+          to: receiptData.to,
+          toModel: receiptData.toModel,
+          from: receiptData.from,
+          fromModel: receiptData.fromModel,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to save receipt data.");
+      }
+      const data = await response.json();
+      if (data.status) {
+        console.log("Receipt saved successfully:", data.data);
+      } else {
+        console.error("Failed to save receipt:", data.message);
+        alert("Failed to save receipt. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error saving receipt:", error);
+      alert("Failed to save receipt. Please try again.");
+    }
+  };
+  useEffect(() => {
+    saveReceipt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="receipt-page">
       <div className="receipt-container" ref={receiptRef}>
@@ -66,19 +104,19 @@ const Receipt = ({ receiptData }) => {
               <div className="info-item">
                 <span className="info-label">Payment Method:</span>
                 <span className="info-value payment-method">
-                  {receiptData.paymentMethod === 'esewa' && (
+                  {receiptData.paymentMethod === "esewa" && (
                     <>
                       <i className="fas fa-wallet esewa-color"></i>
                       eSewa
                     </>
                   )}
-                  {receiptData.paymentMethod === 'khalti' && (
+                  {receiptData.paymentMethod === "khalti" && (
                     <>
                       <i className="fas fa-wallet khalti-color"></i>
                       Khalti
                     </>
                   )}
-                  {receiptData.paymentMethod === 'bank' && (
+                  {receiptData.paymentMethod === "bank" && (
                     <>
                       <i className="fas fa-university"></i>
                       Bank Transfer
@@ -115,7 +153,13 @@ const Receipt = ({ receiptData }) => {
             <h4>Payment Details</h4>
             <div className="payment-item">
               <span className="payment-description">{receiptData.purpose}</span>
-              <span className="payment-amount">NPR {amount.toLocaleString()}</span>
+              <span className="payment-amount">
+                NPR {parseFloat(receiptData.amount).toLocaleString()}
+              </span>
+            </div>
+            <div className="payment-subtotal">
+              <span>Subtotal</span>
+              <span>NPR {parseFloat(receiptData.amount).toLocaleString()}</span>
             </div>
             <div className="payment-item">
               <span className="payment-description">Booking Fee (10%)</span>
@@ -133,7 +177,10 @@ const Receipt = ({ receiptData }) => {
                 <i className="fas fa-heart"></i>
                 <p>Thank you for your payment!</p>
               </div>
-              <p className="note">This is an electronically generated receipt and does not require a signature.</p>
+              <p className="note">
+                This is an electronically generated receipt and does not require
+                a signature.
+              </p>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@
   background: linear-gradient(145deg, #7065f0, #b0b0b0); /* Purple-blue blending into soft gray */
   color: #f5f5f5;
   min-height: 100vh;
-  padding: 30px;
+  padding: 40px;
   font-family: "Poppins", sans-serif;
   margin-left: 80px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -11,7 +11,7 @@
 .admin-agent-title {
   font-size: 2.8rem;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   color: #ffffff;
   text-shadow: 2px 2px 15px rgba(255, 255, 255, 0.3);
 }
@@ -39,19 +39,23 @@
 .admin-agent-search-container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .admin-agent-search-input {
   width: 100%;
-  padding: 10px;
+  padding: 15px;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.15);
   color: white;
   outline: none;
   transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .admin-agent-search-input::placeholder {
@@ -60,12 +64,15 @@
 
 .admin-agent-search-input:focus {
   background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .admin-agent-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
   animation: fadeIn 0.8s ease-out;
 }
 
@@ -73,66 +80,71 @@
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border-radius: 20px;
-  padding: 25px;
+  padding: 30px;
   text-align: left;
-  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2); /* Adjusted glow */
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .admin-agent-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3); /* Softer glow */
+  box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.12);
 }
 
 .admin-agent-icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
+  font-size: 2.8rem;
+  margin-bottom: 20px;
   color: #ffffff;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4)); /* Enhanced light effect */
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
 }
 
 .admin-agent-info h3 {
   font-size: 1.8rem;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   color: #ffffff;
 }
 
 .admin-agent-details {
   margin: 15px 0;
+  flex-grow: 1;
 }
 
 .admin-agent-details p {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 8px 0;
+  margin: 12px 0;
   color: rgba(255, 255, 255, 0.9);
+  font-size: 1.05rem;
 }
 
 .admin-agent-no-results {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 30px;
-  font-size: 1.2rem;
+  padding: 40px;
+  font-size: 1.3rem;
   color: rgba(255, 255, 255, 0.7);
 }
 
 .admin-agent-action-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 25px;
   gap: 15px;
 }
 
 .admin-agent-action-buttons button {
   flex: 1;
   border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -169,15 +181,16 @@
   align-items: center;
   z-index: 1000;
   padding: 15px;
+  backdrop-filter: blur(5px);
 }
 
 .admin-agent-edit-modal,
 .admin-agent-delete-modal {
   background: linear-gradient(145deg, #5a52c4, #9595a8);
   border-radius: 16px;
-  padding: 25px;
+  padding: 30px;
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
   max-height: 90vh;
@@ -188,18 +201,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   padding-bottom: 15px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: sticky;
   top: 0;
-  /* background: transparent; */
   z-index: 1;
 }
 
 .admin-agent-modal-header h2 {
   color: white;
   margin: 0;
+  font-size: 1.8rem;
 }
 
 .admin-agent-close-modal {
@@ -217,13 +230,14 @@
 }
 
 .admin-agent-form-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .admin-agent-form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: rgba(255, 255, 255, 0.9);
+  font-size: 1.05rem;
 }
 
 .admin-agent-input-wrapper {
@@ -232,18 +246,24 @@
 
 .admin-agent-form-group input {
   width: 100%;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 14px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.1);
   color: white;
   font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.admin-agent-form-group input:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .admin-agent-field-error {
   color: #ff6347;
   font-size: 14px;
-  margin-top: 5px;
+  margin-top: 8px;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -252,7 +272,7 @@
 .admin-agent-field-warning {
   color: #ffd700;
   font-size: 14px;
-  margin-top: 5px;
+  margin-top: 8px;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -272,41 +292,40 @@
 }
 
 .admin-agent-delete-content {
-  margin: 20px 0;
+  margin: 25px 0;
 }
 
 .admin-agent-delete-name {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
   color: #ff6347;
-  margin: 10px 0;
+  margin: 15px 0;
 }
 
 .admin-agent-modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
-  margin-top: 25px;
+  gap: 18px;
+  margin-top: 30px;
   flex-wrap: wrap;
   position: sticky;
   bottom: 0;
-  /* background: #2a2a2a; */
-  padding-top: 15px;
+  padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .admin-agent-cancel-btn,
 .admin-agent-save-btn,
 .admin-agent-confirm-delete-btn {
-  padding: 12px 20px;
-  border-radius: 8px;
+  padding: 14px 24px;
+  border-radius: 10px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   flex: 1;
   text-align: center;
-  min-width: 120px;
+  min-width: 130px;
 }
 
 .admin-agent-cancel-btn {
@@ -328,6 +347,7 @@
 .admin-agent-save-btn:hover {
   background: #4ecb5f;
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(92, 207, 109, 0.3);
 }
 
 .admin-agent-confirm-delete-btn {
@@ -339,6 +359,7 @@
 .admin-agent-confirm-delete-btn:hover {
   background: #e63946;
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
 }
 
 .admin-agent-save-btn:disabled,
@@ -349,36 +370,44 @@
 }
 
 /* Responsive styles */
+@media (max-width: 1200px) {
+  .admin-agent-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+}
+
 @media (max-width: 992px) {
   .admin-agent-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
   .admin-agent-container {
-    padding: 20px;
+    padding: 25px;
     margin-left: 0;
   }
   
   .admin-agent-title {
-    font-size: 2rem;
-    margin-bottom: 25px;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
   }
   
   .admin-agent-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 25px;
   }
   
   .admin-agent-card {
-    padding: 20px;
+    padding: 25px;
   }
   
   .admin-agent-edit-modal,
   .admin-agent-delete-modal {
-    padding: 15px;
-    border-radius: 12px;
+    padding: 20px;
+    border-radius: 14px;
   }
   
   .admin-agent-modal-actions {
@@ -389,6 +418,7 @@
   .admin-agent-save-btn,
   .admin-agent-confirm-delete-btn {
     width: 100%;
+    margin-bottom: 10px;
   }
 }
 
@@ -412,6 +442,7 @@
   
   .admin-agent-action-buttons button {
     width: 100%;
+    margin-bottom: 10px;
   }
 }
 

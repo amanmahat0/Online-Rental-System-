@@ -19,7 +19,14 @@ async function handleUserSignUp(req, res) {
       .json({ status: true, data: { id: user._id, name: user.name } });
   } catch (error) {
     console.error("Error in handleSignUp:", error);
-    return res.json({ status: false, message: error });
+    console.log(error.code);
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+      return res.status(400).json({
+        status: false,
+        message: "Email already exists. Please use a different email.",
+      });
+    }
+    return res.status(500).json({ status: false, message: error });
   }
 }
 
@@ -247,7 +254,7 @@ const handleSaveAndUnsaveProperties = async (req, res) => {
     if (isPropertySaved) {
       // If the property is already saved, remove it (unsave)
       user.saveProperties = user.saveProperties.filter(
-        (id) => id !== propertyId
+        (id) => id.toString() !== propertyId
       );
       await user.save();
       return res.status(200).json({

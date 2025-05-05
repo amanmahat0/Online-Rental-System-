@@ -1,191 +1,204 @@
-.owners-container {
-  background: linear-gradient(
-    145deg,
-    #7065f0,
-    #b0b0b0
-  ); /* Purple-blue blending into soft gray */
+.admin-owner-container {
+  background: linear-gradient(145deg, #7065f0, #b0b0b0);
   color: #f5f5f5;
   min-height: 100vh;
-  padding: 30px;
+  padding: 40px;
   font-family: "Poppins", sans-serif;
   margin-left: 80px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.owners-title {
+.admin-owner-title {
   font-size: 2.8rem;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   color: #ffffff;
   text-shadow: 2px 2px 15px rgba(255, 255, 255, 0.3);
 }
 
-.filter-container {
+.admin-owner-filter-container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 20px;
 }
 
-.filter-container input,
-.filter-container select {
-  padding: 10px;
+.admin-owner-filter-container input,
+.admin-owner-filter-container select {
+  padding: 15px;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.15);
   color: white;
   outline: none;
   transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  flex: 1;
 }
 
-.filter-container input::placeholder {
+.admin-owner-filter-container input::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.filter-container input:focus,
-.filter-container select:focus {
+.admin-owner-filter-container input:focus,
+.admin-owner-filter-container select:focus {
   background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.owners-grid {
+.admin-owner-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
   animation: fadeIn 0.8s ease-out;
 }
 
-.owner-card {
+.admin-owner-card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border-radius: 20px;
-  padding: 25px;
+  padding: 30px;
   text-align: left;
-  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2); /* Adjusted glow */
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.owner-card:hover {
+.admin-owner-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3); /* Softer glow */
+  box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.12);
 }
 
-.owner-icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
+.admin-owner-icon {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
   color: #ffffff;
-  filter: drop-shadow(
-    0 0 8px rgba(255, 255, 255, 0.4)
-  ); /* Enhanced light effect */
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
 }
 
-.owner-info h3 {
+.admin-owner-info h3 {
   font-size: 1.8rem;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   color: #ffffff;
 }
 
-.owner-details {
+.admin-owner-details {
   margin: 15px 0;
+  flex-grow: 1;
 }
 
-.owner-details p {
+.admin-owner-details p {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 8px 0;
+  margin: 12px 0;
   color: rgba(255, 255, 255, 0.9);
+  font-size: 1.05rem;
 }
 
-.owner-status {
+.admin-owner-status {
   display: inline-block;
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
   text-transform: uppercase;
+  margin-top: 5px;
 }
 
-.owner-status.active {
+.admin-owner-status.active {
   background: rgba(46, 213, 115, 0.2);
   color: #2ed573;
 }
 
-.owner-status.inactive {
+.admin-owner-status.inactive {
   background: rgba(255, 99, 71, 0.2);
   color: #ff6347;
 }
 
-.owner-actions {
+.admin-owner-actions {
   display: flex;
-  justify-content: space-around;
-  margin-top: 15px;
+  justify-content: space-between;
+  margin-top: 25px;
+  gap: 15px;
 }
 
-.owner-actions button {
+.admin-owner-actions button {
+  flex: 1;
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
   border: solid 2px #eceaea;
   color: #eceaea;
   background-color: transparent;
-}
-
-.owner-actions button:nth-child(1):hover {
-  background-color: #6ebd4cca;
-  border: #6ebd4cca;
-}
-
-.owner-actions button:nth-child(2):hover {
-  background-color: #ca2b2bed;
-  border: #ca2b2bed;
-}
-
-.owner-actions button:hover {
-  transform: scale(1.1);
-  filter: brightness(1.2);
-}
-
-/* Message notification */
-.message {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  z-index: 1000;
-  animation: slideIn 0.3s ease-out forwards;
-  max-width: 300px;
   text-align: center;
 }
 
-.message.success {
-  background-color: rgba(46, 213, 115, 0.9);
+.admin-owner-actions button:nth-child(1):hover {
+  background-color: #6ebd4cca;
+  border-color: #6ebd4cca;
   color: white;
-  box-shadow: 0 4px 10px rgba(46, 213, 115, 0.5);
+  transform: translateY(-3px);
 }
 
-.message.error {
+.admin-owner-actions button:nth-child(2):hover {
+  background-color: #ca2b2bed;
+  border-color: #ca2b2bed;
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* Message notification */
+.admin-owner-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-size: 16px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out forwards;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.admin-owner-message.success {
+  background-color: rgba(46, 213, 115, 0.9);
+  color: white;
+  box-shadow: 0 8px 20px rgba(46, 213, 115, 0.4);
+}
+
+.admin-owner-message.error {
   background-color: rgba(255, 99, 71, 0.9);
   color: white;
-  box-shadow: 0 4px 10px rgba(255, 99, 71, 0.5);
+  box-shadow: 0 8px 20px rgba(255, 99, 71, 0.4);
 }
 
 /* Edit Modal */
-.edit-modal {
+.admin-owner-edit-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -193,38 +206,39 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-.edit-modal-content {
+.admin-owner-edit-modal-content {
   background: linear-gradient(145deg, #5a52c4, #9595a8);
   border-radius: 20px;
-  padding: 30px;
+  padding: 35px;
   width: 90%;
-  max-width: 500px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  max-width: 550px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: white;
 }
 
-.edit-modal-content h2 {
+.admin-owner-edit-modal-content h2 {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
+  margin-bottom: 30px;
+  font-size: 2rem;
   text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.2);
 }
 
 .admin-owner-form-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .admin-owner-form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 500;
+  font-size: 1.05rem;
 }
 
 .admin-owner-form-group input {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 14px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.1);
   color: white;
@@ -236,79 +250,319 @@
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.4);
   outline: none;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .admin-owner-form-group small {
   display: block;
-  margin-top: 5px;
-  font-size: 12px;
+  margin-top: 8px;
+  font-size: 13px;
   opacity: 0.8;
 }
 
 /* Non-editable field styling */
-.non-editable-field {
+.admin-owner-non-editable-field {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 14px;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px dashed rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.8);
   font-size: 16px;
 }
 
-.info-text {
-  color: rgba(255, 255, 255, 0.6);
+.admin-owner-info-text {
+  color: rgba(255, 255, 255, 0.7);
   font-style: italic;
+  margin-top: 5px;
 }
 
-.edit-actions {
+.admin-owner-edit-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 35px;
+  gap: 20px;
 }
 
-.edit-actions button {
-  padding: 10px 20px;
-  border-radius: 8px;
+.admin-owner-edit-actions button {
+  flex: 1;
+  padding: 14px 24px;
+  border-radius: 10px;
   font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
   border: 2px solid white;
   background: transparent;
   color: white;
+  min-width: 130px;
 }
 
-.edit-actions button:first-child {
+.admin-owner-edit-actions button:first-child {
   background: rgba(255, 99, 71, 0.2);
   border-color: rgba(255, 99, 71, 0.6);
 }
 
-.edit-actions button:last-child {
+.admin-owner-edit-actions button:last-child {
   background: rgba(46, 213, 115, 0.2);
   border-color: rgba(46, 213, 115, 0.6);
 }
 
-.edit-actions button:hover {
-  transform: scale(1.05);
-  filter: brightness(1.2);
+.admin-owner-edit-actions button:first-child:hover {
+  background: rgba(255, 99, 71, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 99, 71, 0.3);
+}
+
+.admin-owner-edit-actions button:last-child:hover {
+  background: rgba(46, 213, 115, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(46, 213, 115, 0.3);
+}
+
+/* Owner Delete Modal styles */
+.admin-owner-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 15px;
+  backdrop-filter: blur(5px);
+}
+
+.admin-owner-delete-modal {
+  background: linear-gradient(145deg, #5a52c4, #9595a8);
+  border-radius: 16px;
+  padding: 30px;
+  width: 100%;
+  max-width: 550px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-height: 90vh;
+  overflow-y: auto;
+  color: white;
+}
+
+.admin-owner-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: transparent;
+}
+
+.admin-owner-modal-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.admin-owner-close-modal {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-owner-close-modal:hover {
+  color: #ff6347;
+  transform: scale(1.1);
+}
+
+.admin-owner-delete-content {
+  margin: 25px 0;
+  text-align: center;
+  color: white;
+}
+
+.admin-owner-delete-warning {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.admin-owner-delete-name {
+  font-weight: bold;
+  font-size: 20px;
+  color: #ff6347;
+  margin: 15px 0;
+  padding: 10px;
+  background: transparent; /* Removed the red background */
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.admin-owner-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  position: sticky;
+  bottom: 0;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+}
+
+.admin-owner-cancel-btn,
+.admin-owner-confirm-delete-btn {
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  text-align: center;
+  min-width: 130px;
+}
+
+.admin-owner-cancel-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.admin-owner-cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-owner-confirm-delete-btn {
+  background: #ca2b2bed;
+  border: none;
+  color: white;
+}
+
+.admin-owner-confirm-delete-btn:hover {
+  background: #e63946;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+}
+
+.admin-owner-cancel-btn:disabled,
+.admin-owner-confirm-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .admin-owner-delete-modal {
+    padding: 20px;
+    border-radius: 14px;
+  }
+  
+  .admin-owner-modal-actions {
+    flex-direction: column;
+  }
+  
+  .admin-owner-cancel-btn,
+  .admin-owner-confirm-delete-btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-owner-modal-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .admin-owner-delete-name {
+    font-size: 18px;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .admin-owner-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+}
+
+@media (max-width: 992px) {
+  .admin-owner-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .admin-owner-filter-container {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 768px) {
-  .owners-container {
-    padding: 20px;
-  }
-
-  .owners-title {
-    font-size: 2rem;
-  }
-
-  .owners-grid {
-    grid-template-columns: 1fr;
+  .admin-owner-container {
+    padding: 25px;
+    margin-left: 0;
   }
   
-  .edit-modal-content {
+  .admin-owner-title {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+  }
+  
+  .admin-owner-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .admin-owner-card {
+    padding: 25px;
+  }
+  
+  .admin-owner-edit-modal-content {
     width: 95%;
-    padding: 20px;
+    padding: 25px;
+  }
+  
+  .admin-owner-edit-actions {
+    flex-direction: column;
+  }
+  
+  .admin-owner-edit-actions button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-owner-container {
+    padding: 15px;
+  }
+  
+  .admin-owner-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .admin-owner-info h3 {
+    font-size: 1.5rem;
+  }
+  
+  .admin-owner-actions {
+    flex-direction: column;
+  }
+  
+  .admin-owner-actions button {
+    width: 100%;
+    margin-bottom: 10px;
   }
 }
 

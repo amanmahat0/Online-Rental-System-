@@ -43,7 +43,7 @@ const OfficeSpaces = () => {
 
   const handleBookmarkClick = async (id) => {
     // Update UI state immediately
-    setBookmarkedItems(prev => {
+    setBookmarkedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -67,10 +67,10 @@ const OfficeSpaces = () => {
     };
 
     const storedRole = localStorage.getItem("role");
-    if (storedRole === "user") {
+    if (storedRole === "User" || storedRole === "Agent") {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/user/saveProperties",
+          `http://localhost:5000/api/${storedRole.toLowerCase()}/saveProperties`,
           {
             method: "POST",
             headers: {
@@ -134,11 +134,17 @@ const OfficeSpaces = () => {
             }}
             style={{ cursor: "pointer" }}
           >
+            <div className="office-spaces-listing-image-container">
             <img
               src={`http://localhost:5000${listing.images}`}
               alt={listing.title}
               className="office-spaces-listing-image"
             />
+            <div className={`office-spaces-status-badge ${listing.availabilityStatus ? 'available' : 'booked'}`}>
+                {listing.availabilityStatus ? 'Available' : 'Booked'}
+              </div>
+            </div>
+            
             <div className="office-spaces-listing-details">
               <div className="office-spaces-listing-button-section">
                 <h2 className="office-spaces-lsiting-details-card-title">

@@ -59,12 +59,19 @@
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
+/* Image container */
+.feature-listing-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  padding: 15px;
+}
+
 /* Image inside the card */
 .feature-listing-image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
-  padding: 15px;
 }
 
 /* Details section */
@@ -182,4 +189,26 @@
 }
 .feature-listing-bookmark-icons:hover {
   color: #5249ba;
+}
+.feature-listing-properties-status-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 11px;
+  color: white;
+  z-index: 10;
+  min-width: 60px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.feature-listing-properties-status-badge.booked {
+  background-color: #ff4444;
+}
+
+.feature-listing-properties-status-badge.available {
+  background-color: #00C851;
 }
