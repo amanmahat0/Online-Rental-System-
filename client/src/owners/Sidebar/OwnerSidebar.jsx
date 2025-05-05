@@ -38,11 +38,11 @@ const OwnerSidebar = () => {
         </li>
         <li className="owner-menu-item">
           <NavLink
-            to="/owner/messages"
+            to="/owner/booking-request"
             className={({ isActive }) => (isActive ? "owner-active-link" : "")}
           >
             <FaEnvelope className="owner-sidebar-icon" />
-            <span>Messages</span>
+            <span>Booking Request</span>
           </NavLink>
         </li>
         <li className="owner-menu-item">

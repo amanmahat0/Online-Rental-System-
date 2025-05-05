@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import OwnerSidebar from '../../owners/Sidebar/OwnerSidebar';
 import OwnerProfile from '../../owners/My Profile/OwnerProfile';
 import MyListingsOwner from '../../owners/My Listings/MyListingsOwner';
+import BookingRequest from '../../agent/BookingRequest/BookingRequest';
 import './OwnerDashboard.css';
 
 const OwnerDashboard = () => {
@@ -25,6 +26,7 @@ const OwnerDashboard = () => {
                         <Route path="/owner/" element={<Navigate to="/owner/profile" replace />} />
                         <Route path="/owner/profile" element={<OwnerProfile />} />
                         <Route path="/owner/mylisting" element={<MyListingsOwner />} />
+                        <Route path="/owner/booking-request" element={<BookingRequest />} />
                         {/* <Route path="/messages" element={<Messages />} />
                         <Route path="/settings" element={<Settings />} />
                         <Route path="/logout" element={<Logout />} /> */}
