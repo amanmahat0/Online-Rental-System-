@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./PaymentHistory.css";
 import { FaSearch, FaFileDownload, FaSpinner } from "react-icons/fa";
 
@@ -13,30 +12,53 @@ const PaymentHistory = () => {
   const [detailsOpen, setDetailsOpen] = useState(null);
   const recordsPerPage = 5;
 
-  const ownerId = JSON.parse(localStorage.getItem("user"))?._id;
+  const ownerId = JSON.parse(localStorage.getItem("user"))?.id;
 
+  const fetchTransactions = async () => {
+    if (!ownerId) {
+      setError("User not authenticated");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const queryParams = new URLSearchParams();
+      queryParams.append("from", ownerId);
+      queryParams.append("to", ownerId);
+
+      const response = await fetch(
+        `http://localhost:5000/api/payment/search?${queryParams.toString()}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch transactions");
+      }
+
+      const data = await response.json();
+      console.log("Transaction data:", data);
+      if (data.status) {
+        setTransactions(data.data);
+      } else {
+        setError(data.message || "Failed to load transaction history.");
+      }
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching transaction data:", err);
+      setError("Failed to load transaction history. Please try again later.");
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchTransactions = async () => {
-      if (!ownerId) {
-        setError("User not authenticated");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        const response = await axios.get(`/api/owners/${ownerId}/transactions`);
-        setTransactions(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching transaction data:", err);
-        setError("Failed to load transaction history. Please try again later.");
-        setLoading(false);
-      }
-    };
-
     fetchTransactions();
-  }, [ownerId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
@@ -70,8 +92,11 @@ const PaymentHistory = () => {
 
   const filteredTransactions = transactions.filter((transaction) => {
     const matchesSearch =
-      transaction.bookingId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      transaction.payerId.name.toLowerCase().includes(searchTerm.toLowerCase());
+      transaction.from.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.to.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.propertyId.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
     const matchesFilter =
       filterStatus === "all" || transaction.status === filterStatus;
@@ -95,21 +120,6 @@ const PaymentHistory = () => {
   const downloadReceipt = (transactionId) => {
     console.log(`Downloading receipt for transaction ${transactionId}`);
     alert(`Receipt for transaction ${transactionId} is being downloaded`);
-  };
-
-  const getStatusBadgeClass = (status) => {
-    switch (status.toLowerCase()) {
-      case "completed":
-        return "payment-history-status-badge completed";
-      case "pending":
-        return "payment-history-status-badge pending";
-      case "failed":
-        return "payment-history-status-badge failed";
-      case "refunded":
-        return "payment-history-status-badge refunded";
-      default:
-        return "payment-history-status-badge";
-    }
   };
 
   if (loading) {
@@ -172,10 +182,9 @@ const PaymentHistory = () => {
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Booking ID</th>
+                  <th>Property Name</th>
                   <th>Guest</th>
                   <th>Amount</th>
-                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -186,17 +195,10 @@ const PaymentHistory = () => {
                       onClick={() => toggleDetails(transaction._id)}
                       className="payment-history-transaction-row"
                     >
-                      <td>{formatDate(transaction.date)}</td>
-                      <td>{transaction.bookingId}</td>
-                      <td>{transaction.payerId.name}</td>
+                      <td>{formatDate(transaction.paymentDate)}</td>
+                      <td>{transaction.propertyId.title}</td>
+                      <td>{transaction.from.name}</td>
                       <td>{formatCurrency(transaction.amount)}</td>
-                      <td>
-                        <span
-                          className={getStatusBadgeClass(transaction.status)}
-                        >
-                          {transaction.status}
-                        </span>
-                      </td>
                       <td>
                         <button
                           className="payment-history-download-btn"
@@ -218,61 +220,50 @@ const PaymentHistory = () => {
                                 <h4>Payment Details</h4>
                                 <p>
                                   <strong>Transaction ID:</strong>{" "}
-                                  {transaction._id}
+                                  {transaction.transactionId}
                                 </p>
                                 <p>
                                   <strong>Payment Method:</strong>{" "}
                                   {transaction.paymentMethod}
                                 </p>
                                 <p>
-                                  <strong>Base Amount:</strong>{" "}
-                                  {formatCurrency(transaction.baseAmount)}
+                                  <strong>Monthly Amount:</strong>{" "}
+                                  {formatCurrency(transaction.amount)}
                                 </p>
                                 <p>
                                   <strong>Service Fee:</strong>{" "}
-                                  {formatCurrency(transaction.serviceFee)}
+                                  {formatCurrency(transaction.amount * 0.1)}
                                 </p>
                                 <p>
                                   <strong>Total:</strong>{" "}
-                                  {formatCurrency(transaction.amount)}
+                                  {formatCurrency(transaction.amount * 1.1)}
                                 </p>
                               </div>
 
                               <div className="payment-history-details-section">
                                 <h4>Guest Information</h4>
                                 <p>
-                                  <strong>Name:</strong>{" "}
-                                  {transaction.payerId.name}
+                                  <strong>Name:</strong> {transaction.from.name}
                                 </p>
                                 <p>
                                   <strong>Email:</strong>{" "}
-                                  {transaction.payerId.email}
+                                  {transaction.from.email}
                                 </p>
                                 <p>
                                   <strong>Phone:</strong>{" "}
-                                  {transaction.payerId.phone || "Not provided"}
+                                  {transaction.from.contact || "Not provided"}
                                 </p>
                               </div>
 
                               <div className="payment-history-details-section">
                                 <h4>Booking Information</h4>
                                 <p>
-                                  <strong>Check-in:</strong>{" "}
-                                  {formatDate(transaction.bookingDetails.checkIn)}
-                                </p>
-                                <p>
-                                  <strong>Check-out:</strong>{" "}
-                                  {formatDate(
-                                    transaction.bookingDetails.checkOut
-                                  )}
+                                  <strong>Booked Date:</strong>{" "}
+                                  {formatDate(transaction.paymentDate)}
                                 </p>
                                 <p>
                                   <strong>Property:</strong>{" "}
-                                  {transaction.bookingDetails.propertyName}
-                                </p>
-                                <p>
-                                  <strong>Guests:</strong>{" "}
-                                  {transaction.bookingDetails.guestCount}
+                                  {transaction.propertyId.title}
                                 </p>
                               </div>
                             </div>
