@@ -1,10 +1,12 @@
+
 // src/user/Payment/Receipt.js
 import React, { useEffect, useRef } from "react";
 import html2canvas from "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js";
 import "./styles/Receipt.css";
 
-const Receipt = ({ receiptData, onClose }) => {
+const Receipt = ({ receiptData }) => {
   const receiptRef = useRef(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const downloadReceipt = async () => {
     const receiptElement = receiptRef.current;
@@ -24,8 +26,14 @@ const Receipt = ({ receiptData, onClose }) => {
   };
 
   const printReceipt = () => {
-    window.print();
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Receipt</title></head><body>');
+    printWindow.document.write(receiptRef.current.innerHTML);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
   };
+
 
   const saveReceipt = async () => {
     try {
@@ -153,13 +161,13 @@ const Receipt = ({ receiptData, onClose }) => {
               <span>Subtotal</span>
               <span>NPR {parseFloat(receiptData.amount).toLocaleString()}</span>
             </div>
-            <div className="payment-tax">
-              <span>Transaction Fee</span>
-              <span>NPR 0.00</span>
+            <div className="payment-item">
+              <span className="payment-description">Booking Fee (10%)</span>
+              <span className="payment-amount">NPR {bookingFee.toLocaleString()}</span>
             </div>
             <div className="payment-total">
-              <span>Total</span>
-              <span>NPR {parseFloat(receiptData.amount).toLocaleString()}</span>
+              <span>Total (Including Booking Fee)</span>
+              <span>NPR {totalAmount.toLocaleString()}</span>
             </div>
           </div>
 
@@ -195,7 +203,7 @@ const Receipt = ({ receiptData, onClose }) => {
         <button className="download-btn" onClick={downloadReceipt}>
           <i className="fas fa-download"></i> Download Receipt
         </button>
-        <button className="close-btn" onClick={onClose}>
+        <button className="close-btn" onClick={() => navigate('/')}>
           <i className="fas fa-times"></i> Close
         </button>
       </div>

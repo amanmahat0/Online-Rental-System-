@@ -6,6 +6,11 @@ const PaymentSummary = ({ formData, paymentMethod, onConfirm, onBack }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [receipt, setReceipt] = useState(null);
 
+  // Ensure formData.amount is treated as a number
+  const amount = parseFloat(formData.amount) || 0; // Default to 0 if amount is invalid
+  const bookingFee = amount * 0.1; // Calculate 10% booking fee
+  const totalAmount = amount + bookingFee; // Total amount including booking fee
+
   const handleConfirm = () => {
     setIsProcessing(true);
     setTimeout(() => {
@@ -20,19 +25,19 @@ const PaymentSummary = ({ formData, paymentMethod, onConfirm, onBack }) => {
   };
 
   const paymentMethodDisplay = {
-    'esewa': {
+    esewa: {
       name: 'eSewa',
-      logo: <i className="fas fa-wallet esewa-color"></i>,
+      // logo: <img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Esewa_logo.webp" alt="eSewa Logo" className="payment-logo" />,
       instructions: 'You will be redirected to eSewa to complete this payment.'
     },
-    'khalti': {
+    khalti: {
       name: 'Khalti',
-      logo: <i className="fas fa-wallet khalti-color"></i>,
+      // logo: <img src="https://www.pikpng.com/pngl/m/292-2923069_khalti-digital-wallet-logo-khalti-clipart.png" alt="Khalti Logo" className="payment-logo" />,
       instructions: 'You will be redirected to Khalti to complete this payment.'
     },
-    'bank': {
+    bank: {
       name: 'Bank Transfer',
-      logo: <i className="fas fa-university"></i>,
+      // logo: <img src="https://img.icons8.com/?size=100&id=xbAVeXa6Jcbf&format=png&color=000000" alt="Bank Transfer Logo" className="payment-logo" />,
       instructions: 'Please upload your bank deposit receipt.'
     }
   };
@@ -40,7 +45,7 @@ const PaymentSummary = ({ formData, paymentMethod, onConfirm, onBack }) => {
   return (
     <div className="payment-summary">
       <h3>Review Your Payment</h3>
-      
+
       <div className="summary-container">
         <div className="summary-section">
           <h4>Personal Details</h4>
@@ -66,11 +71,11 @@ const PaymentSummary = ({ formData, paymentMethod, onConfirm, onBack }) => {
           <h4>Payment Details</h4>
           <div className="info-row">
             <span className="info-label">Amount:</span>
-            <span className="info-value">NPR {parseFloat(formData.amount).toLocaleString()}</span>
+            <span className="info-value">NPR {amount.toLocaleString()}</span>
           </div>
           <div className="info-row">
-            <span className="info-label">Purpose:</span>
-            <span className="info-value">{formData.purpose}</span>
+            <span className="info-label">Booking Fee (10%):</span>
+            <span className="info-value">NPR {bookingFee.toLocaleString()}</span>
           </div>
           <div className="info-row">
             <span className="info-label">Payment Method:</span>
@@ -119,22 +124,22 @@ const PaymentSummary = ({ formData, paymentMethod, onConfirm, onBack }) => {
         </div>
 
         <div className="summary-total">
-          <span>Total Amount:</span>
-          <span className="total-amount">NPR {parseFloat(formData.amount).toLocaleString()}</span>
+          <span>Total Amount (Including Booking Fee):</span>
+          <span className="total-amount">NPR {totalAmount.toLocaleString()}</span>
         </div>
 
         <div className="summary-actions">
-          <button 
-            type="button" 
-            className="back-btn" 
+          <button
+            type="button"
+            className="back-btn"
             onClick={onBack}
             disabled={isProcessing}
           >
             Back
           </button>
-          <button 
-            type="button" 
-            className="confirm-btn" 
+          <button
+            type="button"
+            className="confirm-btn"
             onClick={handleConfirm}
             disabled={isProcessing || (paymentMethod === 'bank' && !receipt)}
           >
