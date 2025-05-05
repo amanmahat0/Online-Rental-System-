@@ -1,16 +1,20 @@
-import { Route, Routes } from "react-router-dom";
-import { Navigate } from "react-router-dom";
-import React, { useState } from "react";
-import AgentSidebar from "../Sidebar/AgentSidebar";
-import AgentProfile from "../My Profile/AgentProfile";
-import MyListingsAgent from "../My Listings/MyListingsAgent";
-import AgentBookings from "../MyBookings/AgentBookings";
+
+import { Route, Routes } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import AgentSidebar from '../Sidebar/AgentSidebar';
+import AgentProfile from '../My Profile/AgentProfile';
+import MyListingsAgent from '../My Listings/MyListingsAgent';
+import AgentBookings from '../MyBookings/AgentBookings';
+import BookingRequest from '../BookingRequest/BookingRequest';
+
 // import Saved from '../Saved/Saved';
 import "./AgentDashboard.css";
 import SavedProperties from "../../user/page/UserDashBoard/Saved/SavedProperties";
 
 const AgentDashboard = () => {
   const [sidebarActive, setSidebarActive] = useState(false);
+
 
   const toggleSidebar = () => {
     setSidebarActive(!sidebarActive);
@@ -36,11 +40,13 @@ const AgentDashboard = () => {
           <Route path="/agent/listings" element={<MyListingsAgent />} />
           <Route path="/agent/bookings" element={<AgentBookings />} />
           <Route path="/agent/saved" element={<SavedProperties />} />
+          <Route path="/agent/booking-request" element={<BookingRequest />} />
           {/* Add any additional agent-specific routes below as needed */}
         </Routes>
       </div>
     </div>
   );
+
 };
 
 export default AgentDashboard;

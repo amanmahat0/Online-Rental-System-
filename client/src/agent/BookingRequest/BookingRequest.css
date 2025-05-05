@@ -1,0 +1,425 @@
+/* Container and header */
+.booking-request-container {
+  padding: 20px;
+  max-width: 95%;
+  margin: 0 auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.booking-request-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-bottom: #7065f0 2px solid;
+  padding-bottom: 10px;
+}
+
+/* Grid container for the listings */
+.booking-request-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/*Responsive design for smaller screens*/
+@media (max-width: 768px) {
+  .booking-request-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-request-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Individual card styling */
+.booking-request-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+}
+
+/* Hover effect */
+.booking-request-card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Image container */
+.booking-request-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  padding: 15px;
+}
+
+/* Image inside the card */
+.booking-request-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Details section */
+.booking-request-details {
+  padding: 15px;
+}
+.booking-request-details-card {
+  text-align: left;
+  padding: 5px;
+}
+.booking-request-details-card-title {
+  text-align: left;
+  width: 200%;
+}
+
+.booking-request-cards-icons {
+  color: #7065f0;
+}
+.booking-request-property-details-description-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.booking-request-details h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #34495e;
+  font-weight: 600;
+  text-align: center;
+  padding: 5px;
+  width: 100%;
+  height: 25%;
+}
+
+.booking-request-details p {
+  color: #7f8c8d;
+  margin: 5px 0;
+  padding: 2px;
+}
+
+/* Ensure the card takes full height */
+.booking-request-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Ensures consistent height */
+}
+
+/* Details section should take available space */
+.booking-request-details {
+  flex-grow: 1; /* Pushes the button down */
+  padding: 15px;
+  text-align: center;
+}
+
+.booking-request-button-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.booking-request-save-button {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  height: 23px;
+  width: 20px;
+  margin-left: 150px;
+  margin-top: 5px;
+}
+.booking-request-property-description {
+  font-size: 12px;
+  text-align: left;
+}
+
+.booking-request-details-card {
+  display: flex;
+  align-items: start;
+  gap: 8px; /* Adjust spacing between icon and text */
+}
+
+.booking-request-cards-icons {
+  flex-shrink: 0; /* Prevent icon from shrinking */
+}
+.booking-request-bookmark-icons {
+  color: #7065f0;
+  width: 25px;
+  height: 25px;
+}
+.booking-request-bookmark-icons:hover {
+  color: #5249ba;
+}
+.booking-request-properties-status-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 11px;
+  color: white;
+  z-index: 10;
+  min-width: 60px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.booking-request-properties-status-badge.booked {
+  background-color: #ff4444;
+}
+
+.booking-request-properties-status-badge.available {
+  background-color: #00C851;
+}
+
+/* Container and header */
+.booking-request-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.booking-request-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.booking-request-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.booking-request-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Grid container for the requests */
+.booking-request-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* Individual card styling */
+.booking-request-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.booking-request-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Image container */
+.booking-request-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.booking-request-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.booking-request-status {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Details section */
+.booking-request-details {
+  padding: 20px;
+}
+
+.booking-request-title {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.booking-request-info {
+  margin-bottom: 20px;
+}
+
+.booking-request-detail {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.booking-request-icon {
+  margin-right: 10px;
+  color: #7065f0;
+  font-size: 1.1rem;
+}
+
+/* Customer info section */
+.booking-request-customer {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.booking-request-customer h3 {
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.booking-request-customer p {
+  color: #666;
+  margin: 4px 0;
+  font-size: 0.95rem;
+}
+
+/* Action buttons */
+.booking-request-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.booking-request-approve,
+.booking-request-reject {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.booking-request-approve {
+  background-color: #7065f0;
+  color: white;
+}
+
+.booking-request-reject {
+  background-color: #ffffff;
+  color: #d32f2f;
+  border: 1px solid #d32f2f;
+}
+
+.booking-request-approve:hover {
+  background-color: #5249ba;
+  transform: translateY(-2px);
+}
+
+.booking-request-reject:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+  color: white;
+}
+
+/* Empty state */
+.booking-request-empty {
+  text-align: center;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  margin-top: 30px;
+}
+
+.booking-request-empty h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.booking-request-empty p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .booking-request-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-request-header h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-request-container {
+    padding: 15px;
+  }
+
+  .booking-request-actions {
+    flex-direction: column;
+  }
+}
+
+.booking-request-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  padding: 20px 0;
+}
+
+.booking-request-pagination-button {
+  padding: 8px 16px;
+  border: 1px solid #7065f0;
+  background-color: white;
+  color: #7065f0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.booking-request-pagination-button:hover:not(:disabled) {
+  background-color: #7065f0;
+  color: white;
+}
+
+.booking-request-pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #ccc;
+  color: #ccc;
+}
+
+.booking-request-pagination-button.active {
+  background-color: #7065f0;
+  color: white;
+  font-weight: bold;
+}

@@ -60,11 +60,11 @@ const AgentSidebar = () => {
         </li>
         <li className="agent-menu-item">
           <NavLink
-            to="/agent/messages"
+            to="/agent/booking-request"
             className={({ isActive }) => (isActive ? "agent-active-link" : "")}
           >
             <FaEnvelope className="agent-sidebar-icon" />
-            <span>Messages</span>
+            <span>Booking Request</span>
           </NavLink>
         </li>
         <li className="agent-menu-item">
