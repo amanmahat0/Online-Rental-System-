@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import OwnerSidebar from '../../owners/Sidebar/OwnerSidebar';
 import OwnerProfile from '../../owners/My Profile/OwnerProfile';
 import MyListingsOwner from '../../owners/My Listings/MyListingsOwner';
-import PaymentHistory from '../Payment History/PaymentHistory';
+import PaymentHistory from '../../Payment History/PaymentHistory';
 import './OwnerDashboard.css';
 
 const OwnerDashboard = () => {

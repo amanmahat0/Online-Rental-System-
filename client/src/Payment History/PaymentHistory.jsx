@@ -13,7 +13,6 @@ const PaymentHistory = () => {
   const [detailsOpen, setDetailsOpen] = useState(null);
   const recordsPerPage = 5;
 
-  // Get owner ID from localStorage
   const ownerId = JSON.parse(localStorage.getItem("user"))?._id;
 
   useEffect(() => {
@@ -26,7 +25,6 @@ const PaymentHistory = () => {
 
       try {
         setLoading(true);
-        // Replace with your actual API endpoint
         const response = await axios.get(`/api/owners/${ownerId}/transactions`);
         setTransactions(response.data);
         setLoading(false);
@@ -40,7 +38,6 @@ const PaymentHistory = () => {
     fetchTransactions();
   }, [ownerId]);
 
-  // Format currency amount
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -48,25 +45,21 @@ const PaymentHistory = () => {
     }).format(amount);
   };
 
-  // Format date
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
   };
 
-  // Handle filter change
   const handleFilterChange = (e) => {
     setFilterStatus(e.target.value);
-    setCurrentPage(1); // Reset to first page on new filter
+    setCurrentPage(1);
   };
 
-  // Toggle transaction details
   const toggleDetails = (id) => {
     if (detailsOpen === id) {
       setDetailsOpen(null);
@@ -75,19 +68,17 @@ const PaymentHistory = () => {
     }
   };
 
-  // Filter transactions based on search term and status
   const filteredTransactions = transactions.filter((transaction) => {
     const matchesSearch =
       transaction.bookingId.toLowerCase().includes(searchTerm.toLowerCase()) ||
       transaction.payerId.name.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesFilter =
       filterStatus === "all" || transaction.status === filterStatus;
-    
+
     return matchesSearch && matchesFilter;
   });
 
-  // Calculate pagination
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = filteredTransactions.slice(
@@ -96,39 +87,35 @@ const PaymentHistory = () => {
   );
   const totalPages = Math.ceil(filteredTransactions.length / recordsPerPage);
 
-  // Generate page numbers for pagination
   const pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
 
-  // Mock function to download receipt (replace with actual implementation)
   const downloadReceipt = (transactionId) => {
     console.log(`Downloading receipt for transaction ${transactionId}`);
-    // Implement actual download functionality here
     alert(`Receipt for transaction ${transactionId} is being downloaded`);
   };
 
-  // Handle status badge color
   const getStatusBadgeClass = (status) => {
     switch (status.toLowerCase()) {
       case "completed":
-        return "status-badge completed";
+        return "payment-history-status-badge completed";
       case "pending":
-        return "status-badge pending";
+        return "payment-history-status-badge pending";
       case "failed":
-        return "status-badge failed";
+        return "payment-history-status-badge failed";
       case "refunded":
-        return "status-badge refunded";
+        return "payment-history-status-badge refunded";
       default:
-        return "status-badge";
+        return "payment-history-status-badge";
     }
   };
 
   if (loading) {
     return (
       <div className="payment-history-loading">
-        <FaSpinner className="spinner" />
+        <FaSpinner className="payment-history-spinner" />
         <p>Loading transaction history...</p>
       </div>
     );
@@ -146,24 +133,24 @@ const PaymentHistory = () => {
       </div>
 
       <div className="payment-history-filters">
-        <div className="search-container">
-          <FaSearch className="search-icon" />
+        <div className="payment-history-search-container">
+          <FaSearch className="payment-history-search-icon" />
           <input
             type="text"
             placeholder="Search by booking ID or guest name"
             value={searchTerm}
             onChange={handleSearchChange}
-            className="search-input"
+            className="payment-history-search-input"
           />
         </div>
 
-        <div className="filter-container">
+        <div className="payment-history-filter-container">
           <label htmlFor="status-filter">Filter by status:</label>
           <select
             id="status-filter"
             value={filterStatus}
             onChange={handleFilterChange}
-            className="status-filter"
+            className="payment-history-status-filter"
           >
             <option value="all">All Transactions</option>
             <option value="completed">Completed</option>
@@ -175,13 +162,13 @@ const PaymentHistory = () => {
       </div>
 
       {filteredTransactions.length === 0 ? (
-        <div className="no-transactions">
+        <div className="payment-history-no-transactions">
           <p>No transactions found matching your criteria.</p>
         </div>
       ) : (
         <>
-          <div className="transactions-table-container">
-            <table className="transactions-table">
+          <div className="payment-history-transactions-table-container">
+            <table className="payment-history-transactions-table">
               <thead>
                 <tr>
                   <th>Date</th>
@@ -195,19 +182,24 @@ const PaymentHistory = () => {
               <tbody>
                 {currentRecords.map((transaction) => (
                   <React.Fragment key={transaction._id}>
-                    <tr onClick={() => toggleDetails(transaction._id)}>
+                    <tr
+                      onClick={() => toggleDetails(transaction._id)}
+                      className="payment-history-transaction-row"
+                    >
                       <td>{formatDate(transaction.date)}</td>
                       <td>{transaction.bookingId}</td>
                       <td>{transaction.payerId.name}</td>
                       <td>{formatCurrency(transaction.amount)}</td>
                       <td>
-                        <span className={getStatusBadgeClass(transaction.status)}>
+                        <span
+                          className={getStatusBadgeClass(transaction.status)}
+                        >
                           {transaction.status}
                         </span>
                       </td>
                       <td>
                         <button
-                          className="download-btn"
+                          className="payment-history-download-btn"
                           onClick={(e) => {
                             e.stopPropagation();
                             downloadReceipt(transaction._id);
@@ -218,14 +210,15 @@ const PaymentHistory = () => {
                       </td>
                     </tr>
                     {detailsOpen === transaction._id && (
-                      <tr className="details-row">
+                      <tr className="payment-history-details-row">
                         <td colSpan="6">
-                          <div className="transaction-details">
-                            <div className="details-grid">
-                              <div className="details-section">
+                          <div className="payment-history-transaction-details">
+                            <div className="payment-history-details-grid">
+                              <div className="payment-history-details-section">
                                 <h4>Payment Details</h4>
                                 <p>
-                                  <strong>Transaction ID:</strong> {transaction._id}
+                                  <strong>Transaction ID:</strong>{" "}
+                                  {transaction._id}
                                 </p>
                                 <p>
                                   <strong>Payment Method:</strong>{" "}
@@ -245,13 +238,15 @@ const PaymentHistory = () => {
                                 </p>
                               </div>
 
-                              <div className="details-section">
+                              <div className="payment-history-details-section">
                                 <h4>Guest Information</h4>
                                 <p>
-                                  <strong>Name:</strong> {transaction.payerId.name}
+                                  <strong>Name:</strong>{" "}
+                                  {transaction.payerId.name}
                                 </p>
                                 <p>
-                                  <strong>Email:</strong> {transaction.payerId.email}
+                                  <strong>Email:</strong>{" "}
+                                  {transaction.payerId.email}
                                 </p>
                                 <p>
                                   <strong>Phone:</strong>{" "}
@@ -259,7 +254,7 @@ const PaymentHistory = () => {
                                 </p>
                               </div>
 
-                              <div className="details-section">
+                              <div className="payment-history-details-section">
                                 <h4>Booking Information</h4>
                                 <p>
                                   <strong>Check-in:</strong>{" "}
@@ -267,7 +262,9 @@ const PaymentHistory = () => {
                                 </p>
                                 <p>
                                   <strong>Check-out:</strong>{" "}
-                                  {formatDate(transaction.bookingDetails.checkOut)}
+                                  {formatDate(
+                                    transaction.bookingDetails.checkOut
+                                  )}
                                 </p>
                                 <p>
                                   <strong>Property:</strong>{" "}
@@ -289,11 +286,11 @@ const PaymentHistory = () => {
             </table>
           </div>
 
-          <div className="pagination">
+          <div className="payment-history-pagination">
             <button
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
-              className="pagination-button"
+              className="payment-history-pagination-button"
             >
               Previous
             </button>
@@ -303,8 +300,8 @@ const PaymentHistory = () => {
                 onClick={() => setCurrentPage(number)}
                 className={
                   currentPage === number
-                    ? "pagination-button active"
-                    : "pagination-button"
+                    ? "payment-history-pagination-button active"
+                    : "payment-history-pagination-button"
                 }
               >
                 {number}
@@ -313,7 +310,7 @@ const PaymentHistory = () => {
             <button
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="pagination-button"
+              className="payment-history-pagination-button"
             >
               Next
             </button>
