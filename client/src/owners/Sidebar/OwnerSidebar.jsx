@@ -40,7 +40,7 @@ const OwnerSidebar = () => {
         </li>
         <li className="owner-menu-item">
           <NavLink
-            to="/owner/booking-requests"
+            to="/owner/booking-request"
             className={({ isActive }) => (isActive ? "owner-active-link" : "")}
           >
             <FaCalendarAlt className="owner-sidebar-icon" />
