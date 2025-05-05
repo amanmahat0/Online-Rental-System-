@@ -15,6 +15,12 @@ async function handelAgentSignUp(req, res) {
       .json({ status: true, data: { id: agent._id, name: agent.name } });
   } catch (error) {
     console.error("Error in handelAgentSignUp:", error);
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+      return res.status(400).json({
+        status: false,
+        message: "Email already exists. Please use a different email.",
+      });
+    }
     res.status(500).json({ status: false, message: error });
   }
 }

@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import PaymentOptions from './PaymentOptions';
-import PaymentForm from './PaymentForm';
-import PaymentSummary from './PaymentSummary';
-import TermsModal from './modals/TermsModal';
-import SuccessModal from './modals/SuccessModal';
-import FailureModal from './modals/FailureModal';
-import Receipt from './Receipt';
-import './styles/PaymentGateway.css';
+import React, { useState } from "react";
+import PaymentOptions from "./PaymentOptions";
+import PaymentForm from "./PaymentForm";
+import PaymentSummary from "./PaymentSummary";
+import TermsModal from "./modals/TermsModal";
+import SuccessModal from "./modals/SuccessModal";
+import FailureModal from "./modals/FailureModal";
+import Receipt from "./Receipt";
+import "./styles/PaymentGateway.css";
 
 const PaymentGateway = ({ propertyDetails, onClose }) => {
   const [step, setStep] = useState(1);
-  const [paymentMethod, setPaymentMethod] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    address: '',
+    fullName: "",
+    email: "",
+    phone: "",
+    address: "",
     amount: propertyDetails?.price || 0,
-    purpose: `Rent payment for ${propertyDetails?.title || 'Property'}`,
-    termsAccepted: false
+    purpose: `Rent payment for ${propertyDetails?.title || "Property"}`,
+    termsAccepted: false,
   });
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailureModal, setShowFailureModal] = useState(false);
   const [receiptData, setReceiptData] = useState(null);
-  const [transactionId, setTransactionId] = useState('');
+  const [transactionId, setTransactionId] = useState("");
 
   const handlePaymentMethodSelect = (method) => {
     setPaymentMethod(method);
@@ -35,14 +35,14 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!formData.termsAccepted) {
-      alert('Please accept the terms and conditions to proceed.');
+      alert("Please accept the terms and conditions to proceed.");
       return;
     }
     setStep(3);
@@ -57,16 +57,18 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
     // Simulate payment processing
     setTimeout(() => {
       const success = Math.random() > 0.2; // 80% success rate for demo
-      
+
       if (success) {
-        const txnId = 'TXN' + Date.now().toString().slice(-8);
+        const txnId = "TXN" + Date.now().toString().slice(-8);
         setTransactionId(txnId);
         setReceiptData({
           ...formData,
           paymentMethod,
           transactionId: txnId,
           date: new Date().toLocaleString(),
-          status: 'Completed'
+          status: "Completed",
+          from: JSON.parse(localStorage.getItem("user")).id,
+          fromModel: localStorage.getItem("role"),
         });
         setShowSuccessModal(true);
       } else {
@@ -86,7 +88,12 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
   };
 
   const renderStepIndicator = () => {
-    const steps = ['Step 1: Choose Payment Method', 'Step 2: Fill Payment Details', 'Step 3: Review Payment', 'Step 4: Receipt'];
+    const steps = [
+      "Step 1: Choose Payment Method",
+      "Step 2: Fill Payment Details",
+      "Step 3: Review Payment",
+      "Step 4: Receipt",
+    ];
     return <div className="step-indicator">{steps[step - 1]}</div>;
   };
 
@@ -101,8 +108,8 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
 
       {step === 1 && (
         <div className="step-content animate-fade-in">
-          <PaymentOptions 
-            onSelect={handlePaymentMethodSelect} 
+          <PaymentOptions
+            onSelect={handlePaymentMethodSelect}
             propertyDetails={propertyDetails}
           />
         </div>
@@ -110,13 +117,13 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
 
       {step === 2 && (
         <div className="step-content animate-fade-in">
-          <button 
-            className="go-back-btn" 
+          <button
+            className="go-back-btn"
             onClick={() => setStep(1)} // Go back to step 1
           >
             Go Back
           </button>
-          <PaymentForm 
+          <PaymentForm
             formData={formData}
             paymentMethod={paymentMethod}
             onChange={handleFormChange}
@@ -128,13 +135,13 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
 
       {step === 3 && (
         <div className="step-content animate-fade-in">
-          <button 
-            className="go-back-btn" 
+          <button
+            className="go-back-btn"
             onClick={() => setStep(2)} // Go back to step 2
           >
             Go Back
           </button>
-          <PaymentSummary 
+          <PaymentSummary
             formData={formData}
             paymentMethod={paymentMethod}
             onConfirm={handlePaymentSubmit}
@@ -145,8 +152,8 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
 
       {step === 4 && receiptData && (
         <div className="step-content animate-fade-in">
-          <button 
-            className="go-back-btn" 
+          <button
+            className="go-back-btn"
             onClick={() => setStep(1)} // Go back to step 1
           >
             Go Back
@@ -156,23 +163,18 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
       )}
 
       {showTermsModal && (
-        <TermsModal 
-          onClose={() => setShowTermsModal(false)} 
-        />
+        <TermsModal onClose={() => setShowTermsModal(false)} />
       )}
 
       {showSuccessModal && (
-        <SuccessModal 
+        <SuccessModal
           transactionId={transactionId}
-          onViewReceipt={handleViewReceipt} 
+          onViewReceipt={handleViewReceipt}
         />
       )}
 
       {showFailureModal && (
-        <FailureModal 
-          onTryAgain={handleTryAgain} 
-          onClose={onClose}
-        />
+        <FailureModal onTryAgain={handleTryAgain} onClose={onClose} />
       )}
     </div>
   );
