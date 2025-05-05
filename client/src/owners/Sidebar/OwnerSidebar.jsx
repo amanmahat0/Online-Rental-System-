@@ -3,9 +3,10 @@ import "./OwnerSidebar.css";
 import {
   FaUser,
   FaHome,
-  FaEnvelope,
+  FaCalendarAlt,
   FaCog,
   FaSignOutAlt,
+  FaMoneyBillWave,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
@@ -14,6 +15,7 @@ const OwnerSidebar = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("role");
   };
+
   return (
     <div className="owner-sidebar">
       <h2 className="owner-title">Owner Dashboard</h2>
@@ -41,8 +43,17 @@ const OwnerSidebar = () => {
             to="/owner/booking-request"
             className={({ isActive }) => (isActive ? "owner-active-link" : "")}
           >
-            <FaEnvelope className="owner-sidebar-icon" />
-            <span>Booking Request</span>
+            <FaCalendarAlt className="owner-sidebar-icon" />
+            <span>Booking Requests</span>
+          </NavLink>
+        </li>
+        <li className="owner-menu-item">
+          <NavLink
+            to="/owner/payments"
+            className={({ isActive }) => (isActive ? "owner-active-link" : "")}
+          >
+            <FaMoneyBillWave className="owner-sidebar-icon" />
+            <span>Payment History</span>
           </NavLink>
         </li>
         <li className="owner-menu-item">

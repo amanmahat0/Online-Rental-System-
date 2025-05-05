@@ -12,6 +12,12 @@ async function handelAdminSignUp(req, res) {
     return res.status(200).json({ status: true, data: admin });
   } catch (error) {
     console.log("Error in handelAdminSignUp: ", error);
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+      return res.status(400).json({
+        status: false,
+        message: "Email already exists. Please use a different email.",
+      });
+    }
     return res.status(500).json({ status: false, message: error });
   }
 }
