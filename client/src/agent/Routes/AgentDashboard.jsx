@@ -5,6 +5,7 @@ import AgentSidebar from '../Sidebar/AgentSidebar';
 import AgentProfile from '../My Profile/AgentProfile';
 import MyListingsAgent from '../My Listings/MyListingsAgent';
 import AgentBookings from '../MyBookings/AgentBookings';
+import BookingRequest from '../BookingRequest/BookingRequest';
 // import Saved from '../Saved/Saved';
 import './AgentDashboard.css';
 
@@ -29,6 +30,7 @@ const AgentDashboard = () => {
                     <Route path="/agent/profile" element={<AgentProfile />} />
                     <Route path="/agent/listings" element={<MyListingsAgent />} />
                     <Route path="/agent/bookings" element={<AgentBookings />} />
+                    <Route path="/agent/booking-request" element={<BookingRequest />} />
                     {/* <Route path="/agent/saved" element={<Saved />} /> */}
                     {/* Add any additional agent-specific routes below as needed */}
                 </Routes>
