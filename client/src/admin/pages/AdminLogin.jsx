@@ -49,7 +49,7 @@ const AdminLogin = () => {
           </div>
         )}
 
-        <div className="form-group">
+        <div className="admin-form-group">
           <input
             type="email"
             placeholder="Email"
@@ -58,7 +58,7 @@ const AdminLogin = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div className="admin-form-group">
           <input
             type="password"
             placeholder="Password"
