@@ -61,7 +61,25 @@ const TopListings = () => {
 
   useEffect(() => {
     handleFetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Fetch saved properties from API for User or Agent and set bookmarks
+    const storedUser = localStorage.getItem("user");
+    const storedRole = localStorage.getItem("role");
+    if (storedUser && storedRole && (storedRole === "User" || storedRole === "Agent")) {
+      const { id: userId } = JSON.parse(storedUser);
+      fetch("http://localhost:5000/api/properties/savedProperties", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: userId, role: storedRole }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.data) {
+            setBookmarkedItems(new Set(data.data.map((p) => p._id)));
+          }
+        })
+        .catch(() => {});
+    }
+    // Cleanup function to avoid memory leaks
   }, []);
 
   // Get unique property types for filter dropdowns
@@ -82,7 +100,7 @@ const TopListings = () => {
     indexOfLastListing
   );
 
-  const handleBookmarkClick = (id) => {
+  const handleBookmarkClick = async (id) => {
     setBookmarkedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
@@ -92,6 +110,43 @@ const TopListings = () => {
       }
       return newSet;
     });
+
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      console.error("User not found in localStorage");
+      return;
+    }
+    const storedUserId = JSON.parse(storedUser).id;
+    const sendedData = {
+      userId: storedUserId,
+      propertyId: id,
+    };
+    const storedRole = localStorage.getItem("role");
+    if (storedRole === "User" || storedRole === "Agent") {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/${storedRole.toLowerCase()}/saveProperties`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(sendedData),
+          }
+        );
+        if (!response.ok) {
+          console.error("Error saving property");
+          return;
+        }
+        const data = await response.json();
+        localStorage.setItem(
+          "saveProperties",
+          JSON.stringify(data.data.saveProperties)
+        );
+      } catch (error) {
+        console.error("Error saving property:", error);
+      }
+    }
   };
 
   const handleBookmarkHover = (id, isHovering) => {

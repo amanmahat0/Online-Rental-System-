@@ -22,8 +22,9 @@
     width: 25px;
 }
 .saved-properties-bookmark-icons:hover{
-    color: #939393;
+    color: #5a4bd7;
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
 /* Dropdown menu */
