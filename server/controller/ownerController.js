@@ -18,6 +18,12 @@ async function handelOwnerSignUp(req, res) {
       .json({ status: true, data: { id: owner._id, name: owner.name } });
   } catch (error) {
     console.error("Error in handelOwnerSignUp:", error);
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+      return res.status(400).json({
+        status: false,
+        message: "Email already exists. Please use a different email.",
+      });
+    }
     return res.status(500).json({ status: false, message: error.message });
   }
 }

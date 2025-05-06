@@ -15,6 +15,12 @@ async function handelAgentSignUp(req, res) {
       .json({ status: true, data: { id: agent._id, name: agent.name } });
   } catch (error) {
     console.error("Error in handelAgentSignUp:", error);
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+      return res.status(400).json({
+        status: false,
+        message: "Email already exists. Please use a different email.",
+      });
+    }
     res.status(500).json({ status: false, message: error });
   }
 }
@@ -211,6 +217,63 @@ const handelDeleteAgentById = async (req, res) => {
   }
 };
 
+const handleSaveAndUnsaveProperties = async (req, res) => {
+  try {
+    const { userId, propertyId } = req.body;
+
+    console.log("User ID:", userId);
+    console.log("Property ID:", propertyId);
+
+    // Validate input
+    if (!userId || !propertyId) {
+      return res.status(400).json({
+        status: false,
+        message: "User ID and Property ID are required.",
+      });
+    }
+
+    // Find the user
+    const agent = await Agent.findById(userId);
+    if (!agent) {
+      return res.status(404).json({
+        status: false,
+        message: "Agent not found.",
+      });
+    }
+
+    // Check if the property is already saved
+    const isPropertySaved = agent.saveProperties.includes(propertyId);
+
+    if (isPropertySaved) {
+      // If the property is already saved, remove it (unsave)
+      agent.saveProperties = agent.saveProperties.filter(
+        (id) => id.toString() !== propertyId
+      );
+      await agent.save();
+      return res.status(200).json({
+        status: true,
+        message: "Property unsaved successfully.",
+        data: agent,
+      });
+    } else {
+      // If the property is not saved, add it
+      agent.saveProperties.push(propertyId);
+      await agent.save();
+      return res.status(200).json({
+        status: true,
+        message: "Property saved successfully.",
+        data: agent,
+      });
+    }
+  } catch (error) {
+    console.error("Error in handleSaveAndUnsaveProperties:", error);
+    return res.status(500).json({
+      status: false,
+      message: "An error occurred while saving or unsaving the property.",
+    });
+  }
+};
+
 module.exports = {
   handelAgentSignUp,
   handelAgentLogin,
@@ -220,4 +283,5 @@ module.exports = {
   handelUpdateAgentById,
   handelAgentById,
   handelDeleteAgentById,
+  handleSaveAndUnsaveProperties,
 };

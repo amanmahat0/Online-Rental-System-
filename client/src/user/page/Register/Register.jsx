@@ -82,8 +82,10 @@ const Register = () => {
             setRole(formData.userType);
             navigate("/");
           }
+        } else if (response.status === 400) {
+          setError("Email already exists. Please use a different email.");
         } else {
-          setError("Invalid credentials. Please try again.");
+          setError("Internal server error. Please try again later.");
         }
       } catch (error) {
         setError("An error occurred. Please try again later.");
@@ -187,25 +189,25 @@ const Register = () => {
           </div>
 
           {/* Conditional Company Name Field */}
-          {(formData.userType === "agent" || formData.userType === "owner") && (
+          {(formData.userType === "Agent" || formData.userType === "Owner") && (
             <div className="form-group">
               <label htmlFor="companyName">
-                {formData.userType === "agent"
+                {formData.userType === "Agent"
                   ? "Company Name(optional)"
                   : "Address"}
               </label>
               <input
                 type="text"
                 id="companyName"
-                name={formData.userType === "agent" ? "companyName" : "address"}
+                name={formData.userType === "Agent" ? "companyName" : "address"}
                 value={
-                  formData.userType === "agent"
+                  formData.userType === "Agent"
                     ? formData.companyName
                     : formData.address
                 }
                 onChange={handleChange}
                 placeholder={
-                  formData.userType === "agent"
+                  formData.userType === "Agent"
                     ? "Enter your company name"
                     : "Enter your address"
                 }

@@ -1,0 +1,205 @@
+.payment-form-container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+.payment-method-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.payment-method-header h3 {
+    font-size: 20px;
+    color: #333;
+}
+
+.selected-method {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.selected-method i {
+    margin-right: 8px;
+}
+
+.selected-method.esewa {
+    background-color: #e8f5e9;
+    color: #60bb46;
+}
+
+.selected-method.khalti {
+    background-color: #f3e5f5;
+    color: #773292;
+}
+
+.selected-method.bank {
+    background-color: #e3f2fd;
+    color: #2196f3;
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #7065f0;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(112, 101, 240, 0.2);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.bank-details {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.bank-details h4 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.bank-details p {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.bank-details .note {
+    margin-top: 15px;
+    color: #f44336;
+    font-size: 13px;
+}
+
+.wallet-info {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #555;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.form-check input {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    accent-color: #7065f0;
+}
+
+.form-check label a {
+    color: #7065f0;
+    text-decoration: none;
+}
+
+.form-check label a:hover {
+    text-decoration: underline;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.cancel-btn,
+.next-btn {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancel-btn {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #666;
+}
+
+.cancel-btn:hover {
+    background-color: #f5f5f5;
+}
+
+.next-btn {
+    background-color: #7065f0;
+    border: none;
+    color: white;
+}
+
+.next-btn:hover {
+    background-color: #5749d1;
+}
+
+@media screen and (max-width: 768px) {
+    .payment-form-container {
+        padding: 20px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .cancel-btn,
+    .next-btn {
+        width: 100%;
+    }
+}

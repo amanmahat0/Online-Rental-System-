@@ -40,7 +40,7 @@ const Rooms = () => {
 
   useEffect(() => {
     fetchListingsOfRoom();
-    
+
     // Cleanup function to avoid memory leaks
     return () => {
       // Any cleanup code would go here
@@ -48,7 +48,7 @@ const Rooms = () => {
   }, []);
 
   const handleBookmarkClick = async (id) => {
-    setBookmarkedItems(prev => {
+    setBookmarkedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -70,10 +70,10 @@ const Rooms = () => {
     };
 
     const storedRole = localStorage.getItem("role");
-    if (storedRole === "user") {
+    if (storedRole === "User" || storedRole === "Agent") {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/user/saveProperties",
+          `http://localhost:5000/api/${storedRole.toLowerCase()}/saveProperties`,
           {
             method: "POST",
             headers: {
@@ -116,7 +116,7 @@ const Rooms = () => {
       </div>
 
       {error && <div className="error-message">{error}</div>}
-      
+
       {loading ? (
         <div className="loading-message">Loading rooms...</div>
       ) : (
