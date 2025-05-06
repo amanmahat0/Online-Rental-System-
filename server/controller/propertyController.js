@@ -61,7 +61,7 @@ const getAllProperties = async (req, res) => {
   try {
     const properties = await Property.find().populate({
       path: "owner", // The field in the Property schema that references the Owner model
-      select: "name contact", // Specify the fields to include from the Owner model
+      select: "name contact email", // Specify the fields to include from the Owner model
     });
     return res.status(200).json({ status: true, data: properties });
   } catch (error) {
@@ -332,8 +332,8 @@ const filterProperties = async (req, res) => {
 
     if (location) {
       query.$or = [
-        { "location.city": location },
-        { "location.area": location },
+        { "location.city": { $regex: location, $options: "i" } },
+        { "location.area": { $regex: location, $options: "i" } },
       ];
     }
 
@@ -411,6 +411,42 @@ const requestProperty = async (req, res) => {
     return res.status(500).json({
       status: false,
       message: "Failed to send request.",
+    });
+  }
+};
+
+const bookingRequestByCustomerId = async (req, res) => {
+  try {
+    const { customerId } = req.params;
+
+    if (!customerId) {
+      return res.status(400).json({
+        status: false,
+        message: "Customer ID is required.",
+      });
+    }
+
+    // Find all properties where the customer has made a booking request
+    const properties = await Property.find({
+      "customerId.customer": customerId,
+    }).populate("owner", "name email contact");
+
+    if (!properties || properties.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "No booking requests found for this customer.",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: properties,
+    });
+  } catch (error) {
+    console.error("Error in bookingRequestByCustomerId:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Failed to fetch booking requests.",
     });
   }
 };
@@ -536,4 +572,5 @@ module.exports = {
   filterProperties,
   requestProperty,
   approveOrRejectRequest,
+  bookingRequestByCustomerId,
 };
