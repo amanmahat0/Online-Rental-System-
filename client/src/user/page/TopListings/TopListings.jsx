@@ -284,7 +284,7 @@ const TopListings = () => {
                   className="top-listing-save-button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleBookmarkClick(listing.id);
+                    handleBookmarkClick(listing._id);
                   }}
                   onMouseEnter={() => handleBookmarkHover(listing._id, true)}
                   onMouseLeave={() => handleBookmarkHover(listing._id, false)}
