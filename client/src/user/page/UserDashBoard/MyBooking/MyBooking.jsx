@@ -12,8 +12,10 @@ const listing = [
     location: 'Downtown', 
     imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
     description: 'This is the best apartment in the world. It has 1 million rooms, 10 million toilets, 100 million kitchens.', 
-    status: 'Booked', 
-    contact: '1234567890' 
+    availabilityStatus: false, 
+    contact: '1234567890'
+
+
   },
   { 
     id: 2, 
@@ -23,7 +25,7 @@ const listing = [
     location: 'Beverly Hills', 
     imageUrl: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg', 
     description: 'A beautiful villa with a private pool and stunning ocean views.', 
-    status: 'Available', 
+    availabilityStatus: true, 
     contact: '9876543210' 
   },
   { 
@@ -34,7 +36,7 @@ const listing = [
     location: 'New York City', 
     imageUrl: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg', 
     description: 'A compact and stylish studio in the heart of NYC.', 
-    status: 'Available', 
+    availabilityStatus: true, 
     contact: '1122334455' 
   },
   { 
@@ -45,7 +47,7 @@ const listing = [
     location: 'Los Angeles', 
     imageUrl: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg', 
     description: 'Perfect for families, with a large backyard and modern amenities.', 
-    status: 'Booked', 
+    availabilityStatus: true, 
     contact: '2233445566' 
   },
   { 
@@ -56,7 +58,7 @@ const listing = [
     location: 'Chicago', 
     imageUrl: 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg', 
     description: 'An exclusive penthouse with a breathtaking skyline view.', 
-    status: 'Available', 
+    availabilityStatus: true, 
     contact: '3344556677' 
   },
   { 
@@ -67,7 +69,7 @@ const listing = [
     location: 'Colorado', 
     imageUrl: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg', 
     description: 'A peaceful cottage surrounded by nature and fresh air.', 
-    status: 'Booked', 
+    availabilityStatus: true, 
     contact: '4455667788' 
   },
   { 
@@ -78,7 +80,7 @@ const listing = [
     location: 'Miami', 
     imageUrl: 'https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg', 
     description: 'A perfect vacation home right on the beach.', 
-    status: 'Available', 
+    availabilityStatus: true, 
     contact: '5566778899' 
   },
   { 
@@ -89,7 +91,7 @@ const listing = [
     location: 'San Francisco', 
     imageUrl: 'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg', 
     description: 'A trendy loft with high ceilings and modern decor.', 
-    status: 'Available', 
+    availabilityStatus: true, 
     contact: '6677889900' 
   },
   { 
@@ -100,7 +102,7 @@ const listing = [
     location: 'Texas', 
     imageUrl: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg', 
     description: 'A spacious farmhouse with land for gardening and animals.', 
-    status: 'Booked', 
+    availabilityStatus: false, 
     contact: '7788990011' 
   },
   { 
@@ -111,7 +113,7 @@ const listing = [
     location: 'Beverly Hills', 
     imageUrl: 'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg', 
     description: 'A stunning luxury mansion with private security and a pool.', 
-    status: 'Available', 
+    availabilityStatus: true, 
     contact: '8899001122' 
   }
   // Add more listings here as needed
@@ -149,7 +151,14 @@ const MyBooking = () => {
             style={{ cursor: 'pointer' }}
             key={listing.id}
           >
+            <div className='mybooking-image-container'>
             <img src={listing.imageUrl} alt={listing.title} className="mybooking-listing-image" />
+            <div className={`mybooking-status-badge ${listing.availabilityStatus ? 'approved' : 'pending'}`}>
+                {listing.availabilityStatus ? 'Approved' : 'Pending'}
+              </div>
+            </div>
+            
+            
             <div className="mybooking-listing-details">
               <div className="mybooking-listing-button-section">
                 <h2 className="mybooking-lsiting-details-card-title">{listing.title}</h2>
@@ -164,15 +173,27 @@ const MyBooking = () => {
                 <FaInfoCircle className="mybooking-lsitings-cards-icons" />
                 {listing.description.length > 100 ? listing.description.slice(0, 85) + "..." : listing.description}
               </p>
-              <button
-                className="mybooking-cancel-booking-button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  cancelBooking(listing.id);
-                }}
-              >
-                Cancel Booking
-              </button>
+              {listing.availabilityStatus ? (
+                <button
+                  className="mybooking-cancel-booking-button pay-now"
+                  onClick={e => {
+                    e.stopPropagation();
+                    // Add your pay now logic here
+                  }}
+                >
+                  Pay Now
+                </button>
+              ) : (
+                <button
+                  className="mybooking-cancel-booking-button"
+                  onClick={e => {
+                    e.stopPropagation();
+                    cancelBooking(listing.id);
+                  }}
+                >
+                  Cancel Booking
+                </button>
+              )}
             </div>
           </div>
         ))}

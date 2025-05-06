@@ -10,9 +10,20 @@ const PropertyDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [agreementChecked, setAgreementChecked] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [bookingRequested, setBookingRequested] = useState(false);
   
+  // Get today's date in a readable format
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
   // Destructure the data passed via navigation
-  const { title, price, location: propertyLocation, images, description, propertyType, status, contact } = location.state || {};
+  const { title, price, location: propertyLocation, images, description, propertyType, availabilityStatus, contact } = location.state || {};
 
   useEffect(() => {
     // Simulate loading state
@@ -60,12 +71,6 @@ const PropertyDetails = () => {
         
         <div className="property-actions">
           <button 
-            className="property-detail-book-btn"
-            aria-label="Book this property"
-          >
-            Book Now
-          </button>
-          <button 
             className="property-detail-save-btn"
             onClick={toggleBookmark}
             aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
@@ -93,34 +98,79 @@ const PropertyDetails = () => {
           </div>
 
           <div className="property-details-info">
-            <div className="property-details-section">
+            <div className="property-title-contact-row">
               <h2 className="property-title">{title}</h2>
+              <div className="property-contact-inline">
+                {contact && <span><strong>Phone:</strong> {contact}</span>}
+              </div>
+            </div>
+            <div className="property-details-section">
               <div className="property-meta">
                 <span className="property-details-price">${price}</span>
                 <span className="property-details-type">{propertyType}</span>
-                <span className="property-status">{status}</span>
+                <span className={`property-status ${availabilityStatus?"available":"booked"}`}>{availabilityStatus?"Available":"Booked"}</span>
               </div>
               <p className="property-location">
                 <FaMapMarkerAlt className="location-icon" /> {propertyLocation}
               </p>
             </div>
-
-            <div className="property-contact-section">
-              <h3>Contact Information</h3>
-              <div className="contact-details">
-                {contact && <p><strong>Phone:</strong> {contact}</p>}
-                
-              </div>
-            </div>
           </div>
         </div>
 
         <div className="property-description-section">
-          <h3>Description</h3>
+          <h3 className="agreement-heading">Description</h3>
           <p className="property-description">
             {description || 'No description available for this property.'}
           </p>
         </div>
+
+        <div className="property-agreement-section">
+          <h3 className="agreement-heading">Agreement</h3>
+          <div className="agreement-content">
+            <p>This Rental Agreement is made between <strong>{contact ? contact : 'the Lessor'}</strong> (the "Lessor") and <strong>the Lessee</strong> on this <strong>{formattedDate}</strong>.</p>
+            <p>The Lessor agrees to rent the property <strong>{title ? `"${title}"` : ''}</strong> located at <strong>{propertyLocation || 'N/A'}</strong> to the Lessee.</p>
+            <p>The property consists of a {propertyType ? propertyType.toLowerCase() : 'property'} with all amenities as described in the listing.</p>
+            <p>The lease shall commence upon approval and confirmation, and the Lessee agrees to pay a monthly rent of <strong>${price}</strong> via the agreed payment method. A security deposit, equivalent to one month's rent, shall be paid by the Lessee at the time of signing. This deposit will be refunded within 30 days after lease termination, subject to deductions for damages or unpaid dues.</p>
+            <p>The Lessor is responsible for maintaining the exterior and major repairs of the property, while the Lessee is responsible for interior maintenance, utility payments, minor repairs, and ensuring no alterations are made without written consent.</p>
+            <p>The lease may be renewed by mutual written agreement before expiration. Either party may terminate the agreement with a 30-day written notice. Early termination by the Lessee may result in the refund of any prepaid rent for unused months.</p>
+            <p>By confirming the booking, both parties consent to all terms mentioned above. This agreement shall be valid and legally binding without physical signatures.</p>
+          </div>
+          <label className="agreement-radio-label">
+            <input
+              type="checkbox"
+              checked={agreementChecked}
+              onChange={() => setAgreementChecked(!agreementChecked)}
+              className="agreement-radio"
+            />
+            I agree to the terms and conditions of booking this property.
+          </label>
+        </div>
+
+        <div style={{ marginTop: '24px', textAlign: 'center' }}>
+          <button
+            className="property-detail-book-btn"
+            aria-label="Book this property"
+            disabled={!agreementChecked || bookingRequested}
+            style={{ opacity: agreementChecked && !bookingRequested ? 1 : 0.5, cursor: agreementChecked && !bookingRequested ? 'pointer' : 'not-allowed' }}
+            onClick={() => setShowBookingModal(true)}
+          >
+            Book Now
+          </button>
+        </div>
+
+        {showBookingModal && (
+          <div className="booking-modal-overlay">
+            <div className="booking-modal">
+              <h2>Booking Request Sent</h2>
+              <p>Your booking request has been submitted and is currently pending approval by the property owner or agent.<br/><br/>
+              You will receive an email once your booking is approved or declined.</p>
+              <p style={{ fontSize: '0.95em', color: '#666', marginTop: '12px' }}>
+                <strong>Note:</strong> Once approved, you can proceed to payment from your profile page.
+              </p>
+              <button className="booking-modal-ok-btn" onClick={() => { setShowBookingModal(false); setBookingRequested(true); }}>OK</button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
