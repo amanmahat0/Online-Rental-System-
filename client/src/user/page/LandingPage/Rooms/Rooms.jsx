@@ -40,7 +40,24 @@ const Rooms = () => {
 
   useEffect(() => {
     fetchListingsOfRoom();
-
+    // Fetch saved properties from API for User or Agent and set bookmarks
+    const storedUser = localStorage.getItem("user");
+    const storedRole = localStorage.getItem("role");
+    if (storedUser && storedRole && (storedRole === "User" || storedRole === "Agent")) {
+      const { id: userId } = JSON.parse(storedUser);
+      fetch("http://localhost:5000/api/properties/savedProperties", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: userId, role: storedRole }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.data) {
+            setBookmarkedItems(new Set(data.data.map((p) => p._id)));
+          }
+        })
+        .catch(() => {});
+    }
     // Cleanup function to avoid memory leaks
     return () => {
       // Any cleanup code would go here

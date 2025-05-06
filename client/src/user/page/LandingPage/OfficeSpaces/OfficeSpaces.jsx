@@ -26,15 +26,32 @@ const OfficeSpaces = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      // console.log(data.data);
-      // console.log(data.data.slice(0, 6));
       setListings(data.data.slice(0, 6)); // Assuming the backend returns listings in `data.data`
     } catch (error) {
       console.error("Error fetching listings:", error);
     }
   };
+
   useEffect(() => {
     fetchListingsOfOffice();
+    // Fetch saved properties from API for User or Agent and set bookmarks
+    const storedUser = localStorage.getItem("user");
+    const storedRole = localStorage.getItem("role");
+    if (storedUser && storedRole && (storedRole === "User" || storedRole === "Agent")) {
+      const { id: userId } = JSON.parse(storedUser);
+      fetch("http://localhost:5000/api/properties/savedProperties", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: userId, role: storedRole }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.data) {
+            setBookmarkedItems(new Set(data.data.map((p) => p._id)));
+          }
+        })
+        .catch(() => {});
+    }
     // Cleanup function to avoid memory leaks
   }, []);
 
@@ -84,8 +101,6 @@ const OfficeSpaces = () => {
           return;
         }
         const data = await response.json();
-        // console.log("Property saved successfully:", data);
-        // alert(data.message);
         localStorage.setItem(
           "savedProperties",
           JSON.stringify(data.data.saveProperties)
@@ -192,7 +207,6 @@ const OfficeSpaces = () => {
                 {listing.pricePerMonth} / month
               </p>
 
-              {/* <p className='top-listing-details-card'><FaInfoCircle width={20} height={20} className='top-lsitings-cards-icons'/>{listing.description}</p> */}
               <p className="office-spaces-listing-details-card">
                 <FaInfoCircle
                   width={20}
