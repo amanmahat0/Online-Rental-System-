@@ -43,16 +43,58 @@ const MyBooking = () => {
         throw new Error("Failed to fetch booking requests");
       }
       const data = await response.json();
-      console.log(data);
-      setListings(data.data);
+      console.log("booking request ", data.data);
+      setListings((prevListings) => [
+        ...prevListings,
+        ...data.data.filter(
+          (newListing) =>
+            !prevListings.some((listing) => listing._id === newListing._id)
+        ),
+      ]);
     } catch (error) {
       console.error("Error fetching booking requests:", error);
     }
   };
+
+  const fetchAcceptedCustomer = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/properties/accepted-customer/${
+          JSON.parse(localStorage.getItem("user")).id
+        }`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch accepted customer data");
+      }
+      const data = await response.json();
+      console.log("accepted customer ", data.data);
+      setListings((prevListings) => [
+        ...prevListings,
+        ...data.data.filter(
+          (newListing) =>
+            !prevListings.some((listing) => listing._id === newListing._id)
+        ),
+      ]);
+    } catch (error) {
+      console.error("Error fetching accepted customer data:", error);
+    }
+  };
+
   useEffect(() => {
     fetchBookingRequest();
+    fetchAcceptedCustomer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log("Updated listings:", listings);
+  }, [listings]);
 
   const cancelBooking = (id) => {
     const updated = listings.filter((listing) => listing._id !== id);
@@ -96,10 +138,10 @@ const MyBooking = () => {
               />
               <div
                 className={`mybooking-status-badge ${
-                  listing.availabilityStatus ? "approved" : "pending"
+                  listing.acceptedCustomerId ? "approved" : "pending"
                 }`}
               >
-                {listing.availabilityStatus ? "Approved" : "Pending"}
+                {listing.acceptedCustomerId ? "Approved" : "Pending"}
               </div>
             </div>
 
@@ -130,17 +172,36 @@ const MyBooking = () => {
                   ? listing.description.slice(0, 85) + "..."
                   : listing.description}
               </p>
-              {listing.acceptedCustomerId ===
-              JSON.parse(localStorage.getItem("user")).id ? (
-                <button
-                  className="mybooking-cancel-booking-button pay-now"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // Add your pay now logic here
-                  }}
-                >
-                  Pay Now
-                </button>
+              {listing.acceptedCustomerId !== null &&
+              listing.acceptedCustomerId.customer ===
+                JSON.parse(localStorage.getItem("user")).id ? (
+                listing.acceptedCustomerId.paid ? (
+                  <></>
+                ) : (
+                  <button
+                    className="mybooking-cancel-booking-button pay-now"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate("/payment", {
+                        state: {
+                          propertyDetails: {
+                            id: listing._id,
+                            title: listing.title,
+                            pricePerMonth: listing.pricePerMonth,
+                            images: listing.images,
+                            location: `${listing.location.area}, ${listing.location.city}`,
+                            propertyType: listing.propertyType,
+                            owner: listing.owner._id,
+                            role: listing.role,
+                          },
+                        },
+                      });
+                      console.log("Pay Now clicked for listing ID:", listing);
+                    }}
+                  >
+                    Pay Now
+                  </button>
+                )
               ) : (
                 <button
                   className="mybooking-cancel-booking-button"

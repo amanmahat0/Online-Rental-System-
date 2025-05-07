@@ -124,6 +124,14 @@ const processPayment = async (req, res) => {
 
     await payment.save();
 
+    if (
+      property.acceptedCustomerId &&
+      property.acceptedCustomerId.customer.toString() === from
+    ) {
+      property.acceptedCustomerId.paid = true;
+      await property.save();
+    }
+
     return res.status(201).json({
       status: true,
       message: "Payment processed successfully.",
