@@ -96,11 +96,43 @@ const MyBooking = () => {
     console.log("Updated listings:", listings);
   }, [listings]);
 
-  const cancelBooking = (id) => {
-    const updated = listings.filter((listing) => listing._id !== id);
-    setListings(updated);
-    if (currentPage > Math.ceil(updated.length / listingsPerPage)) {
-      setCurrentPage((prev) => Math.max(1, prev - 1));
+  const cancelBooking = async (propertyId) => {
+    try {
+      const userId = JSON.parse(localStorage.getItem("user")).id;
+      const response = await fetch(
+        "http://localhost:5000/api/properties/cancel-booking",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            propertyId,
+            customerId: userId,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.status) {
+        alert("Booking canceled successfully.");
+        // Update the listings state to remove the canceled booking
+        const updatedListings = listings.filter(
+          (listing) => listing._id !== propertyId
+        );
+        setListings(updatedListings);
+
+        // Adjust pagination if necessary
+        if (currentPage > Math.ceil(updatedListings.length / listingsPerPage)) {
+          setCurrentPage((prev) => Math.max(1, prev - 1));
+        }
+      } else {
+        alert(data.message || "Failed to cancel booking.");
+      }
+    } catch (error) {
+      console.error("Error canceling booking:", error);
+      alert("An error occurred while canceling the booking. Please try again.");
     }
   };
 
@@ -207,7 +239,7 @@ const MyBooking = () => {
                   className="mybooking-cancel-booking-button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    cancelBooking(listing.id);
+                    cancelBooking(listing._id);
                   }}
                 >
                   Cancel Booking

@@ -666,6 +666,65 @@ const getPropertiesByAcceptedCustomer = async (req, res) => {
   }
 };
 
+const cancelBooking = async (req, res) => {
+  try {
+    const { propertyId, customerId } = req.body;
+
+    if (!propertyId || !customerId) {
+      return res.status(400).json({
+        status: false,
+        message: "Property ID and Customer ID are required.",
+      });
+    }
+
+    // Find the property
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return res.status(404).json({
+        status: false,
+        message: "Property not found.",
+      });
+    }
+
+    // Check if the customer is the accepted customer
+    if (
+      property.acceptedCustomerId &&
+      property.acceptedCustomerId.customer.toString() === customerId
+    ) {
+      // Remove the accepted customer
+      property.acceptedCustomerId = null;
+      property.availabilityStatus = true; // Mark the property as available
+    } else {
+      // Remove the customer from the `customerId` array
+      const initialLength = property.customerId.length;
+      property.customerId = property.customerId.filter(
+        (cust) => cust.customer.toString() !== customerId
+      );
+
+      if (property.customerId.length === initialLength) {
+        return res.status(400).json({
+          status: false,
+          message: "Customer not found in the request list.",
+        });
+      }
+    }
+
+    await property.save();
+
+    return res.status(200).json({
+      status: true,
+      message: "Booking canceled successfully.",
+      data: property,
+    });
+  } catch (error) {
+    console.error("Error in cancelBooking:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Failed to cancel the booking.",
+    });
+  }
+};
+
 module.exports = {
   createProperty,
   getAllProperties,
@@ -680,4 +739,5 @@ module.exports = {
   approveOrRejectRequest,
   bookingRequestByCustomerId,
   getPropertiesByAcceptedCustomer,
+  cancelBooking,
 };

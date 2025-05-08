@@ -16,6 +16,7 @@ const {
   approveOrRejectRequest,
   bookingRequestByCustomerId,
   getPropertiesByAcceptedCustomer,
+  cancelBooking,
 } = require("../controller/propertyController");
 
 // Configure Multer for disk storage
@@ -42,6 +43,7 @@ router.post("/request", requestProperty);
 router.get("/request/:customerId", bookingRequestByCustomerId);
 router.post("/approveOrReject", approveOrRejectRequest);
 router.post("/savedProperties", handleGetAllSavedProperties);
+router.post("/cancel-booking", cancelBooking);
 router.get("/:id", getPropertyById);
 router.put("/:id", upload.single("propertyImage"), updateProperty);
 router.delete("/:id", deleteProperty);
