@@ -7,8 +7,11 @@ import SuccessModal from "./modals/SuccessModal";
 import FailureModal from "./modals/FailureModal";
 import Receipt from "./Receipt";
 import "./styles/PaymentGateway.css";
+import { useLocation } from "react-router-dom";
 
-const PaymentGateway = ({ propertyDetails, onClose }) => {
+const PaymentGateway = ({ onClose }) => {
+  const location = useLocation();
+  const propertyDetails = location.state?.propertyDetails || null;
   const [step, setStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [formData, setFormData] = useState({
@@ -16,7 +19,7 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
     email: "",
     phone: "",
     address: "",
-    amount: propertyDetails?.price || 0,
+    amount: propertyDetails?.pricePerMonth || 0,
     purpose: `Rent payment for ${propertyDetails?.title || "Property"}`,
     termsAccepted: false,
   });
@@ -69,6 +72,9 @@ const PaymentGateway = ({ propertyDetails, onClose }) => {
           status: "Completed",
           from: JSON.parse(localStorage.getItem("user")).id,
           fromModel: localStorage.getItem("role"),
+          to: propertyDetails?.owner,
+          toModel: propertyDetails?.role,
+          propertyId: propertyDetails?.id,
         });
         setShowSuccessModal(true);
       } else {

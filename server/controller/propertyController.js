@@ -61,7 +61,7 @@ const getAllProperties = async (req, res) => {
   try {
     const properties = await Property.find().populate({
       path: "owner", // The field in the Property schema that references the Owner model
-      select: "name contact", // Specify the fields to include from the Owner model
+      select: "name contact email", // Specify the fields to include from the Owner model
     });
     return res.status(200).json({ status: true, data: properties });
   } catch (error) {
@@ -188,6 +188,48 @@ const deleteProperty = async (req, res) => {
 //   }
 // };
 
+// const propertiesByOwnersId = async (req, res) => {
+//   try {
+//     const { Id } = req.params;
+
+//     if (!Id) {
+//       return res.status(400).json({
+//         status: false,
+//         message: "Owner ID is required.",
+//       });
+//     }
+
+//     console.log("Fetching properties for Owner/Agent ID:", Id);
+
+//     // Fetch raw properties without population
+//     const rawProperties = await Property.find({ owner: Id });
+//     console.log("Raw Properties:", JSON.stringify(rawProperties, null, 2));
+
+//     // Fetch properties with populated customerId
+//     const properties = await Property.find({ owner: Id }).populate({
+//       path: "customerId.customer",
+//       select: "name email contact",
+//     });
+
+//     console.log("Populated Properties:", JSON.stringify(properties, null, 2));
+
+//     if (!properties || properties.length === 0) {
+//       return res.status(404).json({
+//         status: false,
+//         message: `No properties found for this Owner/Agent.`,
+//       });
+//     }
+
+//     return res.status(200).json({ status: true, data: properties });
+//   } catch (error) {
+//     console.error("Error fetching properties by owner/agent ID:", error);
+//     return res.status(500).json({
+//       status: false,
+//       message: "Failed to fetch properties by owner/agent ID.",
+//     });
+//   }
+// };
+
 const propertiesByOwnersId = async (req, res) => {
   try {
     const { Id } = req.params;
@@ -195,16 +237,41 @@ const propertiesByOwnersId = async (req, res) => {
     if (!Id) {
       return res.status(400).json({
         status: false,
-        message: "Owner ID are required.",
+        message: "Owner ID is required.",
       });
     }
 
-    console.log("Fetching properties for Owner/Agent  ID:", Id);
+    // Fetch raw properties without population
+    const rawProperties = await Property.find({ owner: Id });
+    console.log("Raw Properties:", JSON.stringify(rawProperties, null, 2));
 
-    // Fetch properties based on owner/agent ID and role
-    const properties = await Property.find({ owner: Id });
+    // Manually populate customerId.customer
+    const properties = await Promise.all(
+      rawProperties.map(async (property) => {
+        const populatedCustomerId = await Promise.all(
+          property.customerId.map(async (customerEntry) => {
+            const customerData =
+              customerEntry.customerRole === "User"
+                ? await User.findById(customerEntry.customer).select(
+                    "name email contact"
+                  )
+                : await Agent.findById(customerEntry.customer).select(
+                    "name email contact"
+                  );
 
-    console.log("Properties by Owner/Agent ID:", properties);
+            return {
+              ...customerEntry.toObject(),
+              customer: customerData,
+            };
+          })
+        );
+
+        return {
+          ...property.toObject(),
+          customerId: populatedCustomerId,
+        };
+      })
+    );
 
     if (!properties || properties.length === 0) {
       return res.status(404).json({
@@ -332,8 +399,8 @@ const filterProperties = async (req, res) => {
 
     if (location) {
       query.$or = [
-        { "location.city": location },
-        { "location.area": location },
+        { "location.city": { $regex: location, $options: "i" } },
+        { "location.area": { $regex: location, $options: "i" } },
       ];
     }
 
@@ -415,6 +482,42 @@ const requestProperty = async (req, res) => {
   }
 };
 
+const bookingRequestByCustomerId = async (req, res) => {
+  try {
+    const { customerId } = req.params;
+
+    if (!customerId) {
+      return res.status(400).json({
+        status: false,
+        message: "Customer ID is required.",
+      });
+    }
+
+    // Find all properties where the customer has made a booking request
+    const properties = await Property.find({
+      "customerId.customer": customerId,
+    }).populate("owner", "name email contact");
+
+    if (!properties || properties.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "No booking requests found for this customer.",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: properties,
+    });
+  } catch (error) {
+    console.error("Error in bookingRequestByCustomerId:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Failed to fetch booking requests.",
+    });
+  }
+};
+
 const approveOrRejectRequest = async (req, res) => {
   try {
     const { propertyId, customerId, action } = req.body;
@@ -462,7 +565,10 @@ const approveOrRejectRequest = async (req, res) => {
         (cust) => cust.customer._id.toString() !== customerId
       );
 
-      property.acceptedCustomerId = customerId;
+      property.acceptedCustomerId = {
+        customer: customerId,
+        paid: false, // Default to unpaid
+      };
       property.customerId = []; // Clear other requests
       property.availabilityStatus = false;
       await property.save();
@@ -524,6 +630,42 @@ const approveOrRejectRequest = async (req, res) => {
   }
 };
 
+const getPropertiesByAcceptedCustomer = async (req, res) => {
+  try {
+    const { customerId } = req.params;
+
+    if (!customerId) {
+      return res.status(400).json({
+        status: false,
+        message: "Customer ID is required.",
+      });
+    }
+
+    // Find properties where acceptedCustomerId.customer matches the provided customerId
+    const properties = await Property.find({
+      "acceptedCustomerId.customer": customerId,
+    }).populate("owner", "name email contact");
+
+    if (!properties || properties.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "No properties found for the accepted customer.",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: properties,
+    });
+  } catch (error) {
+    console.error("Error in getPropertiesByAcceptedCustomer:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Failed to fetch properties for the accepted customer.",
+    });
+  }
+};
+
 module.exports = {
   createProperty,
   getAllProperties,
@@ -536,4 +678,6 @@ module.exports = {
   filterProperties,
   requestProperty,
   approveOrRejectRequest,
+  bookingRequestByCustomerId,
+  getPropertiesByAcceptedCustomer,
 };

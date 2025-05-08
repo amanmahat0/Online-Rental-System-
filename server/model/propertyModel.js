@@ -39,9 +39,17 @@ const propertySchema = new mongoose.Schema(
       default: [],
     },
     acceptedCustomerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      refPath: "customerRole",
-      default: null,
+      type: {
+        customer: {
+          type: mongoose.Schema.Types.ObjectId,
+          refPath: "customerRole",
+          default: null,
+        },
+        paid: {
+          type: Boolean,
+          default: false,
+        },
+      },
     },
     location: {
       city: {

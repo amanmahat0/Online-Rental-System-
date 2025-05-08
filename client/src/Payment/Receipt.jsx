@@ -1,7 +1,8 @@
 // src/user/Payment/Receipt.js
-import React, { useEffect, useRef, useNavigate } from "react";
+import React, { useEffect, useRef } from "react";
 import html2canvas from "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js";
 import "./styles/Receipt.css";
+import { useNavigate } from "react-router-dom";
 
 const Receipt = ({ receiptData }) => {
   const receiptRef = useRef(null);
@@ -39,26 +40,30 @@ const Receipt = ({ receiptData }) => {
   const totalAmount = parseFloat(receiptData.amount) + bookingFee; // Total amount including booking fee
   const saveReceipt = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/process", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: receiptData.fullName,
-          email: receiptData.email,
-          contact: receiptData.phone,
-          address: receiptData.address,
-          propertyId: receiptData.propertyId,
-          amount: receiptData.amount,
-          paymentMethod: receiptData.paymentMethod,
-          transactionId: receiptData.transactionId,
-          to: receiptData.to,
-          toModel: receiptData.toModel,
-          from: receiptData.from,
-          fromModel: receiptData.fromModel,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/payment/process",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: receiptData.fullName,
+            email: receiptData.email,
+            contact: receiptData.phone,
+            address: receiptData.address,
+            propertyId: receiptData.propertyId,
+            amount: receiptData.amount,
+            paymentMethod: receiptData.paymentMethod,
+            transactionId: receiptData.transactionId,
+            to: receiptData.to,
+            toModel: receiptData.toModel,
+            from: receiptData.from,
+            fromModel: receiptData.fromModel,
+          }),
+        }
+      );
+      console.log(receiptData);
       if (!response.ok) {
         throw new Error("Failed to save receipt data.");
       }
