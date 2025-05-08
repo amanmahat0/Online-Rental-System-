@@ -76,20 +76,24 @@
 .top-listing-details {
     padding: 15px;
 }
-.top-listing-details-card{
+.top-listing-details-card {
+    display: flex;
+    align-items: start;
+    gap: 8px;
     text-align: left;
     padding: 5px;
 }
-.top-lsiting-details-card-title{
+.top-lsiting-details-card-title {
     text-align: left;
     width: 200%;
 }
 
-.top-lsitings-cards-icons{
+.top-lsitings-cards-icons {
     color: #7065f0;
-
+    flex-shrink: 0;
 }
-.top-listing-property-details-description-info{
+
+.top-listing-property-details-description-info {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     
@@ -197,7 +201,7 @@
     transform: scale(1.1);
 }
 
-.top-lisitng-property-description{
+.top-lisitng-property-description {
     font-size: 12px;
     text-align: left;
 }
