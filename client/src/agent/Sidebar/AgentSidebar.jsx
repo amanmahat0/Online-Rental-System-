@@ -69,11 +69,11 @@ const AgentSidebar = () => {
         </li>
         <li className="agent-menu-item">
           <NavLink
-            to="/agent/settings"
+            to="/agent/payment"
             className={({ isActive }) => (isActive ? "agent-active-link" : "")}
           >
             <FaCog className="agent-sidebar-icon" />
-            <span>Settings</span>
+            <span>Payment History</span>
           </NavLink>
         </li>
       </ul>

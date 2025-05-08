@@ -49,11 +49,11 @@ const UserSidebar = () => {
         </li>
         <li className="user-menu-item">
           <NavLink
-            to="/settings"
+            to="/user/payment"
             className={({ isActive }) => (isActive ? "user-active-link" : "")}
           >
             <FaCog className="user-sidebar-icon" />
-            <span>Settings</span>
+            <span>Payment History</span>
           </NavLink>
         </li>
       </ul>
