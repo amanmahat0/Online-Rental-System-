@@ -130,7 +130,7 @@ const FeatureListing = () => {
                   location: `${listing.location.area} ${listing.location.city}`,
                   images: listing.images,
                   propertyType: listing.propertyType,
-                  status: listing.availabilityStatus,
+                  availabilityStatus: listing.availabilityStatus,
                   contact: listing.contactNumber,
                 },
               });
@@ -143,8 +143,12 @@ const FeatureListing = () => {
                 alt={listing.title}
                 className="feature-listing-image"
               />
-              <div className={`feature-listing-properties-status-badge ${listing.availabilityStatus ? 'available' : 'booked'}`}>
-                {listing.availabilityStatus ? 'Available' : 'Booked'}
+              <div
+                className={`feature-listing-properties-status-badge ${
+                  listing.availabilityStatus ? "available" : "booked"
+                }`}
+              >
+                {listing.availabilityStatus ? "Available" : "Booked"}
               </div>
             </div>
             <div className="feature-listing-details">

@@ -243,7 +243,7 @@ const SavedProperties = () => {
                   location: `${listing.location.area} ${listing.location.city}`,
                   imageUrl: listing.images,
                   propertyType: listing.propertyType,
-                  status: listing.availabilityStatus,
+                  availabilityStatus: listing.availabilityStatus,
                   contact: listing.contactNumber,
                 },
               });
@@ -256,8 +256,12 @@ const SavedProperties = () => {
                 alt={listing.title}
                 className="saved-properties-listing-image"
               />
-              <div className={`saved-properties-status-badge ${listing.availabilityStatus ? 'available' : 'booked'}`}>
-                {listing.availabilityStatus ? 'Available' : 'Booked'}
+              <div
+                className={`saved-properties-status-badge ${
+                  listing.availabilityStatus ? "available" : "booked"
+                }`}
+              >
+                {listing.availabilityStatus ? "Available" : "Booked"}
               </div>
             </div>
             <div className="saved-properties-listing-details">
