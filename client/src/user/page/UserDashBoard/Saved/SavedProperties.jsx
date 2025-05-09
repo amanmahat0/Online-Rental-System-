@@ -170,7 +170,6 @@ const SavedProperties = () => {
             JSON.stringify(updatedSaveProperties)
           );
         }
-        alert(data.message);
       }
     } catch (error) {
       console.error("Error saving/unsaving property:", error);
