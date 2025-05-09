@@ -154,7 +154,7 @@ const MyBooking = () => {
                   location: `${listing.location.area}, ${listing.location.city}`,
                   images: listing.images,
                   propertyType: listing.propertyType,
-                  status: listing.status,
+                  availabilityStatus: listing.availabilityStatus,
                   contact: listing.contact,
                 },
               })
