@@ -316,7 +316,7 @@ const TopListings = () => {
                   images: listing.images,
                   propertyType: listing.propertyType,
                   status: listing.status,
-                  contact: listing.contact,
+                  contact: listing.contactNumber,
                 },
               });
             }}
