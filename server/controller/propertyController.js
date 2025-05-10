@@ -103,6 +103,11 @@ const updateProperty = async (req, res) => {
       updateData.images = imageUrl;
     }
 
+    // If availabilityStatus is set to true, clear acceptedCustomerId
+    if (updateData.availabilityStatus === true) {
+      updateData.acceptedCustomerId = null;
+    }
+
     const property = await Property.findByIdAndUpdate(
       req.params.id,
       updateData,
