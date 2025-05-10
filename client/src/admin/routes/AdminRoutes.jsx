@@ -1,27 +1,31 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import AdminLogin from '../pages/AdminLogin';  // Adjust the import if necessary
-import Dashboard from '../components/Dashboard/dashboard';  // Adjust the import if necessary
-import Agents from '../components/Agents/Agents';  // Adjust the import if necessary
-// import ManageTeam from '../components/ManageTeam/ManageTeam';  // Adjust the import if necessary
-import Properties from '../components/Properties/Properties';  // Adjust the import if necessary
-import Users from '../components/Users/Users';  // Adjust the import if necessary
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import AdminLogin from '../pages/AdminLogin';  // Adjust path if needed
+import Dashboard from '../components/Dashboard/dashboard';
+import Agents from '../components/Agents/Agents';
+import Properties from '../components/Properties/Properties';
+import Users from '../components/Users/Users';
 import Owners from '../components/Owners/Owners';
 
 const AdminRoutes = () => {
   const location = useLocation();
+  const isAuthenticated = !!localStorage.getItem('adminToken'); // Check token/flag
 
-  // If the current route is "/admin", render only AdminLogin
   if (location.pathname === "/admin") {
+    if (isAuthenticated) {
+      return <Navigate to="/admin/home" replace />;
+    }
     return <AdminLogin />;
   }
 
-  // Otherwise, render the main layout (Sidebar + Routes)
+  if (!isAuthenticated) {
+    return <Navigate to="/admin" replace />;
+  }
+
   return (
     <Routes>
       <Route path="/admin/home" element={<Dashboard />} />
       <Route path="/admin/agents" element={<Agents />} />
-      {/* <Route path="/admin/manage-team" element={<ManageTeam />} /> */}
       <Route path="/admin/properties" element={<Properties />} />
       <Route path="/admin/users" element={<Users />} />
       <Route path="/admin/owner-profile" element={<Owners />} />

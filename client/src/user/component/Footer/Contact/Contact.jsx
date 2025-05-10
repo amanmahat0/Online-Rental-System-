@@ -15,11 +15,11 @@ const Contact = () => {
           </div>
           <div className="contact-items-container">
             <FaPhoneAlt className="contact-phonealt" />
-            <span>+1 234 567 8901</span>
+            <span>+977 01-XXXXXXX</span>
           </div>
           <div className="contact-items-container">
             <FaMapMarkerAlt className="contactmapmarker" />
-            <span>123 Main Street, City, Country</span>
+            <span>Bhagwati Marg, Naxal,Kathmandu</span>
           </div>
         </div>
 

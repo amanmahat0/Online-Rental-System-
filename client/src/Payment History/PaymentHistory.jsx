@@ -406,9 +406,9 @@ const PaymentHistory = () => {
 
               <div className="receipt-footer">
                 <div className="footer-info">
-                  <p>Online Rental System</p>
+                  <p>Rent IT</p>
                   <p>
-                    Contact: support@onlinerentalsystem.com | +977-01-4XXXXXX
+                    Contact: support@rentit.com | +977-01-XXXXXXX
                   </p>
                 </div>
                 <div className="qr-code">
