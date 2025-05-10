@@ -4,7 +4,7 @@ import {
   FaUser,
   FaHome,
   FaEnvelope,
-  FaCog,
+  FaMoneyBillWave,
   FaSignOutAlt,
   FaCalendarCheck,
   FaBookmark,
@@ -72,7 +72,7 @@ const AgentSidebar = () => {
             to="/agent/payment"
             className={({ isActive }) => (isActive ? "agent-active-link" : "")}
           >
-            <FaCog className="agent-sidebar-icon" />
+            <FaMoneyBillWave className="agent-sidebar-icon" />
             <span>Payment History</span>
           </NavLink>
         </li>
