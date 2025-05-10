@@ -11,6 +11,7 @@ const Owners = () => {
   const [message, setMessage] = useState({ text: "", type: "" });
   const [isEditing, setIsEditing] = useState(false);
   const [editingOwner, setEditingOwner] = useState(null);
+  const [phoneError, setPhoneError] = useState("");
   const [deleteConfirmation, setDeleteConfirmation] = useState({
     isOpen: false,
     ownerId: null,
@@ -56,25 +57,67 @@ const Owners = () => {
     owner?.name?.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Handle contact number input - only allow integers up to 10 digits
+  // Handle contact number input with enhanced validation
   const handleContactChange = (e) => {
     const value = e.target.value;
+    
+    // Always allow emptying the field
+    if (value === "") {
+      setEditingOwner({ ...editingOwner, contact: value });
+      setPhoneError("");
+      return;
+    }
+    
     // Only allow digits and limit to 10 characters
     if (/^\d{0,10}$/.test(value)) {
       setEditingOwner({ ...editingOwner, contact: value });
+      
+      // Validate that the number starts with 98 when it has at least 2 digits
+      if (value.length >= 2 && !value.startsWith("98")) {
+        setPhoneError("Phone number must start with 98");
+      } 
+      // Validate that the number is exactly 10 digits when submitting
+      else if (value.length > 0 && value.length < 10) {
+        setPhoneError("Phone number must be exactly 10 digits");
+      }
+      else {
+        setPhoneError("");
+      }
     }
+  };
+
+  // Validate phone number before saving
+  const validatePhone = () => {
+    if (!editingOwner.contact) {
+      setPhoneError("Phone number is required");
+      return false;
+    }
+    
+    if (editingOwner.contact.length !== 10) {
+      setPhoneError("Phone number must be exactly 10 digits");
+      return false;
+    }
+    
+    if (!editingOwner.contact.startsWith("98")) {
+      setPhoneError("Phone number must start with 98");
+      return false;
+    }
+    
+    return true;
   };
 
   // Start editing an owner
   const editOwner = (owner) => {
     setEditingOwner({ ...owner });
     setIsEditing(true);
+    setPhoneError(""); // Reset error message when starting to edit
   };
 
   // Cancel editing
   const cancelEdit = () => {
     setIsEditing(false);
     setEditingOwner(null);
+    setPhoneError(""); // Reset error message when canceling
   };
 
   // Open delete confirmation modal
@@ -97,6 +140,11 @@ const Owners = () => {
 
   // Save owner changes
   const saveOwner = async () => {
+    // Validate phone number before saving
+    if (!validatePhone()) {
+      return; // Stop the save process if validation fails
+    }
+    
     try {
       const response = await fetch(
         `http://localhost:5000/api/owner/${editingOwner._id}`,
@@ -128,6 +176,7 @@ const Owners = () => {
 
       setIsEditing(false);
       setEditingOwner(null);
+      setPhoneError(""); // Reset error message after successful save
       showMessage("Owner updated successfully", "success");
 
       // Re-fetch data to ensure consistency
@@ -225,12 +274,17 @@ const Owners = () => {
                 type="text"
                 value={editingOwner.contact}
                 onChange={handleContactChange}
+                className={phoneError ? "error-input" : ""}
               />
-              <small>Numbers only, max 10 digits</small>
+              {phoneError ? (
+                <small className="error-text">{phoneError}</small>
+              ) : (
+                <small>Must be 10 digits and start with 98</small>
+              )}
             </div>
             <div className="admin-owner-edit-actions">
               <button onClick={cancelEdit}>Cancel</button>
-              <button onClick={saveOwner}>Save</button>
+              <button onClick={saveOwner} disabled={!!phoneError}>Save</button>
             </div>
           </div>
         </div>
