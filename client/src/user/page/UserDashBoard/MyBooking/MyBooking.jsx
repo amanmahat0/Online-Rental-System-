@@ -74,13 +74,15 @@ const MyBooking = () => {
       }
       const data = await response.json();
       console.log("accepted customer ", data.data);
-      setListings((prevListings) => [
-        ...prevListings,
-        ...data.data.filter(
-          (newListing) =>
-            !prevListings.some((listing) => listing._id === newListing._id)
-        ),
-      ]);
+      if (data.data && data.data.length > 0) {
+        setListings((prevListings) => [
+          ...prevListings,
+          ...data.data.filter(
+            (newListing) =>
+              !prevListings.some((listing) => listing._id === newListing._id)
+          ),
+        ]);
+      }
     } catch (error) {
       console.error("Error fetching accepted customer data:", error);
     }
@@ -204,7 +206,7 @@ const MyBooking = () => {
                   ? listing.description.slice(0, 85) + "..."
                   : listing.description}
               </p>
-              {listing.acceptedCustomerId !== null &&
+              {listing.acceptedCustomerId &&
               listing.acceptedCustomerId.customer ===
                 JSON.parse(localStorage.getItem("user")).id ? (
                 listing.acceptedCustomerId.paid ? (

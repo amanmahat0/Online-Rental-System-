@@ -92,22 +92,27 @@ const getPropertyById = async (req, res) => {
 
 // Update a property by ID
 const updateProperty = async (req, res) => {
+  debugger;
+  console.error("Update Property Request:", req.body);
   try {
     const updateData = {
       ...req.body,
     };
-
+    console.error("Update Data:", updateData);
     // If a new image is uploaded, replace the existing image
     if (req.file) {
       const imageUrl = `/uploads/${req.file.filename}`;
       updateData.images = imageUrl;
     }
 
+    console.log("Update Data:", updateData);
+
     // If availabilityStatus is set to true, clear acceptedCustomerId
     if (updateData.availabilityStatus === true) {
       updateData.acceptedCustomerId = null;
     }
 
+    // Update the property
     const property = await Property.findByIdAndUpdate(
       req.params.id,
       updateData,
@@ -122,7 +127,13 @@ const updateProperty = async (req, res) => {
         .json({ status: false, message: "Property not found." });
     }
 
-    return res.status(200).json({ status: true, data: property });
+    console.log("Property updated successfully:", property);
+
+    return res.status(200).json({
+      status: true,
+      message: "Property updated successfully",
+      data: property,
+    });
   } catch (error) {
     console.error("Error updating property:", error);
     return res
@@ -652,8 +663,8 @@ const getPropertiesByAcceptedCustomer = async (req, res) => {
     }).populate("owner", "name email contact");
 
     if (!properties || properties.length === 0) {
-      return res.status(404).json({
-        status: false,
+      return res.status(200).json({
+        status: true,
         message: "No properties found for the accepted customer.",
       });
     }

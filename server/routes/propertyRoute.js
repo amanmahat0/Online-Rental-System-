@@ -36,6 +36,7 @@ const upload = multer({
 });
 
 // Routes
+router.put("/:id", upload.single("propertyImage"), updateProperty); // Moved above the GET route
 router.post("/", upload.single("propertyImage"), createProperty);
 router.get("/", getAllProperties);
 router.get("/filter/", filterProperties);
@@ -44,11 +45,10 @@ router.get("/request/:customerId", bookingRequestByCustomerId);
 router.post("/approveOrReject", approveOrRejectRequest);
 router.post("/savedProperties", handleGetAllSavedProperties);
 router.post("/cancel-booking", cancelBooking);
-router.get("/:id", getPropertyById);
-router.put("/:id", upload.single("propertyImage"), updateProperty);
-router.delete("/:id", deleteProperty);
+router.delete("/:id", deleteProperty); // DELETE route remains below PUT
 router.get("/owner/:Id", propertiesByOwnersId);
 router.get("/type/:propertyType", getPropertyByType);
 router.get("/accepted-customer/:customerId", getPropertiesByAcceptedCustomer);
+router.get("/:id", getPropertyById);
 
 module.exports = router;
