@@ -10,6 +10,7 @@ import {
   FaTrash,
   FaTimes,
   FaImage,
+  FaCheck, // Added for tick mark
 } from "react-icons/fa";
 
 const MyListingsAgent = () => {
@@ -146,6 +147,13 @@ const MyListingsAgent = () => {
     } else if (name === "price") {
       // Only allow numbers
       const numericValue = value.replace(/[^0-9]/g, "");
+      setFormData({
+        ...formData,
+        [name]: numericValue,
+      });
+    } else if (name === "contactNo") {
+      // Only allow up to 10 digits
+      const numericValue = value.replace(/[^0-9]/g, "").slice(0, 10);
       setFormData({
         ...formData,
         [name]: numericValue,
@@ -499,14 +507,32 @@ const MyListingsAgent = () => {
 
               <div className="agent-form-group">
                 <label htmlFor="contactNo">Contact Number</label>
-                <input
-                  type="text"
-                  id="contactNo"
-                  name="contactNo"
-                  value={formData.contactNo}
-                  onChange={handleFormChange}
-                  required
-                />
+                <div style={{ position: "relative" }}>
+                  <input
+                    type="text"
+                    id="contactNo"
+                    name="contactNo"
+                    value={formData.contactNo}
+                    onChange={handleFormChange}
+                    required
+                    maxLength={10}
+                    pattern="[0-9]{10}"
+                    inputMode="numeric"
+                    style={{ paddingRight: "2rem" }}
+                  />
+                  {formData.contactNo.length === 10 && (
+                    <FaCheck
+                      style={{
+                        position: "absolute",
+                        right: "0.7rem",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        color: "green",
+                        pointerEvents: "none",
+                      }}
+                    />
+                  )}
+                </div>
               </div>
 
               <div className="agent-form-group">
