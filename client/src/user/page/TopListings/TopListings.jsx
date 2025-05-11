@@ -20,6 +20,7 @@ const TopListings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
   const [hoveredItems, setHoveredItems] = useState(new Set());
+  const [noResultsError, setNoResultsError] = useState("");
   const listingsPerPage = 6;
 
   // New state variables for filter modal
@@ -28,6 +29,7 @@ const TopListings = () => {
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [priceError, setPriceError] = useState("");
 
   const handleFetch = async () => {
     try {
@@ -54,8 +56,14 @@ const TopListings = () => {
       const data = await response.json();
       console.log("Fetched Data: ", data.data);
       setListings(data.data); // Update the listings state with filtered data
+      if (!data.data || data.data.length === 0) {
+        setNoResultsError("No properties found for the specified location.");
+      } else {
+        setNoResultsError("");
+      }
     } catch (error) {
       console.error("Error fetching properties:", error);
+      setNoResultsError("No properties found for the specified location.");
     }
   };
 
@@ -173,14 +181,15 @@ const TopListings = () => {
 
   // Apply filters
   const applyFilters = () => {
+    if (minPrice && maxPrice && Number(minPrice) > Number(maxPrice)) {
+      setPriceError("Minimum price cannot be greater than maximum price.");
+      return;
+    }
+    setPriceError("");
     handleFetch();
     setCurrentPage(1);
     setShowFilterModal(false);
   };
-
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
 
   return (
     <div className="top-listings-container">
@@ -193,6 +202,11 @@ const TopListings = () => {
             placeholder="search by Location"
             onChange={(e) => setSearchQuery(e.target.value)}
             value={searchQuery}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleFetch();
+              }
+            }}
           />
           <button
             className="top-listing-search-btn"
@@ -212,6 +226,12 @@ const TopListings = () => {
           </button>
         </div>
       </div>
+
+      {noResultsError && (
+        <div className="top-listings-error-message" style={{ color: 'red', margin: '16px 0', fontWeight: 'bold', textAlign: 'center' }}>
+          {noResultsError}
+        </div>
+      )}
 
       {/* Filter Modal */}
       {showFilterModal && (
@@ -286,6 +306,9 @@ const TopListings = () => {
                     inputMode="numeric"
                   />
                 </div>
+                {priceError && (
+                  <div style={{ color: 'red', marginTop: '4px', fontSize: '0.95em' }}>{priceError}</div>
+                )}
               </div>
             </div>
 
