@@ -4,10 +4,11 @@ import {
   FaUser,
   FaHome,
   FaEnvelope,
-  FaCog,
+
   FaSignOutAlt,
   FaCalendarCheck,
   FaBookmark,
+  FaMoneyBillWave,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
@@ -72,7 +73,7 @@ const AgentSidebar = () => {
             to="/agent/payment"
             className={({ isActive }) => (isActive ? "agent-active-link" : "")}
           >
-            <FaCog className="agent-sidebar-icon" />
+            <FaMoneyBillWave className="agent-sidebar-icon" />
             <span>Payment History</span>
           </NavLink>
         </li>
