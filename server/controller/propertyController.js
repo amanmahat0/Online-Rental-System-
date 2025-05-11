@@ -5,7 +5,7 @@ const Agent = require("../model/agentModel");
 const nodemailer = require("nodemailer");
 const multer = require("multer");
 const path = require("path");
-const { console } = require("inspector");
+const e = require("express");
 
 // Configure Multer for memory storage
 const storage = multer.diskStorage({
@@ -92,23 +92,18 @@ const getPropertyById = async (req, res) => {
 
 // Update a property by ID
 const updateProperty = async (req, res) => {
-  debugger;
-  console.error("Update Property Request:", req.body);
   try {
     const updateData = {
       ...req.body,
     };
-    console.error("Update Data:", updateData);
     // If a new image is uploaded, replace the existing image
     if (req.file) {
       const imageUrl = `/uploads/${req.file.filename}`;
       updateData.images = imageUrl;
     }
 
-    console.log("Update Data:", updateData);
-
     // If availabilityStatus is set to true, clear acceptedCustomerId
-    if (updateData.availabilityStatus === true) {
+    if (updateData.availabilityStatus === "true") {
       updateData.acceptedCustomerId = null;
     }
 
@@ -127,7 +122,7 @@ const updateProperty = async (req, res) => {
         .json({ status: false, message: "Property not found." });
     }
 
-    console.log("Property updated successfully:", property);
+    // console.log("Property updated successfully:", property);
 
     return res.status(200).json({
       status: true,
@@ -259,7 +254,6 @@ const propertiesByOwnersId = async (req, res) => {
 
     // Fetch raw properties without population
     const rawProperties = await Property.find({ owner: Id });
-    console.log("Raw Properties:", JSON.stringify(rawProperties, null, 2));
 
     // Manually populate customerId.customer
     const properties = await Promise.all(
@@ -545,10 +539,25 @@ const approveOrRejectRequest = async (req, res) => {
       });
     }
 
-    const property = await Property.findById(propertyId).populate(
-      "customerId.customer",
-      "email name"
-    );
+    const property = await Property.findById(propertyId);
+    if (property) {
+      property.customerId = await Promise.all(
+        property.customerId.map(async (customerEntry) => {
+          const customerData =
+            customerEntry.customerRole === "User"
+              ? await User.findById(customerEntry.customer).select("name email")
+              : await Agent.findById(customerEntry.customer).select(
+                  "name email"
+                );
+
+          return {
+            ...customerEntry.toObject(),
+            customer: customerData,
+          };
+        })
+      );
+    }
+    console.log("Property:", property);
     if (!property) {
       return res.status(404).json({
         status: false,
@@ -559,6 +568,7 @@ const approveOrRejectRequest = async (req, res) => {
     const customer = property.customerId.find(
       (cust) => cust.customer._id.toString() === customerId
     );
+
     if (!customer) {
       return res.status(404).json({
         status: false,
@@ -591,6 +601,7 @@ const approveOrRejectRequest = async (req, res) => {
 
       // Send approval email
       const mailOptions = {
+        from: "rentalsystem42@gmail.com",
         to: customer.customer.email,
         subject: "Booking Request Approved",
         text: `Dear ${customer.customer.name},\n\nYour booking request for the property "${property.title}" has been approved.\n\nThank you!`,
@@ -599,6 +610,7 @@ const approveOrRejectRequest = async (req, res) => {
 
       for (const removedCustomer of removedCustomers) {
         const rejectionMailOptions = {
+          from: "rentalsystem42@gmail.com",
           to: removedCustomer.customer.email,
           subject: "Booking Request Rejected",
           text: `Dear ${removedCustomer.customer.name},\n\nYour booking request for the property "${property.title}" has been rejected as another customer has been approved.\n\nThank you!`,
@@ -620,6 +632,7 @@ const approveOrRejectRequest = async (req, res) => {
 
       // Send rejection email
       const mailOptions = {
+        from: "rentalsystem42@gmail.com",
         to: customer.customer.email,
         subject: "Booking Request Rejected",
         text: `Dear ${customer.customer.name},\n\nYour booking request for the property "${property.title}" has been rejected.\n\nThank you!`,
@@ -641,7 +654,7 @@ const approveOrRejectRequest = async (req, res) => {
     console.error("Error in approveOrRejectRequest:", error);
     return res.status(500).json({
       status: false,
-      message: "Failed to process the request.",
+      message: error.message,
     });
   }
 };

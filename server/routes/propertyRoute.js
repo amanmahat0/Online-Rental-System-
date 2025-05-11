@@ -1,3 +1,4 @@
+console.log("Property route loaded");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
@@ -35,20 +36,28 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 },
 });
 
+router.use((req, res, next) => {
+  console.log(`📥 [ROUTE HIT] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 // Routes
-router.put("/:id", upload.single("propertyImage"), updateProperty); // Moved above the GET route
 router.post("/", upload.single("propertyImage"), createProperty);
 router.get("/", getAllProperties);
 router.get("/filter/", filterProperties);
-router.post("/request", requestProperty);
-router.get("/request/:customerId", bookingRequestByCustomerId);
-router.post("/approveOrReject", approveOrRejectRequest);
+router.post("/approveOrReject", (req, res) => {
+  approveOrRejectRequest(req, res);
+  console.log("Request approved or rejected");
+});
 router.post("/savedProperties", handleGetAllSavedProperties);
 router.post("/cancel-booking", cancelBooking);
-router.delete("/:id", deleteProperty); // DELETE route remains below PUT
+router.post("/request", requestProperty);
+router.get("/request/:customerId", bookingRequestByCustomerId);
 router.get("/owner/:Id", propertiesByOwnersId);
 router.get("/type/:propertyType", getPropertyByType);
 router.get("/accepted-customer/:customerId", getPropertiesByAcceptedCustomer);
+router.put("/:id", upload.single("propertyImage"), updateProperty); // Moved above the GET route
+router.delete("/:id", deleteProperty); // DELETE route remains below PUT
 router.get("/:id", getPropertyById);
 
 module.exports = router;
