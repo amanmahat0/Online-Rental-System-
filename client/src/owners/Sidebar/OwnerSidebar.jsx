@@ -4,7 +4,6 @@ import {
   FaUser,
   FaHome,
   FaEnvelope,
-  FaCog,
   FaSignOutAlt,
   FaMoneyBillWave,
 } from "react-icons/fa";
@@ -54,15 +53,6 @@ const OwnerSidebar = () => {
           >
             <FaMoneyBillWave className="owner-sidebar-icon" />
             <span>Payment History</span>
-          </NavLink>
-        </li>
-        <li className="owner-menu-item">
-          <NavLink
-            to="/owner/settings"
-            className={({ isActive }) => (isActive ? "owner-active-link" : "")}
-          >
-            <FaCog className="owner-sidebar-icon" />
-            <span>Settings</span>
           </NavLink>
         </li>
       </ul>

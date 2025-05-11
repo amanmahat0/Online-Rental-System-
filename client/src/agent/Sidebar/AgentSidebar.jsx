@@ -4,11 +4,10 @@ import {
   FaUser,
   FaHome,
   FaEnvelope,
-
+  FaMoneyBillWave,
   FaSignOutAlt,
   FaCalendarCheck,
   FaBookmark,
-  FaMoneyBillWave,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
