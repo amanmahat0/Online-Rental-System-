@@ -43,6 +43,11 @@ const Register = () => {
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Contact number must be exactly 10 digits
+    if (formData.contact.length !== 10) {
+      setError("Contact number must be exactly 10 digits.");
+      return;
+    }
     // Password strength check
     if (!isPasswordStrong(formData.password)) {
       setError(
