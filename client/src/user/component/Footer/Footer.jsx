@@ -27,7 +27,11 @@ const Footer = () => {
           <h3>Rent IT</h3>
           <ul>
             <li onClick={() => {
-              navigate(`/agentAndOwner`)}}>Agents and Owner</li>
+              navigate(`/`)}}>Home</li>
+            <li onClick={() => {
+              navigate(`/aboutus`)}}>About Us</li>
+            <li onClick={() => {
+              navigate(`/topListings`)}}>Properties</li>
           </ul>
         </div>
         <div className="footer-section">
