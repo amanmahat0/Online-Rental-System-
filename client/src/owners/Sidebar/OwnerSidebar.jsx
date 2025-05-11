@@ -3,7 +3,7 @@ import "./OwnerSidebar.css";
 import {
   FaUser,
   FaHome,
-  FaCalendarAlt,
+  FaEnvelope,
   FaSignOutAlt,
   FaMoneyBillWave,
 } from "react-icons/fa";
@@ -42,7 +42,7 @@ const OwnerSidebar = () => {
             to="/owner/booking-request"
             className={({ isActive }) => (isActive ? "owner-active-link" : "")}
           >
-            <FaCalendarAlt className="owner-sidebar-icon" />
+            <FaEnvelope className="owner-sidebar-icon" />
             <span>Booking Requests</span>
           </NavLink>
         </li>

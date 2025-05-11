@@ -114,7 +114,7 @@ const MyListingsOwner = () => {
     const data = await response.json();
     console.log(data);
     setListings(listings.filter((listing) => listing._id !== id));
-    alert("Property deleted successfully.");
+    // alert("Property deleted successfully.");
   };
 
   const handleAddProperty = () => {
@@ -332,7 +332,10 @@ const MyListingsOwner = () => {
 
                 <div className="owner-property-description">
                   <FaInfoCircle className="listing-owner-icon" />
-                  <span>{listing.description}</span>
+                  <span>{typeof listing.description === "string" &&
+                    listing.description.length > 100
+                      ? `${listing.description.slice(0, 50)}...`
+                      : listing.description}</span>
                 </div>
 
                 <div className="owner-property-contact">
