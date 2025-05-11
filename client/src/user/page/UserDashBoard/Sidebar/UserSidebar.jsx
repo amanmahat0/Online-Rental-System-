@@ -4,7 +4,7 @@ import {
   FaUser,
   FaCalendarCheck,
   FaBookmark,
-  FaCog,
+  FaMoneyBillWave,
   FaSignOutAlt,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
@@ -52,7 +52,7 @@ const UserSidebar = () => {
             to="/user/payment"
             className={({ isActive }) => (isActive ? "user-active-link" : "")}
           >
-            <FaCog className="user-sidebar-icon" />
+            <FaMoneyBillWave className="user-sidebar-icon" />
             <span>Payment History</span>
           </NavLink>
         </li>
