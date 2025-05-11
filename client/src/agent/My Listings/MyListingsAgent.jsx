@@ -92,7 +92,7 @@ const MyListingsAgent = () => {
         description: listing.description,
         isAvailable: listing.isAvailable,
         contactNo: listing.contactNumber,
-        image: `http://localhost:5000${listing.images}`,
+        image: listing.images,
         imagePreview: `http://localhost:5000${listing.images}`,
       });
       setEditingId(id);
@@ -196,7 +196,6 @@ const MyListingsAgent = () => {
       if (formData.image) {
         formDataToSend.append("propertyImage", formData.image);
       }
-      console.log(formDataToSend);
       let response;
       if (editingId) {
         response = await fetch(
@@ -213,6 +212,7 @@ const MyListingsAgent = () => {
         });
       }
       const data = await response.json();
+      console.log(data);
       if (!response.ok) {
         throw new Error("Failed to add property");
       }
