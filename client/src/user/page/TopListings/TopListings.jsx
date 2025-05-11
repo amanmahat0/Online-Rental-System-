@@ -28,6 +28,7 @@ const TopListings = () => {
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [priceError, setPriceError] = useState("");
 
   const handleFetch = async () => {
     try {
@@ -173,14 +174,15 @@ const TopListings = () => {
 
   // Apply filters
   const applyFilters = () => {
+    if (minPrice && maxPrice && Number(minPrice) > Number(maxPrice)) {
+      setPriceError("Minimum price cannot be greater than maximum price.");
+      return;
+    }
+    setPriceError("");
     handleFetch();
     setCurrentPage(1);
     setShowFilterModal(false);
   };
-
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
 
   return (
     <div className="top-listings-container">
@@ -286,6 +288,9 @@ const TopListings = () => {
                     inputMode="numeric"
                   />
                 </div>
+                {priceError && (
+                  <div style={{ color: 'red', marginTop: '4px', fontSize: '0.95em' }}>{priceError}</div>
+                )}
               </div>
             </div>
 
