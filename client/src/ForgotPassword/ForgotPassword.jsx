@@ -12,6 +12,15 @@ const ForgotPassword = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState("user");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  
+  // Password validation states
+  const [passwordValidation, setPasswordValidation] = useState({
+    minLength: false,
+    hasUpperCase: false,
+    hasNumber: false,
+    hasSpecialChar: false
+  });
 
   const navigate = useNavigate();
 
@@ -62,10 +71,16 @@ const ForgotPassword = () => {
 
       if (response.status === 404) {
         setError("Email not registered in our system");
+        setIsLoading(false);
+        return; // Stop execution if email not found
       }
       if (response.status === 500) {
         setError("server error");
+        setIsLoading(false);
+        return; // Stop execution if server error
       }
+      
+      // Only proceed to OTP step if no errors
       setData(result);
       setCurrentStep(2);
     } catch (err) {
@@ -120,13 +135,34 @@ const ForgotPassword = () => {
     }
   };
 
+  // Password validation function
+  const validatePassword = (password) => {
+    const validations = {
+      minLength: password.length >= 8,
+      hasUpperCase: /[A-Z]/.test(password),
+      hasNumber: /[0-9]/.test(password),
+      hasSpecialChar: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)
+    };
+    
+    setPasswordValidation(validations);
+    
+    return Object.values(validations).every(Boolean);
+  };
+
+  // Handle password change with live validation
+  const handlePasswordChange = (e) => {
+    const password = e.target.value;
+    setNewPassword(password);
+    validatePassword(password);
+  };
+
   // Password update with backend integration
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
 
     // Client-side password validations
-    if (newPassword.length < 8) {
-      setError("Password must be at least 8 characters long");
+    if (!validatePassword(newPassword)) {
+      setError("Password does not meet the requirements");
       return;
     }
 
@@ -155,14 +191,19 @@ const ForgotPassword = () => {
       );
 
       if (response.status === 200) {
-        alert("Password updated successfully!");
-        // Reset form or redirect
-        setCurrentStep(1);
-        setemail("");
-        setOtp(["", "", "", "", "", ""]);
-        setNewPassword("");
-        setConfirmPassword("");
-        navigate("/login");
+        // Show success modal instead of alert
+        setShowSuccessModal(true);
+        
+        // Set a timeout to redirect after showing the success message
+        setTimeout(() => {
+          // Reset form
+          setCurrentStep(1);
+          setemail("");
+          setOtp(["", "", "", "", "", ""]);
+          setNewPassword("");
+          setConfirmPassword("");
+          navigate("/login");
+        }, 3000); // Redirect after 3 seconds
       } else {
         setError("Failed to update password. Please try again.");
       }
@@ -177,7 +218,10 @@ const ForgotPassword = () => {
     <div className="otp-container">
       {isLoading && (
         <div className="loading-overlay">
-          <div>Loading...</div>
+          <div className="loader-container">
+            <div className="spinner"></div>
+            <p>Processing your request...</p>
+          </div>
         </div>
       )}
       <div className="form-wrapper">
@@ -270,9 +314,29 @@ const ForgotPassword = () => {
               type="password"
               placeholder="New Password"
               value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              onChange={handlePasswordChange}
               required
             />
+            
+            {/* Password validation feedback */}
+            <div className="password-requirements">
+              <p className="requirement-header">Password must contain:</p>
+              <ul>
+                <li className={passwordValidation.minLength ? "valid" : "invalid"}>
+                  At least 8 characters
+                </li>
+                <li className={passwordValidation.hasUpperCase ? "valid" : "invalid"}>
+                  At least one uppercase letter
+                </li>
+                <li className={passwordValidation.hasNumber ? "valid" : "invalid"}>
+                  At least one number
+                </li>
+                <li className={passwordValidation.hasSpecialChar ? "valid" : "invalid"}>
+                  At least one special character
+                </li>
+              </ul>
+            </div>
+            
             <input
               type="password"
               placeholder="Confirm Password"
@@ -281,7 +345,7 @@ const ForgotPassword = () => {
               required
             />
             {error && <p className="error-message">{error}</p>}
-            <button type="submit" disabled={isLoading}>
+            <button type="submit" disabled={isLoading || !Object.values(passwordValidation).every(Boolean)}>
               {isLoading ? "Updating..." : "Update Password"}
             </button>
           </form>
