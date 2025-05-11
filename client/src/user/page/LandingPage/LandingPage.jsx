@@ -30,7 +30,13 @@ const LandingPage = () => {
       <main className="landing-main">
         <h3>Rent Your Properties</h3>
         <h3>Easily With Rent It</h3>
-        <p className="landing-page-small-description">A great platform to rent your rooms, properties, and apartments,</p>
+        <p className="landing-page-small-description">A great platform to rent your rooms, properties, and apartments.</p>
+        <ul className="landing-page-points">
+          <li>✔️ List your property in minutes</li>
+          <li>✔️ Wide reach to potential renters</li>
+          <li>✔️ Secure and verified listings</li>
+          <li>✔️ Manage bookings and payments online</li>
+        </ul>
         {/* <p className="landing-page-small-description">apartments.</p> */}
 
         <div className="data-container">
@@ -43,7 +49,7 @@ const LandingPage = () => {
             <p>properties</p>
           </div>
         </div>
-        <div className="label-container">
+        {/* <div className="label-container">
           <label className="label">Rent</label>
         </div>
 
@@ -52,7 +58,7 @@ const LandingPage = () => {
             <input type="text" placeholder="Search" className="search-input" />
             <button className="search-btn">Browse Properties</button>
           </div>
-        </div>
+        </div> */}
       </main>
       
     </div>

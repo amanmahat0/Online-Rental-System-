@@ -150,3 +150,8 @@
 .landing-page-feature-listing{
   margin-top: 1000px;
 }
+
+.landing-page-points{
+  list-style-type: none;
+  margin-top: 70px;
+}
