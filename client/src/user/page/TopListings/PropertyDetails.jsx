@@ -128,7 +128,7 @@ const PropertyDetails = () => {
                 <div>
                   <span className="property-details-meta__item">
                     <span className="property-details-price"><strong>Price:   </strong></span>
-                    <span className="property-details-price">${price}</span>
+                    <span className="property-details-price">{price}</span>
                   </span>
                   <span className="property-details-meta__item">
                     <span className="property-details-meta__label"><strong>Property Type:</strong></span>
