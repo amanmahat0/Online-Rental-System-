@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext, RoleContext } from "../../Context/UserContext";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -194,7 +194,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ position: 'relative' }}>
             <label htmlFor="contact">Contact</label>
             <input
               type="text"
@@ -209,7 +209,22 @@ const Register = () => {
               }}
               placeholder="Enter your contact number"
               required
+              style={{ paddingRight: '2.2rem' }}
             />
+            {formData.contact.length === 10 && (
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '38px',
+                  color: 'green',
+                  fontSize: '1.2rem',
+                  pointerEvents: 'none',
+                }}
+              >
+                <FaCheck />
+              </span>
+            )}
           </div>
 
           {/* Conditional Company Name Field */}
