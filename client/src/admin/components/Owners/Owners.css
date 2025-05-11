@@ -459,7 +459,16 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+.error-input {
+  border: 1px solid #ff3333 !important;
+  background-color: #fff8f8;
+}
 
+.error-text {
+  color: #ff3333;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
 /* Responsive styles */
 @media (max-width: 768px) {
   .admin-owner-delete-modal {
