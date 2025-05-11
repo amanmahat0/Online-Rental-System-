@@ -35,7 +35,7 @@ app.post("/login", handelOwnerLogin);
 
 app.get("/", handelGetAllOwner);
 
-app.get("/forgot-password", handelOwnerForgotPassword);
+app.post("/forgot-password", handelOwnerForgotPassword);
 
 app.post("/changePassword", handelOwnerChangePassword);
 

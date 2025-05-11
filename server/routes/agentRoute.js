@@ -42,7 +42,7 @@ app.post("/login", handelAgentLogin);
 // handle get request for admin
 app.get("/", handelGetAllAgent);
 
-app.get("/forgot-password", handelAgentForgotPassword);
+app.post("/forgot-password", handelAgentForgotPassword);
 
 app.post("/changePassword", handelAgentChangePassword);
 

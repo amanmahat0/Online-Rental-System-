@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./PaymentHistory.css";
-import {
-  FaSearch,
-  FaFileDownload,
-  FaSpinner,
-} from "react-icons/fa";
+import { FaSearch, FaFileDownload, FaSpinner } from "react-icons/fa";
 import html2canvas from "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js";
 
 const PaymentHistory = () => {
@@ -53,9 +49,9 @@ const PaymentHistory = () => {
 
       if (data.status) {
         // Modify all transaction statuses to "Paid"
-        const modifiedTransactions = data.data.map(transaction => ({
+        const modifiedTransactions = data.data.map((transaction) => ({
           ...transaction,
-          status: "Paid"
+          status: "Paid",
         }));
         setTransactions(modifiedTransactions);
       } else {
@@ -180,7 +176,8 @@ const PaymentHistory = () => {
   // Filter transactions based on search term only
   const filteredTransactions = transactions.filter((transaction) => {
     // Text search filter
-    return transaction.from.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    return (
+      transaction.from.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       transaction.to.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       transaction.propertyId.title
         .toLowerCase()
@@ -188,7 +185,8 @@ const PaymentHistory = () => {
       (transaction.transactionId &&
         transaction.transactionId
           .toLowerCase()
-          .includes(searchTerm.toLowerCase()));
+          .includes(searchTerm.toLowerCase()))
+    );
   });
 
   const indexOfLastRecord = currentPage * recordsPerPage;
@@ -251,11 +249,7 @@ const PaymentHistory = () => {
 
   const renderStatusBadge = () => {
     // Always return "Paid" status badge
-    return (
-      <span className="payment-history-status-badge Paid">
-        Paid
-      </span>
-    );
+    return <span className="payment-history-status-badge Paid">Paid</span>;
   };
 
   // Receipt Modal Component
@@ -407,9 +401,7 @@ const PaymentHistory = () => {
               <div className="receipt-footer">
                 <div className="footer-info">
                   <p>Rent IT</p>
-                  <p>
-                    Contact: support@rentit.com | +977-01-XXXXXXX
-                  </p>
+                  <p>Contact: support@rentit.com | +977-01-XXXXXXX</p>
                 </div>
                 <div className="qr-code">
                   <i className="fas fa-qrcode"></i>
@@ -585,8 +577,7 @@ const PaymentHistory = () => {
                                   {formatCurrency(transaction.amount * 1.1)}
                                 </p>
                                 <p>
-                                  <strong>Status:</strong>{" "}
-                                  {renderStatusBadge()}
+                                  <strong>Status:</strong> {renderStatusBadge()}
                                 </p>
                               </div>
 
