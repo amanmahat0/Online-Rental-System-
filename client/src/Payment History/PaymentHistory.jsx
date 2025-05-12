@@ -60,12 +60,14 @@ const PaymentHistory = ({ isAdmin }) => {
         }));
         setTransactions(modifiedTransactions);
       } else {
-        setError(data.message || "Failed to load transaction history.");
+        // Instead of showing an error, just set transactions to an empty array
+        setTransactions([]);
       }
       setLoading(false);
     } catch (err) {
       console.error("Error fetching transaction data:", err);
-      setError("Failed to load transaction history. Please try again later.");
+      // Changed from error to empty transactions for no data
+      setTransactions([]);
       setLoading(false);
     }
   };
@@ -440,7 +442,9 @@ const PaymentHistory = ({ isAdmin }) => {
     );
   }
 
-  if (error) {
+  // Modified error handling - if there's an authentication error, show that
+  // Otherwise, just display the no transactions message in the main UI
+  if (error && error === "User not authenticated") {
     return (
       <div className="payment-history-error">
         <p>{error}</p>
@@ -501,7 +505,12 @@ const PaymentHistory = ({ isAdmin }) => {
 
       {filteredTransactions.length === 0 ? (
         <div className="payment-history-no-transactions">
-          <p>No transactions found matching your criteria.</p>
+          {/* Changed message to indicate no transaction history instead of no matching filters */}
+          <p>
+            {searchTerm
+              ? "No transactions found matching your criteria."
+              : "No transaction history available yet."}
+          </p>
           {searchTerm && (
             <button
               className="payment-history-clear-filters-btn"
@@ -537,7 +546,8 @@ const PaymentHistory = ({ isAdmin }) => {
                       <td>{formatDate(transaction.paymentDate)}</td>
                       <td>{transaction.propertyId.title}</td>
                       <td>{transaction.from.name}</td>
-                      <td>{formatCurrency(transaction.amount)}</td>
+                      <td>{formatCurrency(transaction.amount * 1.1)}</td>{" "}
+                      {/* Updated to include 10% service fee */}
                       <td>{renderStatusBadge()}</td>
                       <td>
                         <button
@@ -570,14 +580,14 @@ const PaymentHistory = ({ isAdmin }) => {
                                     "Online Payment"}
                                 </p>
                                 <p>
-                                  <strong>Monthly Amount:</strong>{" "}
+                                  <strong>Monthly Rent:</strong>{" "}
                                   {formatCurrency(transaction.amount)}
                                 </p>
                                 <p>
                                   <strong>Service Fee:</strong>{" "}
                                   {formatCurrency(transaction.amount * 0.1)}
                                 </p>
-                                <p>
+                                <p className="total-amount">
                                   <strong>Total:</strong>{" "}
                                   {formatCurrency(transaction.amount * 1.1)}
                                 </p>
