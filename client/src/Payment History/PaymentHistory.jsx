@@ -455,7 +455,7 @@ const PaymentHistory = ({ isAdmin }) => {
   }
 
   return (
-    <div className="payment-history-container">
+    <div className={`${isAdmin ? "admin-" : ""}payment-history-container`}>
       <div className="payment-history-header">
         <h1>Transaction History</h1>
         <p>View and manage your property booking payments</p>
