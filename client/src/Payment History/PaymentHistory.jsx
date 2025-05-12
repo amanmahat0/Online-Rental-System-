@@ -541,7 +541,8 @@ const PaymentHistory = () => {
                       <td>{formatDate(transaction.paymentDate)}</td>
                       <td>{transaction.propertyId.title}</td>
                       <td>{transaction.from.name}</td>
-                      <td>{formatCurrency(transaction.amount)}</td>
+                      <td>{formatCurrency(transaction.amount * 1.1)}</td>{" "}
+                      {/* Updated to include 10% service fee */}
                       <td>{renderStatusBadge()}</td>
                       <td>
                         <button
@@ -574,14 +575,14 @@ const PaymentHistory = () => {
                                     "Online Payment"}
                                 </p>
                                 <p>
-                                  <strong>Monthly Amount:</strong>{" "}
+                                  <strong>Monthly Rent:</strong>{" "}
                                   {formatCurrency(transaction.amount)}
                                 </p>
                                 <p>
                                   <strong>Service Fee:</strong>{" "}
                                   {formatCurrency(transaction.amount * 0.1)}
                                 </p>
-                                <p>
+                                <p className="total-amount">
                                   <strong>Total:</strong>{" "}
                                   {formatCurrency(transaction.amount * 1.1)}
                                 </p>
