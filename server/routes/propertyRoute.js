@@ -45,10 +45,7 @@ router.use((req, res, next) => {
 router.post("/", upload.single("propertyImage"), createProperty);
 router.get("/", getAllProperties);
 router.get("/filter/", filterProperties);
-router.post("/approveOrReject", (req, res) => {
-  approveOrRejectRequest(req, res);
-  console.log("Request approved or rejected");
-});
+router.post("/approveOrReject", approveOrRejectRequest);
 router.post("/savedProperties", handleGetAllSavedProperties);
 router.post("/cancel-booking", cancelBooking);
 router.post("/request", requestProperty);

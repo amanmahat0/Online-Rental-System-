@@ -81,11 +81,10 @@ const AgentProfile = () => {
       const formData = new FormData();
 
       // Add profile data
-      Object.keys(profile).forEach((key) => {
-        if (key !== "profileImagePreview" && key !== "profileImage") {
-          formData.append(key, profile[key]);
-        }
-      });
+      formData.append("name", profile.name);
+      formData.append("email", profile.email);
+      formData.append("contact", profile.contact);
+      formData.append("address", profile.address);
 
       // Add profile image if a new one was selected
       if (profileImage) {
@@ -106,6 +105,10 @@ const AgentProfile = () => {
         throw new Error("Failed to update profile");
       }
 
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ id: storedUser.id, name: profile.name })
+      );
       const data = await response.json();
       setProfile(data.data);
       setEditing(false);

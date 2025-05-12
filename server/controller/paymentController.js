@@ -206,30 +206,41 @@ const processPayment = async (req, res) => {
 
 const searchPayments = async (req, res) => {
   try {
-    const { to, from } = req.query;
+    const { to, from, toModel, fromModel } = req.query;
 
-    // Validate input
-    if (!to && !from) {
-      return res.status(400).json({
-        status: false,
-        message: "At least one of 'to' or 'from' must be provided.",
-      });
+    // Build the query object dynamically
+    const query = {};
+
+    // Use $or to handle multiple conditions
+    if (to || from || toModel || fromModel) {
+      query.$or = [];
+      if (to) {
+        query.$or.push({ to });
+      }
+      if (from) {
+        query.$or.push({ from });
+      }
+      if (toModel) {
+        if (!["Owner", "Agent"].includes(toModel)) {
+          return res.status(400).json({
+            status: false,
+            message: "Invalid toModel. Must be 'Owner' or 'Agent'.",
+          });
+        }
+        query.$or.push({ toModel });
+      }
+      if (fromModel) {
+        if (!["User", "Agent"].includes(fromModel)) {
+          return res.status(400).json({
+            status: false,
+            message: "Invalid fromModel. Must be 'User' or 'Agent'.",
+          });
+        }
+        query.$or.push({ fromModel });
+      }
     }
 
-    // Build the query object
-    const query = {
-      $or: [],
-    };
-
-    if (to) {
-      query.$or.push({ to });
-    }
-
-    if (from) {
-      query.$or.push({ from });
-    }
-
-    // Search payments based on the query
+    // Search payments based on the query (or return all if no query is provided)
     const payments = await Payment.find(query).populate("to from propertyId");
 
     if (!payments || payments.length === 0) {

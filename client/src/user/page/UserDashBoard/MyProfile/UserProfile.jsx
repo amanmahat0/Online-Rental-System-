@@ -82,17 +82,14 @@ const UserProfile = () => {
       const formData = new FormData();
 
       // Add profile data
-      Object.keys(profile).forEach((key) => {
-        if (key !== "profileImagePreview" && key !== "profileImage") {
-          formData.append(key, profile[key]);
-        }
-      });
+      formData.append("name", profile.name);
+      formData.append("email", profile.email);
+      formData.append("contact", profile.contact);
 
       // Add profile image if a new one was selected
       if (profileImage) {
         formData.append("profileImage", profileImage);
       }
-
       // Send data to backend using multipart form data
       const response = await fetch(
         `http://localhost:5000/api/${storedRole}/${storedUser.id}`,
@@ -106,6 +103,10 @@ const UserProfile = () => {
         throw new Error("Failed to update profile");
       }
 
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ id: storedUser.id, name: profile.name })
+      );
       const data = await response.json();
       setProfile(data.data);
       setEditing(false);
@@ -142,10 +143,6 @@ const UserProfile = () => {
 
       const data = await response.json();
       setProfile(data.data);
-      localStorage.setItem(
-        "saveProperties",
-        JSON.stringify(data.data.saveProperties)
-      );
     } catch (error) {
       console.error("Error fetching profile data:", error);
       setErrors({

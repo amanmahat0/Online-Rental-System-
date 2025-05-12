@@ -40,9 +40,9 @@ app.post("/forgot-password", handleUserForgotPassword);
 
 app.post("/changePassword", handleUserChangePassword);
 
-app.get("/:id", handleUserById);
-
 app.put("/:id", upload.single("profileImage"), handleUpdateUserById);
+
+app.get("/:id", handleUserById);
 
 app.delete("/:id", handleDeleteUserById);
 

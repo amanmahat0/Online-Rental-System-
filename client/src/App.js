@@ -4,13 +4,13 @@ import "./App.css";
 import Header from "./user/component/Header/Header";
 import Footer from "./user/component/Footer/Footer";
 import AppRoutes from "./Routes/Routes";
-import AdminRoutes from "./admin/routes/AdminRoutes"; // Ensure this is imported
-import Sidebar from "./admin/components/layout/Sidebar"; // Ensure Sidebar is imported
-import { UserProvider } from "./user/Context/UserContext";
+import AdminRoutes from "./admin/routes/AdminRoutes";
+import Sidebar from "./admin/components/layout/Sidebar";
+// import { UserProvider } from "./user/Context/UserContext";
 import { AdminDataProvider } from "./admin/adminContext/AdminContext";
 import UserDashboard from "./user/page/UserDashBoard/Routes/UserDashboard";
 import OwnerDashboard from "./owners/Routes/OwnerDashboard";
-import AgentDashboard from "./agent/Routes/AgentDashboard"; // Import AgentDashboard
+import AgentDashboard from "./agent/Routes/AgentDashboard";
 
 const AppWithLocation = () => {
   const location = useLocation(); // Get the current route
@@ -74,11 +74,11 @@ const AppWithLocation = () => {
 const App = () => {
   return (
     <AdminDataProvider>
-      <UserProvider>
-        <Router>
-          <AppWithLocation />
-        </Router>
-      </UserProvider>
+      {/* <UserProvider> */}
+      <Router>
+        <AppWithLocation />
+      </Router>
+      {/* </UserProvider> */}
     </AdminDataProvider>
   );
 };
