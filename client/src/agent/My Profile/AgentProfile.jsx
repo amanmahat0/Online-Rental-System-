@@ -10,6 +10,7 @@ import {
   FaMapMarkerAlt,
   FaTimes,
   FaSpinner,
+  FaBuilding,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -84,7 +85,7 @@ const AgentProfile = () => {
       formData.append("name", profile.name);
       formData.append("email", profile.email);
       formData.append("contact", profile.contact);
-      formData.append("address", profile.address);
+      formData.append("companyName", profile.companyName);
 
       // Add profile image if a new one was selected
       if (profileImage) {
@@ -145,6 +146,7 @@ const AgentProfile = () => {
 
       const data = await response.json();
       setProfile(data.data);
+      console.log(data.data);
     } catch (error) {
       console.error("Error fetching profile data:", error);
       setErrors({
@@ -170,7 +172,7 @@ const AgentProfile = () => {
     name: <FaUser className="agent-profile-field-icon" />,
     email: <FaEnvelope className="agent-profile-field-icon" />,
     contact: <FaPhone className="agent-profile-field-icon" />,
-    address: <FaMapMarkerAlt className="agent-profile-field-icon" />,
+    companyName: <FaBuilding className="agent-profile-field-icon" />,
   };
 
   if (loading) {
@@ -321,18 +323,20 @@ const AgentProfile = () => {
 
             <div className="agent-profile-field">
               <div className="agent-profile-field-label">
-                {iconMap.address}
-                <label>Address</label>
+                {iconMap.companyName}
+                <label>Company Name</label>
               </div>
               {editing ? (
                 <input
-                  name="address"
-                  value={profile?.address || ""}
+                  name="companyName"
+                  value={profile?.companyName || ""}
                   onChange={handleChange}
                   className="agent-profile-edit-input"
                 />
               ) : (
-                <p className="agent-profile-field-value">{profile?.address}</p>
+                <p className="agent-profile-field-value">
+                  {profile?.companyName}
+                </p>
               )}
             </div>
 
