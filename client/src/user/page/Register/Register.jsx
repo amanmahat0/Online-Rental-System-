@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext, RoleContext } from "../../Context/UserContext";
+import { FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,23 @@ const Register = () => {
   const { setUser } = useContext(UserContext);
   const { setRole } = useContext(RoleContext);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPasswordChecklist, setShowPasswordChecklist] = useState(false);
+
+  // Password validation function
+  const isPasswordStrong = (password) => {
+    // Minimum 8 chars, at least 1 uppercase, 1 number, 1 special char
+    return /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(password);
+  };
+
+  // Password requirement checks for live feedback
+  const passwordChecks = {
+    length: formData.password.length >= 8,
+    uppercase: /[A-Z]/.test(formData.password),
+    number: /\d/.test(formData.password),
+    special: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(formData.password),
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,6 +44,18 @@ const Register = () => {
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Contact number must be exactly 10 digits
+    if (formData.contact.length !== 10) {
+      setError("Contact number must be exactly 10 digits.");
+      return;
+    }
+    // Password strength check
+    if (!isPasswordStrong(formData.password)) {
+      setError(
+        "Password must be at least 8 characters, include 1 uppercase letter, 1 number, and 1 special character."
+      );
+      return;
+    }
     // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match. Please try again.");
@@ -99,7 +129,7 @@ const Register = () => {
         <h2>Create Account</h2>
         <p className="subtitle">Join our rental community</p>
 
-        {error !== "" && <div className="error-message">{error}</div>}
+        
 
         <form onSubmit={handleSubmit}>
           {/* User Type Selection */}
@@ -170,7 +200,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ position: 'relative' }}>
             <label htmlFor="contact">Contact</label>
             <input
               type="text"
@@ -185,7 +215,22 @@ const Register = () => {
               }}
               placeholder="Enter your contact number"
               required
+              style={{ paddingRight: '2.2rem' }}
             />
+            {formData.contact.length === 10 && (
+              <span
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '38px',
+                  color: 'green',
+                  fontSize: '1.2rem',
+                  pointerEvents: 'none',
+                }}
+              >
+                <FaCheck />
+              </span>
+            )}
           </div>
 
           {/* Conditional Company Name Field */}
@@ -215,23 +260,54 @@ const Register = () => {
             </div>
           )}
 
-          <div className="form-group">
+          <div className="form-group" style={{ position: 'relative' }}>
             <label htmlFor="password">Password</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
               required
+              onFocus={() => setShowPasswordChecklist(true)}
+              onBlur={() => setShowPasswordChecklist(false)}
             />
+            <span
+              onClick={() => setShowPassword((prev) => !prev)}
+              style={{
+                position: 'absolute',
+                right: '12px',
+                top: '38px',
+                cursor: 'pointer',
+                fontSize: '1.2rem',
+                color: '#888'
+              }}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+            {showPasswordChecklist && (
+              <ul className="password-checklist">
+                <li style={{color: passwordChecks.length ? 'green' : 'red'}}>
+                  {passwordChecks.length ? '✔️' : '❌'} Minimum 8 characters
+                </li>
+                <li style={{color: passwordChecks.uppercase ? 'green' : 'red'}}>
+                  {passwordChecks.uppercase ? '✔️' : '❌'} At least 1 uppercase letter
+                </li>
+                <li style={{color: passwordChecks.number ? 'green' : 'red'}}>
+                  {passwordChecks.number ? '✔️' : '❌'} At least 1 number
+                </li>
+                <li style={{color: passwordChecks.special ? 'green' : 'red'}}>
+                  {passwordChecks.special ? '✔️' : '❌'} At least 1 special character
+                </li>
+              </ul>
+            )}
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ position: 'relative' }}>
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               id="confirmPassword"
               name="confirmPassword"
               value={formData.confirmPassword}
@@ -239,7 +315,21 @@ const Register = () => {
               placeholder="Confirm your password"
               required
             />
+            <span
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              style={{
+                position: 'absolute',
+                right: '12px',
+                top: '38px',
+                cursor: 'pointer',
+                fontSize: '1.2rem',
+                color: '#888'
+              }}
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
+          {error !== "" && <div className="error-message">{error}</div>}
 
           <button type="submit" className="submit-btn">
             Register

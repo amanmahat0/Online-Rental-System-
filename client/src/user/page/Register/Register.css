@@ -181,3 +181,7 @@ input {
   text-align: center;
   cursor: pointer; /* Makes the label clickable */
 }
+.password-checklist{
+  list-style-type: none;
+
+}

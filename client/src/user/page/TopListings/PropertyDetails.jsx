@@ -15,6 +15,7 @@ const PropertyDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarkHovered, setIsBookmarkHovered] = useState(false);
   const [agreementChecked, setAgreementChecked] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [bookingRequested, setBookingRequested] = useState(false);
@@ -26,7 +27,6 @@ const PropertyDetails = () => {
     day: "numeric",
   });
 
-  // Destructure the data passed via navigation
   const {
     title,
     price,
@@ -38,6 +38,12 @@ const PropertyDetails = () => {
     contact,
     owner,
   } = location.state || {};
+  const descriptionText = description ? description.split('\n').map((line, idx) => (
+    <span key={idx}>
+      {line}
+      <br />
+    </span>
+  )) : null;
 
   useEffect(() => {
     // Simulate loading state
@@ -47,8 +53,67 @@ const PropertyDetails = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const toggleBookmark = () => {
-    setIsBookmarked(!isBookmarked);
+  // Fetch user's saved properties and set bookmark state
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    const storedRole = localStorage.getItem('role');
+    if (storedUser && storedRole && (storedRole === 'User' || storedRole === 'Agent')) {
+      const { id: userId } = JSON.parse(storedUser);
+      fetch('http://localhost:5000/api/properties/savedProperties', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: userId, role: storedRole }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.data) {
+            setIsBookmarked(data.data.some((p) => p._id === id));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [id]);
+
+  // Save/unsave property (bookmark)
+  const toggleBookmark = async (e) => {
+    e && e.stopPropagation && e.stopPropagation();
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      console.error('User not found in localStorage');
+      return;
+    }
+    const storedUserId = JSON.parse(storedUser).id;
+    const sendedData = {
+      userId: storedUserId,
+      propertyId: id,
+    };
+    const storedRole = localStorage.getItem('role');
+    if (storedRole === 'User' || storedRole === 'Agent') {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/${storedRole.toLowerCase()}/saveProperties`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(sendedData),
+          }
+        );
+        if (!response.ok) {
+          console.error('Error saving property');
+          return;
+        }
+        const data = await response.json();
+        localStorage.setItem(
+          'saveProperties',
+          JSON.stringify(data.data.saveProperties)
+        );
+        setIsBookmarked((prev) => !prev);
+      } catch (error) {
+        console.error('Error saving property:', error);
+      }
+    }
   };
 
   // Booking function
@@ -112,14 +177,14 @@ const PropertyDetails = () => {
           <button
             className="property-detail-save-btn"
             onClick={toggleBookmark}
-            aria-label={
-              isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"
-            }
+            aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
+            onMouseEnter={() => setIsBookmarkHovered(true)}
+            onMouseLeave={() => setIsBookmarkHovered(false)}
           >
-            {isBookmarked ? (
-              <FaBookmark className="property-details-bookmark-btn" />
+            {(isBookmarked || isBookmarkHovered) ? (
+              <FaBookmark className='property-details-bookmark-btn'/>
             ) : (
-              <FaRegBookmark className="property-details-bookmark-btn" />
+              <FaRegBookmark className='property-details-bookmark-btn'/>
             )}
           </button>
         </div>
@@ -149,24 +214,18 @@ const PropertyDetails = () => {
                 <div>
                   <span className="property-details-meta__item">
                     <span className="property-details-price">
-                      <strong>Price: </strong>
-                    </span>
-                    <span className="property-details-price">${price}</span>
-                  </span>
-                  <span className="property-details-meta__item">
-                    <span className="property-details-meta__label">
-                      <strong>Property Type:</strong>
-                    </span>
-                    <span className="property-details-meta__value">
-                      {propertyType}
+
+                    <span className="property-details-price">Rs. {price}</span><strong> per Month</strong>
                     </span>
                   </span>
                   <span className="property-details-meta__item">
-                    <span className="property-details-meta__label">
-                      <strong>Location:</strong>
+                    <span className="property-details-meta__label"><strong>Property Type:</strong>
+                    <span className="property-details-meta__value">{propertyType}</span>
                     </span>
-                    <span className="property-details-meta__value">
-                      {propertyLocation}
+                  </span>
+                  <span className="property-details-meta__item">
+                    <span className="property-details-meta__label"><strong>Location: </strong>
+                    <span className="property-details-meta__value">{propertyLocation}</span>
                     </span>
                   </span>
                 </div>
@@ -188,14 +247,8 @@ const PropertyDetails = () => {
                       </h4>
                       <div className="property-details-contact">
                         <div className="property-details-contact__info">
-                          {contact && (
-                            <span>
-                              <strong>Phone:</strong> {contact}
-                            </span>
-                          )}
-                          <span className="property-details-contact__email">
-                            <strong>Email:</strong> sample@email.com
-                          </span>
+
+                          {contact && <span><strong>Phone:</strong> {contact}</span>}
                         </div>
                       </div>
                     </div>
@@ -208,7 +261,7 @@ const PropertyDetails = () => {
         <div className="property-description-section">
           <h3 className="agreement-heading">Description</h3>
           <p className="property-description">
-            {description || "No description available for this property."}
+            {descriptionText || 'No description available for this property.'}
           </p>
         </div>
         <div className="property-agreement-section">

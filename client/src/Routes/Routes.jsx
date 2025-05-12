@@ -7,7 +7,6 @@ import Login from "../user/page/Login/Login";
 import AdminLogin from "../admin/pages/AdminLogin";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import TopListings from "../user/page/TopListings/TopListings";
-import BookingPage from "../user/page/Booking/BookingPage";
 
 // import VerifyEmail from "./VerifyEmail";
 // import TopListings from "./TopListings";
@@ -45,7 +44,7 @@ const AppRoutes = () => {
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/owner" element={<OwnerSidebar />} />
       <Route path="/TopListings/:id" element={<PropertyDetails />} />
-      <Route path="/booking/:id" element={<BookingPage />} />
+      {/* <Route path="/booking/:id" element={<BookingPage />} /> */}
       {/* <Route path="/userdashboard" element={<UserDashboard />} /> */}
 
       <Route path="/user" element={<UserSidebar />} />

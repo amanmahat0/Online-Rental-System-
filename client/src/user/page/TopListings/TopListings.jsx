@@ -9,6 +9,7 @@ import {
   FaRegBookmark,
   FaFilter,
   FaTimes,
+  FaSpinner,
 } from "react-icons/fa";
 import "./TopListings.css";
 
@@ -21,6 +22,8 @@ const TopListings = () => {
   const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
   const [hoveredItems, setHoveredItems] = useState(new Set());
   const [noResultsError, setNoResultsError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState("");
   const listingsPerPage = 6;
 
   // New state variables for filter modal
@@ -31,7 +34,19 @@ const TopListings = () => {
   const [maxPrice, setMaxPrice] = useState("");
   const [priceError, setPriceError] = useState("");
 
+  // Debounce search input
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (searchQuery === "") {
+        handleFetch();
+      }
+    }, 400);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
   const handleFetch = async () => {
+    setLoading(true);
+    setFetchError("");
     try {
       // Construct query parameters dynamically
       const queryParams = new URLSearchParams();
@@ -57,13 +72,16 @@ const TopListings = () => {
       console.log("Fetched Data: ", data.data);
       setListings(data.data); // Update the listings state with filtered data
       if (!data.data || data.data.length === 0) {
-        setNoResultsError("No properties found for the specified location.");
+        setNoResultsError("No properties found for your search.");
       } else {
         setNoResultsError("");
       }
     } catch (error) {
       console.error("Error fetching properties:", error);
-      setNoResultsError("No properties found for the specified location.");
+      setFetchError("Could not fetch properties. Please try again.");
+      setNoResultsError("");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -231,17 +249,24 @@ const TopListings = () => {
         </div>
       </div>
 
-      {noResultsError && (
-        <div
-          className="top-listings-error-message"
-          style={{
-            color: "red",
-            margin: "16px 0",
-            fontWeight: "bold",
-            textAlign: "center",
-          }}
-        >
-          {noResultsError}
+      {loading && (
+        <div className="top-listings-loading" style={{ textAlign: 'center', margin: '24px 0' }}>
+          <FaSpinner className="spin" style={{ fontSize: 32, color: '#007bff' }} />
+          <div>Loading properties...</div>
+        </div>
+      )}
+
+      {fetchError && (
+        <div className="top-listings-error-message" style={{ color: 'red', margin: '16px 0', fontWeight: 'bold', textAlign: 'center' }}>
+          {fetchError}
+  
+        </div>
+      )}
+
+      {!loading && !fetchError && noResultsError && (
+        <div className="top-listings-no-results" style={{ color: '#555', margin: '32px 0', textAlign: 'center' }}>
+          <img src="/no-results.png" alt="No results" style={{ width: 120, opacity: 0.7, marginBottom: 12 }} />
+          <div style={{ fontWeight: 'bold', fontSize: '1.1em' }}>{noResultsError}</div>
         </div>
       )}
 
@@ -345,7 +370,7 @@ const TopListings = () => {
       )}
 
       <div className="top-listings-grid">
-        {currentListings.map((listing) => (
+        {!loading && !fetchError && !noResultsError && currentListings.map((listing) => (
           <div
             key={listing._id}
             className="top-listing-card"
@@ -441,37 +466,39 @@ const TopListings = () => {
       </div>
 
       {/* Pagination Section */}
-      <div className="toplisting-pagination">
-        <button
-          className="toplisting-pagination-button"
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-
-        {[...Array(totalPages)].map((_, index) => (
+      {!loading && !fetchError && !noResultsError && (
+        <div className="toplisting-pagination">
           <button
-            key={index + 1}
-            className={`toplisting-pagination-button ${
-              currentPage === index + 1 ? "active" : ""
-            }`}
-            onClick={() => setCurrentPage(index + 1)}
+            className="toplisting-pagination-button"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
           >
-            {index + 1}
+            Previous
           </button>
-        ))}
 
-        <button
-          className="toplisting-pagination-button"
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-          }
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index + 1}
+              className={`toplisting-pagination-button ${
+                currentPage === index + 1 ? "active" : ""
+              }`}
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            className="toplisting-pagination-button"
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

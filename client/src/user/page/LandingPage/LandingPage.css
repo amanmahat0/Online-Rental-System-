@@ -55,6 +55,7 @@
 .landing-page-small-description{
   font-size: 1rem;
   color: #706f6f;
+  margin-top: 20px;
 }
 
 .home-search-bar {
@@ -109,7 +110,7 @@
   align-items: center;
   gap: 20px;
   margin-top: 50px;
-  margin-right: 66rem;
+  margin-right: 75rem;
 }
 
 /* Individual card styling */
@@ -149,4 +150,9 @@
 
 .landing-page-feature-listing{
   margin-top: 1000px;
+}
+
+.landing-page-points{
+  list-style-type: none;
+  margin-top: 70px;
 }

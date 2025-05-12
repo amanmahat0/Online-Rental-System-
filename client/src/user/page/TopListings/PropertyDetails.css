@@ -98,11 +98,11 @@
   margin-bottom: 20px;
 }
 
-.property-detail-save-btn:hover {
+/* .property-detail-save-btn:hover {
   transform: scale(1.1);
   color: #5a4fd0;
   background-color: #e6e6ff;
-}
+} */
 
 /* Main content */
 .property-details-content {
@@ -276,8 +276,7 @@
 /* Container for Property Details */
 .property-details-container {
     width: 100%;
-    max-width: 1200px;
-    max-height: 2400px;
+    /* max-width: 1200px; */
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -399,7 +398,7 @@
   }
   .property-detail-save-btn:hover{
     /* transform: translateY(-2px); */
-    background-color: #7065f0;
+    /* background-color: #7065f0; */
     cursor: pointer;
   }
   .property-book-save-button{
@@ -661,4 +660,9 @@
 }
 .property-details-price{
   font-size: 1.5rem;;
+}
+.property-description-section{
+  border: 1px solid #e0e0e0;
+  padding: 24px 20px 16px 20px;
+  border-radius: 8px;
 }
