@@ -250,23 +250,45 @@ const TopListings = () => {
       </div>
 
       {loading && (
-        <div className="top-listings-loading" style={{ textAlign: 'center', margin: '24px 0' }}>
-          <FaSpinner className="spin" style={{ fontSize: 32, color: '#007bff' }} />
+        <div
+          className="top-listings-loading"
+          style={{ textAlign: "center", margin: "24px 0" }}
+        >
+          <FaSpinner
+            className="spin"
+            style={{ fontSize: 32, color: "#007bff" }}
+          />
           <div>Loading properties...</div>
         </div>
       )}
 
       {fetchError && (
-        <div className="top-listings-error-message" style={{ color: 'red', margin: '16px 0', fontWeight: 'bold', textAlign: 'center' }}>
+        <div
+          className="top-listings-error-message"
+          style={{
+            color: "red",
+            margin: "16px 0",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
           {fetchError}
-  
         </div>
       )}
 
       {!loading && !fetchError && noResultsError && (
-        <div className="top-listings-no-results" style={{ color: '#555', margin: '32px 0', textAlign: 'center' }}>
-          <img src="/no-results.png" alt="No results" style={{ width: 120, opacity: 0.7, marginBottom: 12 }} />
-          <div style={{ fontWeight: 'bold', fontSize: '1.1em' }}>{noResultsError}</div>
+        <div
+          className="top-listings-no-results"
+          style={{ color: "#555", margin: "32px 0", textAlign: "center" }}
+        >
+          <img
+            src="/no-results.png"
+            alt="No results"
+            style={{ width: 120, opacity: 0.7, marginBottom: 12 }}
+          />
+          <div style={{ fontWeight: "bold", fontSize: "1.1em" }}>
+            {noResultsError}
+          </div>
         </div>
       )}
 
@@ -370,99 +392,102 @@ const TopListings = () => {
       )}
 
       <div className="top-listings-grid">
-        {!loading && !fetchError && !noResultsError && currentListings.map((listing) => (
-          <div
-            key={listing._id}
-            className="top-listing-card"
-            onClick={() => {
-              navigate(`/topListings/${listing._id}`, {
-                state: {
-                  description: listing.description,
-                  title: listing.title,
-                  price: listing.pricePerMonth,
-                  location: `${listing.location.area}, ${listing.location.city}`,
-                  images: listing.images,
-                  propertyType: listing.propertyType,
-                  availabilityStatus: listing.availabilityStatus,
-                  contact: listing.contactNumber,
-                  owner: listing.owner,
-                },
-              });
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            <img
-              src={`http://localhost:5000${listing.images}`}
-              alt={listing.title}
-              className="top-listing-image"
-            />
+        {!loading &&
+          !fetchError &&
+          !noResultsError &&
+          currentListings.map((listing) => (
             <div
-              className={`top-listing-properties-status-badge ${
-                listing.availabilityStatus ? "available" : "booked"
-              }`}
+              key={listing._id}
+              className="top-listing-card"
+              onClick={() => {
+                navigate(`/topListings/${listing._id}`, {
+                  state: {
+                    description: listing.description,
+                    title: listing.title,
+                    price: listing.pricePerMonth,
+                    location: `${listing.location.area}, ${listing.location.city}`,
+                    images: listing.images,
+                    propertyType: listing.propertyType,
+                    availabilityStatus: listing.availabilityStatus,
+                    contact: listing.contactNumber,
+                    owner: listing.owner.name,
+                  },
+                });
+              }}
+              style={{ cursor: "pointer" }}
             >
-              {listing.availabilityStatus ? "Available" : "Booked"}
-            </div>
-            <div className="top-listing-details">
-              <div className="top-listing-button-section">
-                <h2 className="top-lsiting-details-card-title">
-                  {listing.title}
-                </h2>
-                <button
-                  className="top-listing-save-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleBookmarkClick(listing._id);
-                  }}
-                  onMouseEnter={() => handleBookmarkHover(listing._id, true)}
-                  onMouseLeave={() => handleBookmarkHover(listing._id, false)}
-                >
-                  {bookmarkedItems.has(listing._id) ||
-                  hoveredItems.has(listing._id) ? (
-                    <FaBookmark className="top-listing-bookmark-icons" />
-                  ) : (
-                    <FaRegBookmark className="top-listing-bookmark-icons" />
-                  )}
-                </button>
+              <img
+                src={`http://localhost:5000${listing.images}`}
+                alt={listing.title}
+                className="top-listing-image"
+              />
+              <div
+                className={`top-listing-properties-status-badge ${
+                  listing.availabilityStatus ? "available" : "booked"
+                }`}
+              >
+                {listing.availabilityStatus ? "Available" : "Booked"}
               </div>
-              <p className="top-listing-details-card">
-                <FaHome
-                  width={20}
-                  height={20}
-                  className="top-lsitings-cards-icons"
-                />
-                {listing.propertyType}
-              </p>
-              <p className="top-listing-details-card">
-                <FaMapMarkerAlt
-                  width={20}
-                  height={20}
-                  className="top-lsitings-cards-icons"
-                />
-                {listing.location.area}, {listing.location.city}
-              </p>
-              <p className="top-listing-details-card">
-                <FaRupeeSign
-                  width={20}
-                  height={20}
-                  className="top-lsitings-cards-icons"
-                />
-                {listing.pricePerMonth} / month
-              </p>
+              <div className="top-listing-details">
+                <div className="top-listing-button-section">
+                  <h2 className="top-lsiting-details-card-title">
+                    {listing.title}
+                  </h2>
+                  <button
+                    className="top-listing-save-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBookmarkClick(listing._id);
+                    }}
+                    onMouseEnter={() => handleBookmarkHover(listing._id, true)}
+                    onMouseLeave={() => handleBookmarkHover(listing._id, false)}
+                  >
+                    {bookmarkedItems.has(listing._id) ||
+                    hoveredItems.has(listing._id) ? (
+                      <FaBookmark className="top-listing-bookmark-icons" />
+                    ) : (
+                      <FaRegBookmark className="top-listing-bookmark-icons" />
+                    )}
+                  </button>
+                </div>
+                <p className="top-listing-details-card">
+                  <FaHome
+                    width={20}
+                    height={20}
+                    className="top-lsitings-cards-icons"
+                  />
+                  {listing.propertyType}
+                </p>
+                <p className="top-listing-details-card">
+                  <FaMapMarkerAlt
+                    width={20}
+                    height={20}
+                    className="top-lsitings-cards-icons"
+                  />
+                  {listing.location.area}, {listing.location.city}
+                </p>
+                <p className="top-listing-details-card">
+                  <FaRupeeSign
+                    width={20}
+                    height={20}
+                    className="top-lsitings-cards-icons"
+                  />
+                  {listing.pricePerMonth} / month
+                </p>
 
-              <p className="top-listing-details-card">
-                <FaInfoCircle
-                  width={20}
-                  height={20}
-                  className="top-lsitings-cards-icons"
-                />
-                {listing.description.length > 100
-                  ? listing.description.slice(0, 85) + "..."
-                  : listing.description}
-              </p>
+                <p className="top-listing-details-card">
+                  <FaInfoCircle
+                    width={20}
+                    height={20}
+                    className="top-lsitings-cards-icons"
+                  />
+                  {listing.description.length > 100
+                    ? listing.description.slice(0, 85) + "..."
+                    : listing.description}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       {/* Pagination Section */}
