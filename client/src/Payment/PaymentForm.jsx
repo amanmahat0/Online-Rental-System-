@@ -1,12 +1,18 @@
 // src/user/Payment/PaymentForm.js
-import React from 'react';
-import './styles/PaymentForm.css';
+import React from "react";
+import "./styles/PaymentForm.css";
 
-const PaymentForm = ({ formData, paymentMethod, onChange, onSubmit, onOpenTerms }) => {
+const PaymentForm = ({
+  formData,
+  paymentMethod,
+  onChange,
+  onSubmit,
+  onOpenTerms,
+}) => {
   const paymentMethodName = {
-    'esewa': 'eSewa',
-    'khalti': 'Khalti',
-    'bank': 'Bank Transfer'
+    esewa: "eSewa",
+    khalti: "Khalti",
+    bank: "Bank Transfer",
   };
 
   return (
@@ -14,7 +20,11 @@ const PaymentForm = ({ formData, paymentMethod, onChange, onSubmit, onOpenTerms 
       <div className="payment-method-header">
         <h3>Payment Details</h3>
         <div className={`selected-method ${paymentMethod}`}>
-          <i className={`fas ${paymentMethod === 'bank' ? 'fa-university' : 'fa-wallet'}`}></i>
+          <i
+            className={`fas ${
+              paymentMethod === "bank" ? "fa-university" : "fa-wallet"
+            }`}
+          ></i>
           <span>{paymentMethodName[paymentMethod]}</span>
         </div>
       </div>
@@ -87,6 +97,7 @@ const PaymentForm = ({ formData, paymentMethod, onChange, onSubmit, onOpenTerms 
               onChange={onChange}
               min="1"
               required
+              readOnly
             />
           </div>
 
@@ -104,24 +115,34 @@ const PaymentForm = ({ formData, paymentMethod, onChange, onSubmit, onOpenTerms 
           </div>
         </div>
 
-        {paymentMethod === 'bank' && (
+        {paymentMethod === "bank" && (
           <div className="bank-details">
             <h4>Bank Transfer Details</h4>
-            <p><strong>Bank Name:</strong> Nepal Investment Bank Ltd</p>
-            <p><strong>Account Name:</strong> Online Rental System</p>
-            <p><strong>Account Number:</strong> 01234567890123456</p>
-            <p><strong>Branch:</strong> Kathmandu</p>
-            <p className="note">Note: Please upload the payment receipt in the next step</p>
+            <p>
+              <strong>Bank Name:</strong> Nepal Investment Bank Ltd
+            </p>
+            <p>
+              <strong>Account Name:</strong> Online Rental System
+            </p>
+            <p>
+              <strong>Account Number:</strong> 01234567890123456
+            </p>
+            <p>
+              <strong>Branch:</strong> Kathmandu
+            </p>
+            <p className="note">
+              Note: Please upload the payment receipt in the next step
+            </p>
           </div>
         )}
 
-        {paymentMethod === 'esewa' && (
+        {paymentMethod === "esewa" && (
           <div className="wallet-info">
             <p>You'll be redirected to eSewa to complete your payment.</p>
           </div>
         )}
 
-        {paymentMethod === 'khalti' && (
+        {paymentMethod === "khalti" && (
           <div className="wallet-info">
             <p>You'll be redirected to Khalti to complete your payment.</p>
           </div>
@@ -137,12 +158,19 @@ const PaymentForm = ({ formData, paymentMethod, onChange, onSubmit, onOpenTerms 
             required
           />
           <label htmlFor="termsAccepted">
-            I agree to the <a href="#terms" onClick={onOpenTerms}>Terms and Conditions</a>
+            I agree to the{" "}
+            <a href="#terms" onClick={onOpenTerms}>
+              Terms and Conditions
+            </a>
           </label>
         </div>
 
         <div className="form-actions">
-          <button type="button" className="cancel-btn" onClick={() => window.history.back()}>
+          <button
+            type="button"
+            className="cancel-btn"
+            onClick={() => window.history.back()}
+          >
             Back
           </button>
           <button type="submit" className="next-btn">
