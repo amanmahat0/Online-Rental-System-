@@ -23,6 +23,12 @@ const PropertyDetails = () => {
 
   // Destructure the data passed via navigation
   const { title, price, location: propertyLocation, images, description, propertyType, availabilityStatus, contact } = location.state || {};
+  const descriptionText = description ? description.split('\n').map((line, idx) => (
+    <span key={idx}>
+      {line}
+      <br />
+    </span>
+  )) : null;
 
   useEffect(() => {
     // Simulate loading state
@@ -186,16 +192,19 @@ const PropertyDetails = () => {
               <div className="property-details-meta">
                 <div>
                   <span className="property-details-meta__item">
-                    <span className="property-details-price"><strong>Price:   </strong></span>
-                    <span className="property-details-price">{price}</span>
+                    <span className="property-details-price">
+                    <span className="property-details-price">Rs. {price}</span><strong> per Month</strong>
+                    </span>
                   </span>
                   <span className="property-details-meta__item">
-                    <span className="property-details-meta__label"><strong>Property Type:</strong></span>
+                    <span className="property-details-meta__label"><strong>Property Type:</strong>
                     <span className="property-details-meta__value">{propertyType}</span>
+                    </span>
                   </span>
                   <span className="property-details-meta__item">
-                    <span className="property-details-meta__label"><strong>Location:</strong></span>
+                    <span className="property-details-meta__label"><strong>Location: </strong>
                     <span className="property-details-meta__value">{propertyLocation}</span>
+                    </span>
                   </span>
                 </div>
                 <div className='property-details-status-N-contact'>
@@ -209,7 +218,6 @@ const PropertyDetails = () => {
                       <div className="property-details-contact">
                         <div className="property-details-contact__info">
                           {contact && <span><strong>Phone:</strong> {contact}</span>}
-                          <span className="property-details-contact__email"><strong>Email:</strong> sample@email.com</span>
                         </div>
                       </div>
                     </div>
@@ -222,7 +230,7 @@ const PropertyDetails = () => {
         <div className="property-description-section">
           <h3 className="agreement-heading">Description</h3>
           <p className="property-description">
-            {description || 'No description available for this property.'}
+            {descriptionText || 'No description available for this property.'}
           </p>
         </div>
         <div className="property-agreement-section">

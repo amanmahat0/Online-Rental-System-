@@ -276,8 +276,7 @@
 /* Container for Property Details */
 .property-details-container {
     width: 100%;
-    max-width: 1200px;
-    max-height: 2400px;
+    /* max-width: 1200px; */
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
