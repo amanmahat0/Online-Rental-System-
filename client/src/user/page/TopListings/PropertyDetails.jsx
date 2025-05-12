@@ -323,11 +323,12 @@ const PropertyDetails = () => {
           <button
             className="property-detail-book-btn"
             aria-label="Book this property"
-            disabled={!agreementChecked || bookingRequested}
+            disabled={!agreementChecked || bookingRequested || !availabilityStatus}
             style={{
-              opacity: agreementChecked && !bookingRequested ? 1 : 0.5,
+              opacity:
+                agreementChecked && !bookingRequested && availabilityStatus ? 1 : 0.5,
               cursor:
-                agreementChecked && !bookingRequested
+                agreementChecked && !bookingRequested && availabilityStatus
                   ? "pointer"
                   : "not-allowed",
             }}
