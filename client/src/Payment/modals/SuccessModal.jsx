@@ -34,7 +34,7 @@ const SuccessModal = ({ onClose, transactionDetails }) => {
           </div>
           
           <div className="success-note">
-            <p>A receipt has been sent to your registered email address.</p>
+            {/* <p>A receipt has been sent to your registered email address.</p> */}
           </div>
         </div>
         <div className="modal-footer">

@@ -209,7 +209,16 @@
     margin-top: 1rem;
   }
 
-  /* Additional CSS for the checkmark animation */
+/* Additional CSS for the checkmark animation - add to your Modals.css file */
+
+/* Keep your existing success-modal styles */
+.success-modal .success-animation {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Replace the existing checkmark-circle styles with these */
 .checkmark-circle {
   width: 80px;
   height: 80px;
