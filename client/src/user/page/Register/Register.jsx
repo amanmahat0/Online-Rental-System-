@@ -21,6 +21,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPasswordChecklist, setShowPasswordChecklist] = useState(false);
 
   // Password validation function
   const isPasswordStrong = (password) => {
@@ -128,7 +129,7 @@ const Register = () => {
         <h2>Create Account</h2>
         <p className="subtitle">Join our rental community</p>
 
-        {error !== "" && <div className="error-message">{error}</div>}
+        
 
         <form onSubmit={handleSubmit}>
           {/* User Type Selection */}
@@ -269,6 +270,8 @@ const Register = () => {
               onChange={handleChange}
               placeholder="Enter your password"
               required
+              onFocus={() => setShowPasswordChecklist(true)}
+              onBlur={() => setShowPasswordChecklist(false)}
             />
             <span
               onClick={() => setShowPassword((prev) => !prev)}
@@ -283,20 +286,22 @@ const Register = () => {
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
-            <ul className="password-checklist">
-              <li style={{color: passwordChecks.length ? 'green' : 'red'}}>
-                {passwordChecks.length ? '✔️' : '❌'} Minimum 8 characters
-              </li>
-              <li style={{color: passwordChecks.uppercase ? 'green' : 'red'}}>
-                {passwordChecks.uppercase ? '✔️' : '❌'} At least 1 uppercase letter
-              </li>
-              <li style={{color: passwordChecks.number ? 'green' : 'red'}}>
-                {passwordChecks.number ? '✔️' : '❌'} At least 1 number
-              </li>
-              <li style={{color: passwordChecks.special ? 'green' : 'red'}}>
-                {passwordChecks.special ? '✔️' : '❌'} At least 1 special character
-              </li>
-            </ul>
+            {showPasswordChecklist && (
+              <ul className="password-checklist">
+                <li style={{color: passwordChecks.length ? 'green' : 'red'}}>
+                  {passwordChecks.length ? '✔️' : '❌'} Minimum 8 characters
+                </li>
+                <li style={{color: passwordChecks.uppercase ? 'green' : 'red'}}>
+                  {passwordChecks.uppercase ? '✔️' : '❌'} At least 1 uppercase letter
+                </li>
+                <li style={{color: passwordChecks.number ? 'green' : 'red'}}>
+                  {passwordChecks.number ? '✔️' : '❌'} At least 1 number
+                </li>
+                <li style={{color: passwordChecks.special ? 'green' : 'red'}}>
+                  {passwordChecks.special ? '✔️' : '❌'} At least 1 special character
+                </li>
+              </ul>
+            )}
           </div>
 
           <div className="form-group" style={{ position: 'relative' }}>
@@ -324,6 +329,7 @@ const Register = () => {
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
+          {error !== "" && <div className="error-message">{error}</div>}
 
           <button type="submit" className="submit-btn">
             Register
