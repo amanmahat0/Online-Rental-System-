@@ -32,8 +32,67 @@ const PropertyDetails = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const toggleBookmark = () => {
-    setIsBookmarked(!isBookmarked);
+  // Fetch user's saved properties and set bookmark state
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    const storedRole = localStorage.getItem('role');
+    if (storedUser && storedRole && (storedRole === 'User' || storedRole === 'Agent')) {
+      const { id: userId } = JSON.parse(storedUser);
+      fetch('http://localhost:5000/api/properties/savedProperties', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: userId, role: storedRole }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.data) {
+            setIsBookmarked(data.data.some((p) => p._id === id));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [id]);
+
+  // Save/unsave property (bookmark)
+  const toggleBookmark = async (e) => {
+    e && e.stopPropagation && e.stopPropagation();
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      console.error('User not found in localStorage');
+      return;
+    }
+    const storedUserId = JSON.parse(storedUser).id;
+    const sendedData = {
+      userId: storedUserId,
+      propertyId: id,
+    };
+    const storedRole = localStorage.getItem('role');
+    if (storedRole === 'User' || storedRole === 'Agent') {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/${storedRole.toLowerCase()}/saveProperties`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(sendedData),
+          }
+        );
+        if (!response.ok) {
+          console.error('Error saving property');
+          return;
+        }
+        const data = await response.json();
+        localStorage.setItem(
+          'saveProperties',
+          JSON.stringify(data.data.saveProperties)
+        );
+        setIsBookmarked((prev) => !prev);
+      } catch (error) {
+        console.error('Error saving property:', error);
+      }
+    }
   };
 
   // Booking function

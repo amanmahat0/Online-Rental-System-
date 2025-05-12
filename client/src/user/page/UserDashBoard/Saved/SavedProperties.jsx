@@ -300,7 +300,7 @@ const SavedProperties = () => {
                 className="saved-properties-listing-book-button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`/booking/${listing._id}`, {
+                  navigate(`/topListings/${listing._id}`, {
                     state: {
                       propertyId: listing._id,
                       title: listing.title,
