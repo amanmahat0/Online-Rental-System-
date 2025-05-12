@@ -29,6 +29,7 @@ const Rooms = () => {
         throw new Error(`Network response was not ok: ${response.status}`);
       }
       const data = await response.json();
+      console.log(data);
       setListings(data.data.slice(0, 6));
     } catch (error) {
       console.error("Error fetching listings:", error);
