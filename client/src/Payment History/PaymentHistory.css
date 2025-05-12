@@ -2,66 +2,73 @@
 .payment-history-container {
   padding: 30px;
 
-/* Responsive Design */
-@media (max-width: 992px) {
-  .payment-history-date-inputs {
-    flex-direction: column;
-    gap: 10px;
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .payment-history-date-inputs {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .payment-history-details-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
-  .payment-history-details-grid {
-    grid-template-columns: 1fr;
-  }
-}
+  @media (max-width: 768px) {
+    .payment-history-container {
+      padding: 15px;
+      margin: 10px;
+    }
 
-@media (max-width: 768px) {
-  .payment-history-container {
-    padding: 15px;
-    margin: 10px;
-  }
+    .payment-history-filters {
+      flex-direction: column;
+      align-items: stretch;
+    }
 
-  .payment-history-filters {
-    flex-direction: column;
-    align-items: stretch;
-  }
+    .payment-history-filter-toggle {
+      justify-content: flex-start;
+    }
 
-  .payment-history-filter-toggle {
-    justify-content: flex-start;
-  }
+    .payment-history-advanced-filters {
+      padding: 15px;
+    }
 
-  .payment-history-advanced-filters {
-    padding: 15px;
-  }
+    .payment-history-transactions-table {
+      display: block;
+      overflow-x: auto;
+    }
 
-  .payment-history-transactions-table {
-    display: block;
-    overflow-x: auto;
-  }
-
-  .payment-history-summary {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .payment-history-pagination {
-    flex-wrap: wrap;
+    .payment-history-summary {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
   }
 
-  .payment-history-header h1 {
-    font-size: 1.5rem;
-  }
+  @media (max-width: 480px) {
+    .payment-history-pagination {
+      flex-wrap: wrap;
+    }
 
-  .payment-history-filter-row {
-    flex-direction: column;
+    .payment-history-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .payment-history-filter-row {
+      flex-direction: column;
+    }
   }
-}
   background-color: #f8f9fc;
   border-radius: 15px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
   margin: 20px;
+  min-height: calc(100vh - 40px);
+}
+.admin-payment-history-container {
+  background-color: #f8f9fc;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  margin: 20px 20px 20px 100px;
   min-height: calc(100vh - 40px);
 }
 
@@ -613,12 +620,11 @@
 }
 
 .receipt-status {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 5px 10px;
   border-radius: 20px;
   font-size: 0.8rem;
-  
 }
 
 .receipt-body {
@@ -689,13 +695,13 @@
 .thank-you-message {
   text-align: center;
   font-size: 1.2rem;
-  color: #4CAF50;
+  color: #4caf50;
   margin-bottom: 10px;
 }
 
 .thank-you-message i {
   margin-right: 5px;
-  color: #E91E63;
+  color: #e91e63;
 }
 
 .note {
@@ -720,7 +726,9 @@
   gap: 10px;
 }
 
-.print-btn, .download-btn, .close-btn {
+.print-btn,
+.download-btn,
+.close-btn {
   padding: 10px 15px;
   border-radius: 8px;
   border: none;
@@ -733,12 +741,12 @@
 }
 
 .print-btn {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
 .print-btn:hover {
-  background-color: #388E3C;
+  background-color: #388e3c;
 }
 
 .download-btn {
@@ -747,7 +755,7 @@
 }
 
 .download-btn:hover {
-  background-color: #5D52D1;
+  background-color: #5d52d1;
 }
 
 .close-btn {
@@ -776,7 +784,7 @@
 }
 
 .view-receipt-btn:hover {
-  background-color: #5D52D1;
+  background-color: #5d52d1;
 }
 
 /* Fix for the media queries position - move these to the end of the file */
@@ -789,17 +797,17 @@
   .payment-history-details-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .receipt-header {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .receipt-title {
     text-align: center;
     margin-top: 15px;
   }
-  
+
   .receipt-info {
     flex-direction: column;
   }
@@ -834,12 +842,14 @@
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .receipt-actions {
     flex-direction: column;
   }
-  
-  .print-btn, .download-btn, .close-btn {
+
+  .print-btn,
+  .download-btn,
+  .close-btn {
     width: 100%;
     justify-content: center;
   }

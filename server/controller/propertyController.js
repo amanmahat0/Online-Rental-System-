@@ -330,7 +330,13 @@ const handleGetAllSavedProperties = async (req, res) => {
 
     if (role === "User") {
       // Fetch saved properties for a user
-      const user = await User.findById(id).populate("saveProperties");
+      const user = await User.findById(id).populate({
+        path: "saveProperties",
+        populate: {
+          path: "owner",
+          select: "name contact email", // only populate these fields
+        },
+      });
       if (!user || !user.saveProperties || user.saveProperties.length === 0) {
         return res.status(404).json({
           status: false,
@@ -340,7 +346,13 @@ const handleGetAllSavedProperties = async (req, res) => {
       savedProperties = user.saveProperties;
     } else if (role === "Agent") {
       // Fetch saved properties for an agent
-      const agent = await Agent.findById(id).populate("saveProperties");
+      const agent = await Agent.findById(id).populate({
+        path: "saveProperties",
+        populate: {
+          path: "owner",
+          select: "name contact email", // only populate these fields
+        },
+      });
       if (
         !agent ||
         !agent.saveProperties ||
@@ -374,7 +386,7 @@ const getPropertyByType = async (req, res) => {
   try {
     const property = await Property.find({
       propertyType: req.params.propertyType,
-    });
+    }).populate("owner", "name email contact");
     if (!property) {
       return res
         .status(404)
@@ -419,7 +431,10 @@ const filterProperties = async (req, res) => {
     }
 
     // Fetch properties based on the query
-    const properties = await Property.find(query);
+    const properties = await Property.find(query).populate(
+      "owner",
+      "name email contact"
+    );
 
     if (!properties || properties.length === 0) {
       return res.status(404).json({
