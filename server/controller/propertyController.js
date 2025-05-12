@@ -603,8 +603,9 @@ const approveOrRejectRequest = async (req, res) => {
       const mailOptions = {
         from: "rentalsystem42@gmail.com",
         to: customer.customer.email,
-        subject: "Booking Request Approved",
-        text: `Dear ${customer.customer.name},\n\nYour booking request for the property "${property.title}" has been approved.\n\nThank you!`,
+        subject: "Property Booking Approved - Complete Your Payment",
+        text: `Dear ${customer.customer.name},\n\nYour booking for "${property.title}" at ${property.location.area}, ${property.location.city} has been approved.
+Please complete the payment to confirm your booking from your profile.\n\nThanks for using Rent IT\n- Rent IT Team`,
       };
       await transporter.sendMail(mailOptions);
 
@@ -613,7 +614,7 @@ const approveOrRejectRequest = async (req, res) => {
           from: "rentalsystem42@gmail.com",
           to: removedCustomer.customer.email,
           subject: "Booking Request Rejected",
-          text: `Dear ${removedCustomer.customer.name},\n\nYour booking request for the property "${property.title}" has been rejected as another customer has been approved.\n\nThank you!`,
+          text: `Dear ${removedCustomer.customer.name},\n\nYour booking request for the property "${property.title}" at ${property.location.area}, ${property.location.city} has been rejected as another customer has been approved.\n\nThanks for using Rent IT\n- Rent IT Team`,
         };
         await transporter.sendMail(rejectionMailOptions);
       }
@@ -634,8 +635,9 @@ const approveOrRejectRequest = async (req, res) => {
       const mailOptions = {
         from: "rentalsystem42@gmail.com",
         to: customer.customer.email,
-        subject: "Booking Request Rejected",
-        text: `Dear ${customer.customer.name},\n\nYour booking request for the property "${property.title}" has been rejected.\n\nThank you!`,
+        subject: "Property Booking Rejected",
+        text: `Dear ${customer.customer.name},\n\nYour booking request for the property "${property.title}" at ${property.location.area}, ${property.location.city} has been rejected.
+        \n\nYou can explore other available properties from your profile.\n\nThanks for using Rent IT\n- Rent IT Team`,
       };
       await transporter.sendMail(mailOptions);
 

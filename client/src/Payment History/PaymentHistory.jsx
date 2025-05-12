@@ -3,7 +3,7 @@ import "./PaymentHistory.css";
 import { FaSearch, FaFileDownload, FaSpinner } from "react-icons/fa";
 import html2canvas from "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js";
 
-const PaymentHistory = () => {
+const PaymentHistory = ({ isAdmin }) => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,8 +28,13 @@ const PaymentHistory = () => {
     try {
       setLoading(true);
       const queryParams = new URLSearchParams();
-      queryParams.append("from", ownerId);
-      queryParams.append("to", ownerId);
+
+      isAdmin
+        ? queryParams.append("toModel", "")
+        : queryParams.append("to", ownerId);
+      isAdmin
+        ? queryParams.append("fromModel", "")
+        : queryParams.append("from", ownerId);
 
       const response = await fetch(
         `http://localhost:5000/api/payment/search?${queryParams.toString()}`,

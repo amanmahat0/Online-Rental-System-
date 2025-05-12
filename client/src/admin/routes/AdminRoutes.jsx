@@ -1,15 +1,16 @@
-import React from 'react';
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import AdminLogin from '../pages/AdminLogin';  // Adjust path if needed
-import Dashboard from '../components/Dashboard/dashboard';
-import Agents from '../components/Agents/Agents';
-import Properties from '../components/Properties/Properties';
-import Users from '../components/Users/Users';
-import Owners from '../components/Owners/Owners';
+import React from "react";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import AdminLogin from "../pages/AdminLogin"; // Adjust path if needed
+import Dashboard from "../components/Dashboard/dashboard";
+import Agents from "../components/Agents/Agents";
+import Properties from "../components/Properties/Properties";
+import Users from "../components/Users/Users";
+import Owners from "../components/Owners/Owners";
+import PaymentHistory from "../../Payment History/PaymentHistory";
 
 const AdminRoutes = () => {
   const location = useLocation();
-  const isAuthenticated = !!localStorage.getItem('adminToken'); // Check token/flag
+  const isAuthenticated = !!localStorage.getItem("adminToken"); // Check token/flag
 
   if (location.pathname === "/admin") {
     if (isAuthenticated) {
@@ -29,6 +30,10 @@ const AdminRoutes = () => {
       <Route path="/admin/properties" element={<Properties />} />
       <Route path="/admin/users" element={<Users />} />
       <Route path="/admin/owner-profile" element={<Owners />} />
+      <Route
+        path="/admin/payment-history"
+        element={<PaymentHistory isAdmin={true} />}
+      />
     </Routes>
   );
 };

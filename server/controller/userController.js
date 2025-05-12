@@ -170,6 +170,7 @@ const handleUpdateUserById = async (req, res) => {
     const updateData = {
       ...req.body,
     };
+    console.log("Update Data:", updateData);
 
     // Convert "null" strings to real nulls for all fields
     Object.keys(updateData).forEach((key) => {
@@ -182,10 +183,12 @@ const handleUpdateUserById = async (req, res) => {
       const imageUrl = `/uploads/profileImage/${req.file.filename}`;
       updateData.profileImage = imageUrl; // Update the image URL in the database
     }
+    console.log("Update Data after file check:", updateData);
     const userId = req.params.id;
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
       new: true,
     });
+    console.log("Updated User:", updatedUser);
 
     if (!updatedUser) {
       return res.status(404).json({ status: false, message: "User not found" });
