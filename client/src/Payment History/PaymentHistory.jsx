@@ -55,12 +55,14 @@ const PaymentHistory = () => {
         }));
         setTransactions(modifiedTransactions);
       } else {
-        setError(data.message || "Failed to load transaction history.");
+        // Instead of showing an error, just set transactions to an empty array
+        setTransactions([]);
       }
       setLoading(false);
     } catch (err) {
       console.error("Error fetching transaction data:", err);
-      setError("Failed to load transaction history. Please try again later.");
+      // Changed from error to empty transactions for no data
+      setTransactions([]);
       setLoading(false);
     }
   };
@@ -435,7 +437,9 @@ const PaymentHistory = () => {
     );
   }
 
-  if (error) {
+  // Modified error handling - if there's an authentication error, show that
+  // Otherwise, just display the no transactions message in the main UI
+  if (error && error === "User not authenticated") {
     return (
       <div className="payment-history-error">
         <p>{error}</p>
@@ -496,7 +500,12 @@ const PaymentHistory = () => {
 
       {filteredTransactions.length === 0 ? (
         <div className="payment-history-no-transactions">
-          <p>No transactions found matching your criteria.</p>
+          {/* Changed message to indicate no transaction history instead of no matching filters */}
+          <p>
+            {searchTerm
+              ? "No transactions found matching your criteria."
+              : "No transaction history available yet."}
+          </p>
           {searchTerm && (
             <button
               className="payment-history-clear-filters-btn"
