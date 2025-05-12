@@ -90,7 +90,11 @@ const TopListings = () => {
     // Fetch saved properties from API for User or Agent and set bookmarks
     const storedUser = localStorage.getItem("user");
     const storedRole = localStorage.getItem("role");
-    if (storedUser && storedRole && (storedRole === "User" || storedRole === "Agent")) {
+    if (
+      storedUser &&
+      storedRole &&
+      (storedRole === "User" || storedRole === "Agent")
+    ) {
       const { id: userId } = JSON.parse(storedUser);
       fetch("http://localhost:5000/api/properties/savedProperties", {
         method: "POST",
@@ -340,7 +344,15 @@ const TopListings = () => {
                   />
                 </div>
                 {priceError && (
-                  <div style={{ color: 'red', marginTop: '4px', fontSize: '0.95em' }}>{priceError}</div>
+                  <div
+                    style={{
+                      color: "red",
+                      marginTop: "4px",
+                      fontSize: "0.95em",
+                    }}
+                  >
+                    {priceError}
+                  </div>
                 )}
               </div>
             </div>
@@ -373,6 +385,7 @@ const TopListings = () => {
                   propertyType: listing.propertyType,
                   availabilityStatus: listing.availabilityStatus,
                   contact: listing.contactNumber,
+                  owner: listing.owner,
                 },
               });
             }}

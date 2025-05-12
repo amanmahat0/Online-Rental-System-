@@ -6,7 +6,7 @@ import Footer from "./user/component/Footer/Footer";
 import AppRoutes from "./Routes/Routes";
 import AdminRoutes from "./admin/routes/AdminRoutes";
 import Sidebar from "./admin/components/layout/Sidebar";
-// import { UserProvider } from "./user/Context/UserContext";
+import { UserProvider } from "./user/Context/UserContext";
 import { AdminDataProvider } from "./admin/adminContext/AdminContext";
 import UserDashboard from "./user/page/UserDashBoard/Routes/UserDashboard";
 import OwnerDashboard from "./owners/Routes/OwnerDashboard";
@@ -74,11 +74,11 @@ const AppWithLocation = () => {
 const App = () => {
   return (
     <AdminDataProvider>
-      {/* <UserProvider> */}
-      <Router>
-        <AppWithLocation />
-      </Router>
-      {/* </UserProvider> */}
+      <UserProvider>
+        <Router>
+          <AppWithLocation />
+        </Router>
+      </UserProvider>
     </AdminDataProvider>
   );
 };

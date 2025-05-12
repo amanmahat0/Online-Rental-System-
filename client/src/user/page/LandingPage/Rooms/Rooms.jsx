@@ -131,6 +131,7 @@ const Rooms = () => {
                     propertyType: listing.propertyType,
                     availabilityStatus: listing.availabilityStatus,
                     contact: listing.contactNumber,
+                    owner: listing.owner.name,
                   },
                 });
               }}
