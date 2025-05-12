@@ -157,7 +157,7 @@ const MyBooking = () => {
                   images: listing.images,
                   propertyType: listing.propertyType,
                   availabilityStatus: listing.availabilityStatus,
-                  contact: listing.contact,
+                  contact: listing.contactNumber,
                   owner: listing.owner.name,
                 },
               })
