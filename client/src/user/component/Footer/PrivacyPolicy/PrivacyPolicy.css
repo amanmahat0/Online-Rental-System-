@@ -1,22 +1,24 @@
 .privacy-policy-container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 32px;
-  background-color: #fff;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
+  width: 80%;
+  max-width: 1000px;
+  margin: 48px auto;
+  padding: 40px 48px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2f2f2f;
-  line-height: 1.75;
-  transition: all 0.3s ease-in-out;
+  color: #232323;
+  line-height: 1.8;
+  transition: all 0.3s cubic-bezier(.4,0,.2,1);
 }
 
 .privacy-policy-heading {
-  font-size: 2.75rem;
-  font-weight: 700;
-  margin-bottom: 1.8rem;
-  color: #1e1e1e;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 2.2rem;
   text-align: center;
+  color: #183153;
+  letter-spacing: 1px;
 }
 
 .privacy-policy-intro,
@@ -24,9 +26,9 @@
 .privacy-policy-information4-intro,
 .privacy-policy-information6-intro,
 .privacy-policy-information7-intro {
-  margin-bottom: 1.2rem;
-  font-size: 1.1rem;
-  color: #444;
+  margin-bottom: 1.1rem;
+  font-size: 1.08rem;
+  color: #333;
 }
 
 .privacy-policy-information-heading,
@@ -36,23 +38,29 @@
 .privacy-policy-information5-heading,
 .privacy-policy-information6-heading,
 .privacy-policy-information7-heading {
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
-  color: #2c3e50;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0077cc;
+  margin-top: 2.2rem;
+  margin-bottom: 0.7rem;
+  padding-left: 10px;
   border-left: 4px solid #0077cc;
-  padding-left: 12px;
+  background: linear-gradient(90deg, #f0f8ff 60%, transparent 100%);
 }
 
 .privacy-policy-information-list,
 .privacy-policy-information2-list,
 .privacy-policy-information3-list,
 .privacy-policy-information5-list {
-  list-style-type: disc;
-  padding-left: 1.8rem;
-  margin-bottom: 1.2rem;
-  color: #555;
+  padding-left: 1.5rem;
+  margin-top: 0.3rem;
+  font-size: 1.08rem;
+  color: #333;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
 }
 
 .support-rent-it-com {
@@ -66,22 +74,21 @@
 }
 
 .privacy-policy-effective-data {
-  font-size: 0.95rem;
-  color: #777;
   margin-top: 2.5rem;
-  text-align: center;
+  text-align: right;
+  font-size: 1rem;
+  color: #888;
 }
 
 /* Responsive adjustment */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .privacy-policy-container {
-    padding: 20px;
+    width: 96%;
+    padding: 20px 8px;
   }
-
   .privacy-policy-heading {
     font-size: 2rem;
   }
-
   .privacy-policy-information-heading,
   .privacy-policy-information2-heading,
   .privacy-policy-information3-heading,
@@ -89,14 +96,6 @@
   .privacy-policy-information5-heading,
   .privacy-policy-information6-heading,
   .privacy-policy-information7-heading {
-    font-size: 1.3rem;
-  }
-
-  .privacy-policy-intro,
-  .privacy-policy-information3-intro,
-  .privacy-policy-information4-intro,
-  .privacy-policy-information6-intro,
-  .privacy-policy-information7-intro {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 }

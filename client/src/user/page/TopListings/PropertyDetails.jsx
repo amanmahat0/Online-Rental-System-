@@ -10,6 +10,7 @@ const PropertyDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarkHovered, setIsBookmarkHovered] = useState(false);
   const [agreementChecked, setAgreementChecked] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [bookingRequested, setBookingRequested] = useState(false);
@@ -163,8 +164,14 @@ const PropertyDetails = () => {
             className="property-detail-save-btn"
             onClick={toggleBookmark}
             aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
+            onMouseEnter={() => setIsBookmarkHovered(true)}
+            onMouseLeave={() => setIsBookmarkHovered(false)}
           >
-            {isBookmarked ? <FaBookmark className='property-details-bookmark-btn'/> : <FaRegBookmark className='property-details-bookmark-btn'/>}
+            {(isBookmarked || isBookmarkHovered) ? (
+              <FaBookmark className='property-details-bookmark-btn'/>
+            ) : (
+              <FaRegBookmark className='property-details-bookmark-btn'/>
+            )}
           </button>
         </div>
       </div>

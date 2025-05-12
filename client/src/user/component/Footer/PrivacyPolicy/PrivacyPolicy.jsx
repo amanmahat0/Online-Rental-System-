@@ -57,7 +57,7 @@ const PrivacyPolicy = () => {
         If you have any questions or concerns about this Privacy Policy, please contact us at <a href="mailto:support@rentit.com" className="support-rent-it-com">support@rentit.com</a>.
       </p>
 
-      <p className="privacy-policy-effective-data">Effective Date: April 6, 2025</p>
+    
     </div>
   );
 };
