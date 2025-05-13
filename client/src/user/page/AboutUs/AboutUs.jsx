@@ -62,8 +62,8 @@ const AboutUs = () => {
       <section className="contact-section">
         <h2>Get in Touch</h2>
         <div className="contact-info">
-          <p>Email: contact@rentit.com</p>
-          <p>Phone: 9825007590</p>
+          <p>Email: support@rentit.com</p>
+          <p>Phone: +977 01-XXXXXXX</p>
           <div className="social-links">
             <a 
               href="https://facebook.com" 
