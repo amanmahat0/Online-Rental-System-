@@ -494,7 +494,7 @@ const PaymentHistory = ({ isAdmin }) => {
             <span className="payment-history-summary-value">
               {formatCurrency(
                 filteredTransactions.reduce(
-                  (sum, transaction) => sum + transaction.amount,
+                  (sum, transaction) => sum + transaction.amount * 1.1,
                   0
                 )
               )}
