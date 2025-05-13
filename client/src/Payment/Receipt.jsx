@@ -76,7 +76,7 @@ const Receipt = ({ receiptData }) => {
       }
     } catch (error) {
       console.error("Error saving receipt:", error);
-      alert("Failed to save receipt. Please try again.");
+      // alert("Failed to save receipt. Please try again.");
     }
   };
   useEffect(() => {
