@@ -65,14 +65,17 @@ const Agents = () => {
 
   const deleteAgent = async () => {
     if (!agentToDelete) return;
-    
+
     setIsDeleting(true);
     setErrorMessage("");
 
     try {
-      const response = await fetch(`http://localhost:5000/api/agent/${agentToDelete._id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/agent/${agentToDelete._id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete agent");
@@ -82,7 +85,7 @@ const Agents = () => {
         ...agentData,
         data: agentData.data.filter((agent) => agent._id !== agentToDelete._id),
       });
-      
+
       // Close confirmation modal
       setShowDeleteConfirm(false);
       setAgentToDelete(null);
@@ -102,7 +105,7 @@ const Agents = () => {
 
   const checkContactPrefix = (contact) => {
     if (!contact || contact.length < 2) return;
-    
+
     const prefix = contact.substring(0, 2);
     if (prefix !== "97" && prefix !== "98") {
       setContactWarning("Number should start with 97 or 98");
@@ -113,20 +116,20 @@ const Agents = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "contact") {
       // Clear previous error
       setContactError("");
-      
+
       // Only allow numeric input for contact
       if (value && !/^\d*$/.test(value)) {
         return;
       }
-      
+
       // Check prefix while typing
       checkContactPrefix(value);
     }
-    
+
     setEditingAgent((prev) => ({
       ...prev,
       [name]: value,
@@ -135,13 +138,13 @@ const Agents = () => {
 
   const handleSubmitEdit = async (e) => {
     e.preventDefault();
-    
+
     // Validate contact number
     if (!validateContact(editingAgent.contact)) {
       setContactError("Contact must be 10 digits starting with 97 or 98");
       return;
     }
-    
+
     setIsLoading(true);
     setErrorMessage("");
 
@@ -186,10 +189,10 @@ const Agents = () => {
   // Enhanced search functionality to search by name, email, or contact
   const filteredAgents = agentData?.data?.filter((agent) => {
     const searchTerm = search.toLowerCase();
-    
+
     return (
-      agent.name.toLowerCase().includes(searchTerm) || 
-      agent.email.toLowerCase().includes(searchTerm) || 
+      agent.name.toLowerCase().includes(searchTerm) ||
+      agent.email.toLowerCase().includes(searchTerm) ||
       agent.contact.toLowerCase().includes(searchTerm)
     );
   });
@@ -252,7 +255,7 @@ const Agents = () => {
                 </div>
 
                 <div className="admin-agent-action-buttons">
-                  <button 
+                  <button
                     className="admin-agent-edit-btn"
                     onClick={() => editAgent(agent)}
                   >
@@ -274,7 +277,7 @@ const Agents = () => {
           <p className="admin-agent-no-results">No agents found</p>
         )}
       </div>
-      
+
       {/* Edit Agent Modal */}
       {isEditing && editingAgent && (
         <div className="admin-agent-modal-overlay">
@@ -320,7 +323,9 @@ const Agents = () => {
               </div>
 
               <div className="admin-agent-form-group">
-                <label htmlFor="contact">Contact (10 digits starting with 97 or 98)</label>
+                <label htmlFor="contact">
+                  Contact (10 digits starting with 97 or 98)
+                </label>
                 <div className="admin-agent-input-wrapper">
                   <input
                     type="text"
@@ -351,9 +356,9 @@ const Agents = () => {
                 >
                   Cancel
                 </button>
-                <button 
-                  type="submit" 
-                  className="admin-agent-save-btn" 
+                <button
+                  type="submit"
+                  className="admin-agent-save-btn"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
@@ -363,7 +368,7 @@ const Agents = () => {
           </motion.div>
         </div>
       )}
-      
+
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && agentToDelete && (
         <div className="admin-agent-modal-overlay">
@@ -385,13 +390,13 @@ const Agents = () => {
                 <FaTimes />
               </button>
             </div>
-            
+
             <div className="admin-agent-delete-content">
               <p>Are you sure you want to delete the agent:</p>
               <p className="admin-agent-delete-name">{agentToDelete.name}?</p>
               <p>This action cannot be undone.</p>
             </div>
-            
+
             <div className="admin-agent-modal-actions">
               <button
                 type="button"
