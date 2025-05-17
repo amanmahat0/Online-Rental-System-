@@ -25,6 +25,7 @@ const upload = multer({
 
 // Create a new property with multiple image uploads
 const createProperty = async (req, res) => {
+  console.log("Creating property with images:", req.body);
   try {
     if (!req.file) {
       return res
@@ -42,8 +43,13 @@ const createProperty = async (req, res) => {
     const property = await Property.create(propertyData);
 
     const ownerId = req.body.owner;
-    if (ownerId) {
+    const ownerRole = req.body.role;
+    if (ownerRole === "Owner") {
       await Owner.findByIdAndUpdate(ownerId, {
+        $push: { properties: property._id },
+      });
+    } else {
+      await Agent.findByIdAndUpdate(ownerId, {
         $push: { properties: property._id },
       });
     }
