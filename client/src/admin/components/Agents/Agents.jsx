@@ -247,7 +247,7 @@ const Agents = () => {
                     <FaPhone /> {agent.contact}
                   </p>
                   <p>
-                    <FaBuilding /> {agent.numberOfProperties || 0} Properties
+                    <FaBuilding /> Number of Properties: {agent.properties.length}
                   </p>
                 </div>
 
