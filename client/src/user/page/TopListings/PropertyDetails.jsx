@@ -269,7 +269,7 @@ const PropertyDetails = () => {
           <div className="agreement-content">
             <p>
               This Rental Agreement is made between{" "}
-              <strong>{JSON.parse(localStorage.getItem("user")).name}</strong>{" "}
+              <strong>{(JSON.parse(localStorage.getItem("user"))?.name) || "lesser"}</strong>{" "}
               and <strong>{owner}</strong> on this{" "}
               <strong>{formattedDate}</strong>.
             </p>
