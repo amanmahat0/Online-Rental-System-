@@ -1,11 +1,3 @@
-//---------------------IMPORTANT NOTE----------------------
-// This is the core file of the server
-// This file is responsible for starting the server
-// This file is responsible for handling all the requests
-// Do not change the file name or the location of the file
-// Do not remove the required modules
-// Do not remove the database connection code
-// Don't remove routes it is required for the server to work
 
 const express = require("express");
 const cors = require("cors");
