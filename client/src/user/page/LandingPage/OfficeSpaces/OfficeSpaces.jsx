@@ -144,7 +144,7 @@ const OfficeSpaces = () => {
                   title: listing.title,
                   price: listing.pricePerMonth,
                   location: `${listing.location.city} ${listing.location.area}`,
-                  imageUrl: listing.images,
+                  images: listing.images,
                   propertyType: listing.propertyType,
                   availabilityStatus: listing.availabilityStatus,
                   contact: listing.contactNumber,
