@@ -42,6 +42,10 @@ const AdminLogin = () => {
     }
   };
 
+  const handleHomeClick = () => {
+    navigate("/");
+  };
+
   return (
     <div className="admin-login-container">
       <div className="login-background"></div>
@@ -74,6 +78,9 @@ const AdminLogin = () => {
           />
         </div>
         <button type="submit">Login</button>
+        <button type="button" className="home-button" onClick={handleHomeClick}>
+          Back to Home
+        </button>
       </form>
     </div>
   );

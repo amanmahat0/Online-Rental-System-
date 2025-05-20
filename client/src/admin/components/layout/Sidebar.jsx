@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { 
   FaBars, 
   FaUsers, 
@@ -7,15 +7,25 @@ import {
   FaUser, 
   FaMoneyBillWave, 
   FaHome,
-  FaUserTie 
+  FaUserTie,
+  FaSignOutAlt
 } from "react-icons/fa";
 import "./Sidebar.css";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    // Clear the authentication token from localStorage
+    localStorage.removeItem("adminToken");
+    
+    // Redirect to login page
+    navigate("/admin");
   };
 
   return (
@@ -97,6 +107,17 @@ const Sidebar = () => {
               <FaMoneyBillWave className="icon" />
               {isOpen && <span>Payment History</span>}
             </NavLink>
+          </li>
+          
+          {/* Logout Button */}
+          <li className="logout-item">
+            <button 
+              onClick={handleLogout}
+              className="logout-button"
+            >
+              <FaSignOutAlt className="icon" />
+              {isOpen && <span>Logout</span>}
+            </button>
           </li>
         </ul>
       </div>
