@@ -118,7 +118,7 @@ const MyBooking = () => {
       const data = await response.json();
 
       if (data.status) {
-        alert("Booking canceled successfully.");
+        // alert("Booking canceled successfully.");
         // Update the listings state to remove the canceled booking
         const updatedListings = listings.filter(
           (listing) => listing._id !== propertyId
