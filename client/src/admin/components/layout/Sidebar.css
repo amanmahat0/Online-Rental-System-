@@ -65,7 +65,8 @@
 }
 
 /* Link Styles */
-.sidebar-menu li a {
+.sidebar-menu li a,
+.sidebar-menu li .logout-button {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -79,7 +80,8 @@
   z-index: 2;
 }
 
-.sidebar-menu li:hover a {
+.sidebar-menu li:hover a,
+.sidebar-menu li:hover .logout-button {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.15); /* Match active background */
   transform: translateX(0); /* Remove offset for consistency */
@@ -158,6 +160,35 @@
 
 .sidebar.open .logo-icon {
   transform: scale(1.2);
+}
+
+/* Logout Button Styles */
+.logout-item {
+  margin-top: auto !important;
+  margin-bottom: 20px !important;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  padding: 14px 20px;
+  font-family: inherit;
+}
+
+.logout-button:hover {
+  background: #e84343;
+}
+
+.logout-button .icon {
+  color: #e84343;
+
+}
+
+.logout-button:hover .icon {
+  color: #e84343;
 }
 
 /* Media Queries */
